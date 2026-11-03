@@ -1,0 +1,7 @@
+@import "@lukeanill/ui/globals.css";
+
+@layer base {
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}

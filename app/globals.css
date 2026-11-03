@@ -5,3 +5,29 @@
     @apply bg-background text-foreground font-body antialiased;
   }
 }
+
+/* 960px content column at 1280 (Figma "slot-contained-width"); gutters on smaller screens. */
+.content {
+  width: min(960px, 100% - 2rem);
+  margin-inline: auto;
+}
+@media (min-width: 768px) {
+  .content {
+    width: min(960px, 100% - 4rem);
+  }
+}
+
+/* Filter tab count: DM Mono, trimmed to cap height as in Figma. */
+.tab-count {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-weight: 400;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.tabs-scroll {
+  scrollbar-width: none;
+}
+.tabs-scroll::-webkit-scrollbar {
+  display: none;
+}

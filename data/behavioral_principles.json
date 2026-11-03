@@ -1,0 +1,546 @@
+{
+  "title": "Behavioral economics & consumer psychology principles for UX/Product",
+  "exampleStore": "A fictional online beauty store",
+  "categories": [
+    "Pricing",
+    "Choice",
+    "Risk",
+    "Social",
+    "Scarcity",
+    "Motivation",
+    "Perception",
+    "Trust"
+  ],
+  "darkPatternScale": {
+    "1": "Helpful - in the user's interest",
+    "2": "Mild nudge - transparent persuasion",
+    "3": "Pressure - pushes quick or bigger decisions",
+    "4": "Manipulative - works against the user's interest",
+    "5": "Deceptive - actively misleads the user"
+  },
+  "darkPatternNote": "Ratings judge the dark pattern example, not the principle itself.",
+  "count": 43,
+  "principles": [
+    {
+      "id": 1,
+      "category": "Pricing",
+      "name": "Anchoring",
+      "aka": [
+        "Anchoring Bias",
+        "Anchoring Effect"
+      ],
+      "description": "The first number or option people see becomes a reference point that skews how they judge everything after it.",
+      "darkPatternExample": "The store shows a serum at $49 next to a crossed-out $85 it was never sold for.",
+      "darkPatternRating": 4,
+      "darkPatternReason": "A fake price is misleading, and degrades trust.",
+      "healthyExample": "The store only shows a crossed-out $85 if the serum was really sold at that price recently."
+    },
+    {
+      "id": 2,
+      "category": "Pricing",
+      "name": "Decoy Effect",
+      "aka": [
+        "Asymmetric Dominance"
+      ],
+      "description": "Adding a clearly inferior option makes a nearby target option look better by comparison.",
+      "darkPatternExample": "The store adds a $32 medium moisturizer that only exists to make the $34 large look like a steal.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "A fake option steers shoppers, and feels sneaky once noticed.",
+      "healthyExample": "The store offers small, medium and large sizes that each suit a real need."
+    },
+    {
+      "id": 3,
+      "category": "Pricing",
+      "name": "Charm Pricing",
+      "aka": [
+        "Left-Digit Effect",
+        "Price Ending"
+      ],
+      "description": "Prices ending in .99 or .95 are perceived as noticeably lower because people anchor on the left-most digit.",
+      "darkPatternExample": "The store prices a lipstick at $19.99 so it feels closer to $19 than $20.",
+      "darkPatternRating": 2,
+      "darkPatternReason": "It's a mild trick that most shoppers accept.",
+      "healthyExample": "The store uses $19.99 pricing but shows the full total clearly at checkout."
+    },
+    {
+      "id": 4,
+      "category": "Pricing",
+      "name": "Price Relativity / Contrast Effect",
+      "aka": [],
+      "description": "People judge value relative to what's around it, not in absolute terms.",
+      "darkPatternExample": "The store places a $45 foundation next to a $120 one so the $45 feels cheap.",
+      "darkPatternRating": 2,
+      "darkPatternReason": "It nudges spending, but nothing is hidden.",
+      "healthyExample": "The store compares foundations side by side by size and ingredients, not just price."
+    },
+    {
+      "id": 5,
+      "category": "Pricing",
+      "name": "Mental Accounting",
+      "aka": [],
+      "description": "People put money into separate mental 'pots' (gifts, treats, essentials) and spend differently from each.",
+      "darkPatternExample": "The store labels a $30 face mask a 'self-care treat' to make it feel guilt-free.",
+      "darkPatternRating": 2,
+      "darkPatternReason": "It softens spending, which can lead to buyer's regret.",
+      "healthyExample": "The store offers an 'Under $15' section to help shoppers stick to a budget."
+    },
+    {
+      "id": 6,
+      "category": "Pricing",
+      "name": "Pain of Paying",
+      "aka": [
+        "Payment Decoupling"
+      ],
+      "description": "Paying feels like a loss; the more visible and immediate the payment, the more it hurts.",
+      "darkPatternExample": "The store pushes 'Pay in 4' on every product page so a $90 bundle feels cheap.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Hiding the real cost encourages debt, and causes regret later.",
+      "healthyExample": "The store shows the full $90 total and payment schedule before shoppers choose 'Pay in 4'."
+    },
+    {
+      "id": 7,
+      "category": "Pricing",
+      "name": "Zero-Price Effect",
+      "aka": [
+        "Free Effect"
+      ],
+      "description": "'Free' has a disproportionate pull, far stronger than a small price reduction.",
+      "darkPatternExample": "The store offers free shipping over $35, so a shopper adds a $6 lip balm they don't need.",
+      "darkPatternRating": 2,
+      "darkPatternReason": "It nudges a bigger basket, but the deal is clear.",
+      "healthyExample": "The store suggests refills of products the shopper already uses to reach free shipping."
+    },
+    {
+      "id": 8,
+      "category": "Pricing",
+      "name": "Partitioned Pricing / Drip Pricing",
+      "aka": [],
+      "description": "Splitting a price into parts (or revealing fees late) makes the total feel lower. Often seen as a dark pattern.",
+      "darkPatternExample": "The store adds a $4.50 delivery fee and a $1 packaging fee on the last checkout step.",
+      "darkPatternRating": 5,
+      "darkPatternReason": "Hidden fees deceive shoppers, and destroy trust.",
+      "healthyExample": "The store shows the full price, including delivery, on the product page."
+    },
+    {
+      "id": 9,
+      "category": "Choice",
+      "name": "Choice Overload",
+      "aka": [
+        "Paradox of Choice",
+        "Hick's Law"
+      ],
+      "description": "Too many options increase decision time and can lead to no decision at all. *Hick's Law is the related UX law: decision time rises with number of choices.",
+      "darkPatternExample": "The store shows all 140 foundation shades on one huge page.",
+      "darkPatternRating": 2,
+      "darkPatternReason": "Too many options overwhelm shoppers, so they leave without buying.",
+      "healthyExample": "The store offers a 3-question quiz that narrows the shades down to 4 matches."
+    },
+    {
+      "id": 10,
+      "category": "Choice",
+      "name": "Default Effect",
+      "aka": [
+        "Default Bias",
+        "Status Quo Bias"
+      ],
+      "description": "People tend to stick with whatever option is pre-selected.",
+      "darkPatternExample": "The store pre-selects a $25 monthly subscription at checkout.",
+      "darkPatternRating": 4,
+      "darkPatternReason": "Shoppers get charged without meaning to, and feel tricked.",
+      "healthyExample": "The store defaults to a one-off purchase and offers the subscription as a clear opt-in."
+    },
+    {
+      "id": 11,
+      "category": "Choice",
+      "name": "Framing Effect",
+      "aka": [],
+      "description": "The same information leads to different decisions depending on how it's presented.",
+      "darkPatternExample": "The store says '97% saw fewer breakouts' but hides that only 30 people were tested.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Selective facts mislead shoppers, and erode trust when found out.",
+      "healthyExample": "The store says '97% saw fewer breakouts' and links to the full study."
+    },
+    {
+      "id": 12,
+      "category": "Choice",
+      "name": "Compromise Effect",
+      "aka": [
+        "Extremeness Aversion"
+      ],
+      "description": "When given three options, people tend to choose the middle one to avoid extremes.",
+      "darkPatternExample": "The store makes the $35 gift set the obvious pick, even though the $15 set suits most shoppers.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Steering people away from what suits them erodes trust.",
+      "healthyExample": "The store explains who each gift set is for, so shoppers pick the right one."
+    },
+    {
+      "id": 13,
+      "category": "Choice",
+      "name": "Choice Architecture",
+      "aka": [
+        "Nudge"
+      ],
+      "description": "The way choices are laid out shapes which one people pick, without removing any options.",
+      "darkPatternExample": "The store hides the cheapest shipping option below the fold at checkout.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Burying options costs shoppers money, and feels unfair.",
+      "healthyExample": "The store lists every shipping option clearly, with the eco option highlighted."
+    },
+    {
+      "id": 14,
+      "category": "Choice",
+      "name": "Cognitive Load",
+      "aka": [
+        "Cognitive Overload"
+      ],
+      "description": "People have limited mental capacity; extra effort or information reduces completion and good decisions.",
+      "darkPatternExample": "The store makes canceling a subscription a confusing 6-step process.",
+      "darkPatternRating": 4,
+      "darkPatternReason": "Deliberate friction traps shoppers, and breeds resentment.",
+      "healthyExample": "The store lets shoppers cancel a subscription in one click."
+    },
+    {
+      "id": 15,
+      "category": "Choice",
+      "name": "Satisficing",
+      "aka": [],
+      "description": "Most people pick the first option that's 'good enough' rather than searching for the best.",
+      "darkPatternExample": "The store puts a 'Best for dry skin' badge on its highest-profit moisturizer.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "A biased badge misleads shoppers, and damages credibility.",
+      "healthyExample": "The store awards 'Best for dry skin' badges based on reviews and ingredients."
+    },
+    {
+      "id": 16,
+      "category": "Risk",
+      "name": "Loss Aversion",
+      "aka": [],
+      "description": "Losses feel roughly twice as painful as equivalent gains feel good.",
+      "darkPatternExample": "The store emails 'Don't lose your $5 credit!' two days before it expires.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Fear of loss rushes shoppers, and can feel pushy.",
+      "healthyExample": "The store reminds shoppers about their $5 credit a week before it expires."
+    },
+    {
+      "id": 17,
+      "category": "Risk",
+      "name": "Endowment Effect",
+      "aka": [],
+      "description": "People value things more once they feel they own them.",
+      "darkPatternExample": "The store sends a free trial serum, then charges $60 if it isn't returned within 7 days.",
+      "darkPatternRating": 4,
+      "darkPatternReason": "Surprise charges make shoppers feel tricked.",
+      "healthyExample": "The store sends a free sample with no strings attached."
+    },
+    {
+      "id": 18,
+      "category": "Risk",
+      "name": "Sunk Cost Fallacy",
+      "aka": [],
+      "description": "People continue investing in something because of what they've already put in.",
+      "darkPatternExample": "The store tells shoppers they're 80 points from a reward, then raises the target.",
+      "darkPatternRating": 4,
+      "darkPatternReason": "Moving the goalposts exploits effort already spent, and breaks trust.",
+      "healthyExample": "The store keeps reward targets fixed, and points never expire."
+    },
+    {
+      "id": 19,
+      "category": "Risk",
+      "name": "Risk Aversion / Uncertainty Reduction",
+      "aka": [],
+      "description": "People avoid choices with unclear outcomes; reducing uncertainty increases action.",
+      "darkPatternExample": "The store advertises free returns but charges a $7 restocking fee on opened items.",
+      "darkPatternRating": 4,
+      "darkPatternReason": "Hidden conditions mislead shoppers, and damage trust.",
+      "healthyExample": "The store offers free returns, even on opened products."
+    },
+    {
+      "id": 20,
+      "category": "Risk",
+      "name": "Zero-Risk Bias",
+      "aka": [],
+      "description": "People prefer eliminating a small risk completely over reducing a larger risk partially.",
+      "darkPatternExample": "The store sells $8 'breakage protection' that the courier already covers for free.",
+      "darkPatternRating": 4,
+      "darkPatternReason": "Selling fake peace of mind wastes money, and erodes trust.",
+      "healthyExample": "The store offers a simple money-back guarantee with no conditions."
+    },
+    {
+      "id": 21,
+      "category": "Social",
+      "name": "Social Proof",
+      "aka": [
+        "Bandwagon Effect",
+        "Herd Behavior"
+      ],
+      "description": "People copy what others are doing, especially under uncertainty.",
+      "darkPatternExample": "The store shows '2,341 bought this week' when the number is made up.",
+      "darkPatternRating": 5,
+      "darkPatternReason": "Fake numbers deceive shoppers, and destroy credibility.",
+      "healthyExample": "The store only shows real purchase numbers from the last 7 days."
+    },
+    {
+      "id": 22,
+      "category": "Social",
+      "name": "Authority Bias",
+      "aka": [],
+      "description": "People trust and follow perceived experts or credible institutions.",
+      "darkPatternExample": "The store adds a 'Dermatologist recommended' badge with no named expert behind it.",
+      "darkPatternRating": 4,
+      "darkPatternReason": "An unbacked claim misleads shoppers, and damages credibility.",
+      "healthyExample": "The store names the dermatologist behind the 'recommended' badge."
+    },
+    {
+      "id": 23,
+      "category": "Social",
+      "name": "Liking / Similarity",
+      "aka": [],
+      "description": "People are more persuaded by those they like or who seem similar to them.",
+      "darkPatternExample": "The store shows paid influencer reviews styled to look like regular customers.",
+      "darkPatternRating": 5,
+      "darkPatternReason": "Disguised ads deceive shoppers, and destroy trust.",
+      "healthyExample": "The store lets shoppers filter reviews by 'skin like mine' and labels paid reviews."
+    },
+    {
+      "id": 24,
+      "category": "Social",
+      "name": "Reciprocity",
+      "aka": [],
+      "description": "When given something, people feel obliged to give something back.",
+      "darkPatternExample": "The store adds a free mini lip oil, then sends daily emails pushing the $28 full size.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Turning a gift into pressure feels pushy, and annoys shoppers.",
+      "healthyExample": "The store adds a free mini lip oil as a thank-you, with no sales follow-up."
+    },
+    {
+      "id": 25,
+      "category": "Social",
+      "name": "Commitment & Consistency",
+      "aka": [
+        "Foot-in-the-door"
+      ],
+      "description": "Once people make a small commitment, they're more likely to follow through with bigger, consistent actions.",
+      "darkPatternExample": "The store makes shoppers enter their email to see their skin quiz results.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Gating results feels like a bait and switch.",
+      "healthyExample": "The store shows skin quiz results right away, with no sign-up needed."
+    },
+    {
+      "id": 26,
+      "category": "Scarcity",
+      "name": "Scarcity Effect",
+      "aka": [],
+      "description": "Things seem more valuable when they appear limited.",
+      "darkPatternExample": "The store shows 'Only 3 left!' on every product, all the time.",
+      "darkPatternRating": 5,
+      "darkPatternReason": "Fake scarcity deceives shoppers, and destroys trust.",
+      "healthyExample": "The store only shows stock levels when they're real."
+    },
+    {
+      "id": 27,
+      "category": "Scarcity",
+      "name": "Urgency",
+      "aka": [
+        "Deadline Effect",
+        "FOMO"
+      ],
+      "description": "Time limits push people to act sooner rather than defer.",
+      "darkPatternExample": "The store shows a sale countdown that resets every time the page reloads.",
+      "darkPatternRating": 5,
+      "darkPatternReason": "A fake deadline deceives shoppers, and breaks trust.",
+      "healthyExample": "The store only uses countdowns for real sales that end when stated."
+    },
+    {
+      "id": 28,
+      "category": "Scarcity",
+      "name": "Exclusivity",
+      "aka": [],
+      "description": "Access that feels restricted to a select group increases desire.",
+      "darkPatternExample": "The store hides its best prices behind a $9.99 monthly membership.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Locking deals behind a fee feels exclusionary, and pushes spending.",
+      "healthyExample": "The store gives members early access to new launches, with the same prices for everyone."
+    },
+    {
+      "id": 29,
+      "category": "Motivation",
+      "name": "Goal-Gradient Effect",
+      "aka": [],
+      "description": "People speed up as they get closer to a goal.",
+      "darkPatternExample": "The store's free shipping bar says '$4 to go' but only suggests $20 products.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "It pushes shoppers to overspend, and feels manipulative.",
+      "healthyExample": "The store's free shipping bar suggests small, useful items like refills."
+    },
+    {
+      "id": 30,
+      "category": "Motivation",
+      "name": "Endowed Progress Effect",
+      "aka": [],
+      "description": "Giving people artificial head-start progress makes them more likely to complete a goal.",
+      "darkPatternExample": "The store gives 2 free loyalty stamps, then quietly makes stamps expire after 30 days.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Hidden expiry rules frustrate shoppers, and erode loyalty.",
+      "healthyExample": "The store gives 2 free loyalty stamps that never expire."
+    },
+    {
+      "id": 31,
+      "category": "Motivation",
+      "name": "Variable Rewards",
+      "aka": [
+        "Intermittent Reinforcement"
+      ],
+      "description": "Unpredictable rewards are more motivating and habit-forming than predictable ones.",
+      "darkPatternExample": "The store shows a 'spin to win' wheel after every purchase.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Gambling-style rewards build compulsive habits.",
+      "healthyExample": "The store gives a free sample of the shopper's choice with every 5th order."
+    },
+    {
+      "id": 32,
+      "category": "Motivation",
+      "name": "Hyperbolic Discounting",
+      "aka": [
+        "Present Bias"
+      ],
+      "description": "People prefer smaller rewards now over bigger rewards later.",
+      "darkPatternExample": "The store offers 15% off today only if shoppers open a store credit card.",
+      "darkPatternRating": 4,
+      "darkPatternReason": "A quick reward hides a long-term cost, and can lead to debt.",
+      "healthyExample": "The store offers 15% off a first order with no strings attached."
+    },
+    {
+      "id": 33,
+      "category": "Motivation",
+      "name": "Zeigarnik Effect",
+      "aka": [],
+      "description": "People remember and feel pulled to finish incomplete tasks.",
+      "darkPatternExample": "The store nags 'Your profile is 60% complete' until shoppers share their phone number.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Pressuring for personal data feels intrusive, and erodes trust.",
+      "healthyExample": "The store explains why each profile detail helps, and makes every field optional."
+    },
+    {
+      "id": 34,
+      "category": "Motivation",
+      "name": "IKEA Effect",
+      "aka": [
+        "Effort Justification"
+      ],
+      "description": "People value things more when they've helped create them.",
+      "darkPatternExample": "The store lets shoppers build a custom gift box, then adds a $5 'assembly fee' at checkout.",
+      "darkPatternRating": 4,
+      "darkPatternReason": "A surprise fee exploits the effort shoppers put in, and feels unfair.",
+      "healthyExample": "The store lets shoppers build a custom gift box with a running total on screen."
+    },
+    {
+      "id": 35,
+      "category": "Perception",
+      "name": "Peak-End Rule",
+      "aka": [],
+      "description": "People judge an experience mostly by its most intense moment and how it ended.",
+      "darkPatternExample": "The store ends every order with a delightful animation, but makes returns a hassle.",
+      "darkPatternRating": 2,
+      "darkPatternReason": "A nice ending masks a poor experience that shoppers remember later.",
+      "healthyExample": "The store ends each order with a friendly thank-you and clear tracking info."
+    },
+    {
+      "id": 36,
+      "category": "Perception",
+      "name": "Serial Position Effect",
+      "aka": [
+        "Primacy & Recency"
+      ],
+      "description": "People remember the first and last items in a list best.",
+      "darkPatternExample": "The store always puts its highest-profit products first and last in search results.",
+      "darkPatternRating": 2,
+      "darkPatternReason": "It quietly steers shoppers, and can hide better options.",
+      "healthyExample": "The store orders search results by relevance and labels sponsored items."
+    },
+    {
+      "id": 37,
+      "category": "Perception",
+      "name": "Von Restorff Effect",
+      "aka": [
+        "Isolation Effect"
+      ],
+      "description": "The item that stands out visually is the one most likely to be noticed and remembered.",
+      "darkPatternExample": "The store labels its $40 premium plan 'Most popular' when it isn't.",
+      "darkPatternRating": 4,
+      "darkPatternReason": "A false label misleads shoppers, and damages trust.",
+      "healthyExample": "The store highlights the plan that's genuinely best for most shoppers."
+    },
+    {
+      "id": 38,
+      "category": "Perception",
+      "name": "Aesthetic-Usability Effect",
+      "aka": [
+        "Halo Effect"
+      ],
+      "description": "People assume attractive designs work better and attribute positive traits based on one good impression.",
+      "darkPatternExample": "The store uses heavily retouched before-and-after photos for a wrinkle cream.",
+      "darkPatternRating": 4,
+      "darkPatternReason": "Fake results mislead shoppers, and lead to disappointment.",
+      "healthyExample": "The store shows unretouched photos from real customers."
+    },
+    {
+      "id": 39,
+      "category": "Perception",
+      "name": "Mere Exposure Effect",
+      "aka": [
+        "Familiarity Principle"
+      ],
+      "description": "The more people see something, the more they tend to like it.",
+      "darkPatternExample": "The store follows shoppers around the web with ads for a product they viewed once.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Constant tracking feels creepy, and erodes trust.",
+      "healthyExample": "The store shows recently viewed items only on its own site."
+    },
+    {
+      "id": 40,
+      "category": "Perception",
+      "name": "Priming",
+      "aka": [],
+      "description": "Exposure to one stimulus unconsciously influences response to the next.",
+      "darkPatternExample": "The store shows spa-style images and 'You deserve this' copy before $120 night creams.",
+      "darkPatternRating": 2,
+      "darkPatternReason": "It sets a spending mood, but nothing is hidden.",
+      "healthyExample": "The store pairs calming images with clear prices and ingredients."
+    },
+    {
+      "id": 41,
+      "category": "Trust",
+      "name": "Confirmation Bias",
+      "aka": [],
+      "description": "People seek and favor information that supports what they already believe.",
+      "darkPatternExample": "The store labels products 'toxin-free' to match what clean beauty shoppers already believe.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Vague claims exploit beliefs, and spread misinformation.",
+      "healthyExample": "The store explains what its 'clean' label actually means."
+    },
+    {
+      "id": 42,
+      "category": "Trust",
+      "name": "Ambiguity Effect",
+      "aka": [],
+      "description": "People avoid options where key information is missing.",
+      "darkPatternExample": "The store leaves the ingredient list off its bestselling serum.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Missing info stops informed choices, and erodes trust.",
+      "healthyExample": "The store shows the full ingredient list on every product."
+    },
+    {
+      "id": 43,
+      "category": "Trust",
+      "name": "Labor Illusion",
+      "aka": [
+        "Operational Transparency"
+      ],
+      "description": "People value results more when they can see the effort behind them.",
+      "darkPatternExample": "The store adds a fake 5-second 'Analyzing your skin...' delay before quiz results.",
+      "darkPatternRating": 3,
+      "darkPatternReason": "Faking effort is misleading, and feels cheap when noticed.",
+      "healthyExample": "The store only shows progress messages while the tool is actually working."
+    }
+  ]
+}

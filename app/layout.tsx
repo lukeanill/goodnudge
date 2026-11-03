@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Providers } from "./providers";
 import { getPreset } from "@lukeanill/ui/themes/presets";
-import { themeToCss, themeFamilies } from "@lukeanill/ui/themes/css";
-import { googleFontsHref } from "@lukeanill/ui/themes/fonts";
+import { themeToCss } from "@lukeanill/ui/themes/css";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -12,8 +11,10 @@ export const metadata: Metadata = {
 
 const THEME_ID = "illuzion";
 const theme = getPreset(THEME_ID)!;
-// DM Sans is a Google font (Intan is bundled in the package CSS).
-const fontsHref = googleFontsHref(themeFamilies(theme));
+// Intan is bundled in the package CSS. DM Sans is loaded here with its optical-size axis (Figma sets opsz to the
+// font size; the package's own link has no opsz axis, so text came out ~1px narrower). DM Mono is used for the tab counts.
+const fontsHref =
+  "https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..800&family=DM+Mono:wght@400&display=swap";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

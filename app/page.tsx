@@ -1,6 +1,4 @@
-import { Button } from "@lukeanill/ui/components/button";
-import { Badge } from "@lukeanill/ui/components/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@lukeanill/ui/components/card";
+import { Button, Badge, Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/lib/ui";
 
 export default function Home() {
   return (

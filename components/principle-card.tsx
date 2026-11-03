@@ -8,11 +8,14 @@ export function PrincipleCard({ principle, bg, priority }: { principle: Principl
   const [body, ...note] = principle.description.split(" *");
   const footnote = note.length ? `*${note.join(" *")}` : null;
 
+  const num = String(bg).padStart(2, "0");
+
   return (
     <div className="@container relative aspect-[468/460] w-full">
       <article className="relative flex size-full flex-col gap-[3.419cqw] overflow-hidden rounded-[min(12px,2.564cqw)] bg-secondary p-[8.547cqw]">
         <img
-          src={`/bg/bg-${String(bg).padStart(2, "0")}.webp`}
+          src={`/bg/bg-${num}.jpg`}
+          srcSet={`/bg/bg-${num}.jpg 1x, /bg/bg-${num}@2x.jpg 2x, /bg/bg-${num}@3x.jpg 3x`}
           alt=""
           width={468}
           height={460}

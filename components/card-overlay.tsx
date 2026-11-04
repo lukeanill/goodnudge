@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "motion/react";
 import type { Principle } from "@/lib/content";
 import { CardFace, type CardRect } from "./principle-card";
 import { BackArrow, RatingIcons, TooltipArrow } from "./open-card-icons";
+import { mockups } from "./mockups";
 
 // The open card. Sequence from the Figma annotations: the card text fades out quickly, then the card
 // expands to full screen while its fill darkens and blurs (ease-in-out); the title loads second, the
@@ -122,6 +123,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
               label="DARK PATTERN"
               labelClass="font-['Batang_Tebo'] text-[30px]"
               text={principle.darkPatternExample}
+              mockup={mockups[principle.id]?.dark}
               slotRef={slotRef}
               slotHandlers={{
                 onPointerEnter: (e) => e.pointerType === "mouse" && setTip({ x: e.clientX, y: e.clientY }),
@@ -133,7 +135,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
                 },
               }}
             />
-            <Column label="GOOD NUDGE" labelClass="font-heading text-[24px]" text={principle.healthyExample} />
+            <Column label="GOOD NUDGE" labelClass="font-heading text-[24px]" text={principle.healthyExample} mockup={mockups[principle.id]?.good} />
           </div>
         </motion.div>
       </div>
@@ -150,12 +152,14 @@ function Column({
   text,
   slotRef,
   slotHandlers,
+  mockup: Mockup,
 }: {
   label: string;
   labelClass: string;
   text: string;
   slotRef?: React.Ref<HTMLDivElement>;
   slotHandlers?: React.ComponentProps<"div">;
+  mockup?: React.ComponentType;
 }) {
   return (
     <div className="flex w-[300px] shrink-0 flex-col gap-3">
@@ -164,8 +168,10 @@ function Column({
         <div
           ref={slotRef}
           {...slotHandlers}
-          className="h-[320px] w-[300px] rounded-[16px] bg-[#363636] shadow-[12px_12px_20px_0_rgba(34,34,34,0.12)]"
-        />
+          className={"h-[320px] w-[300px] overflow-hidden rounded-[16px] shadow-[12px_12px_20px_0_rgba(34,34,34,0.12)] " + (Mockup ? "bg-white" : "bg-[#363636]")}
+        >
+          {Mockup && <Mockup />}
+        </div>
         <div className="flex min-h-[78px] items-start justify-center px-4">
           <p className="text-center text-[16px] leading-[1.6] font-medium tracking-normal text-white">{text}</p>
         </div>

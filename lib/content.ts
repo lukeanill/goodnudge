@@ -22,7 +22,7 @@ export type Content = {
   tagline: string;
   categories: Category[];
   principles: Principle[];
-  /** The 1 to 5 dark pattern scale and its note, used by the Claude skill. */
+  /** The 1 to 5 dark pattern scale and its note, used by the guidance page for Claude. */
   scale: Record<string, string>;
   scaleNote: string;
 };

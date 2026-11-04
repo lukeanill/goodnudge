@@ -1,7 +1,8 @@
-// What the designer copies from the "Test your design" drawer. Short on purpose: the Good Nudge skill holds the guidance.
-/** The short prompt the designer copies from the popup. */
-export const STARTER_PROMPT = `Use the Good Nudge skill.
+// What the designer copies from the "Test your design" drawer. Short on purpose: the live guidance page holds the flow and the principles.
+export const GUIDANCE_URL = "https://goodnudge.lukeai.space/good-nudge.md";
 
-I want to test a design change. Ask me to describe my experiment, then ask for my designs, then review them against the Good Nudge principles.
+export const STARTER_PROMPT = `Follow the instructions at ${GUIDANCE_URL} to help me test a design change.
 
-If you can't find the skill, tell me and I'll add it.`;
+Start by asking me to describe my experiment.
+
+If you can't open the link, tell me.`;

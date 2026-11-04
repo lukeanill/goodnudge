@@ -6,7 +6,7 @@ import { STARTER_PROMPT } from "@/lib/starter-prompt";
 
 // Figma "Test your design" (11:3791): a white 44px pill with a spark icon; opens a bottom drawer with the prompt to copy.
 // Drawer fill is the Figma "muted" value #812961 (the theme's muted is a brighter plum); text is DM Sans medium per the Figma variables.
-// The drawer is the package's Drawer. Inside: title, the prompt in a glass box, a skill download link and "Tap to copy".
+// The drawer is the package's Drawer. Inside: title, the prompt in a glass box and "Tap to copy".
 type CopyState = "idle" | "copied" | "manual";
 
 export function TestYourDesign() {
@@ -65,10 +65,7 @@ export function TestYourDesign() {
               {STARTER_PROMPT}
             </pre>
           </button>
-          <div className="flex items-center justify-between gap-4 text-[16px] leading-[1.6] font-medium text-white">
-            <a href="/good-nudge-skill.zip" download className="underline underline-offset-4">
-              Download the skill (.zip)
-            </a>
+          <div className="flex items-center justify-end gap-4 text-[16px] leading-[1.6] font-medium text-white">
             <button type="button" onClick={copy} className="cursor-pointer text-right">
               {label}
             </button>

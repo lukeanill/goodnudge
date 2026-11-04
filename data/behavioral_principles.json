@@ -56,7 +56,7 @@
         "Left-Digit Effect",
         "Price Ending"
       ],
-      "description": "Prices ending in .99 or .95 than 1.00 are perceived as noticeably lower because people anchor on the left-most digit.",
+      "description": "Prices ending in .99 or .95 are perceived as noticeably lower because people anchor on the left-most digit.",
       "darkPatternExample": "The store prices a lipstick at $19.99 so it feels closer to $19 than $20.",
       "darkPatternRating": 2,
       "darkPatternReason": "It's a mild trick that most shoppers accept.",
@@ -78,7 +78,7 @@
       "category": "Pricing",
       "name": "Mental Accounting",
       "aka": [],
-      "description": "People put money into separate mental 'pots' (treats,  essentials) and spend differently from each.",
+      "description": "People put money into separate mental 'pots' (gifts, treats, essentials) and spend differently from each.",
       "darkPatternExample": "The store labels a $30 face mask a 'self-care treat' to make it feel guilt-free.",
       "darkPatternRating": 2,
       "darkPatternReason": "It softens spending, which can lead to buyer's regret.",
@@ -113,7 +113,7 @@
     {
       "id": 8,
       "category": "Pricing",
-      "name": "Drip Pricing",
+      "name": "Partitioned Pricing",
       "aka": [],
       "description": "Splitting a price into parts (or revealing fees late) makes the total feel lower. Often seen as a dark pattern.",
       "darkPatternExample": "The store adds a $4.50 delivery fee and a $1 packaging fee on the last checkout step.",

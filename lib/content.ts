@@ -29,16 +29,75 @@ export type Content = {
 
 const TAGLINE = "A collection of behavioral nudge principles: influence people without deceiving them.";
 
+type Row = {
+  id: number; category: string; name: string; aka: string[]; description: string;
+  dark_pattern_example: string; dark_pattern_rating: number; dark_pattern_reason: string; healthy_example: string;
+};
+
 /**
- * The single place the site reads content from. Today it is the JSON file;
- * a database can replace the body of this function without touching any page.
+ * Reads from the Neon database (Vercel Storage) when STORAGE_URL (or DATABASE_URL) is set, using Neon's HTTP SQL endpoint
+ * so no extra package is needed. Returns null on any failure, so the caller falls back to the JSON file.
+ */
+async function fromDatabase(): Promise<(Omit<Content, "tagline" | "categories"> & { categoryNames: string[] }) | null> {
+  const conn = (process.env.STORAGE_URL ?? process.env.DATABASE_URL)?.trim();
+  if (!conn) return null;
+  let host: string;
+  try {
+    host = new URL(conn).hostname;
+  } catch {
+    return null;
+  }
+  const query = async <T,>(sql: string): Promise<T[]> => {
+    const res = await fetch(`https://${host}/sql`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Neon-Connection-String": conn },
+      body: JSON.stringify({ query: sql, params: [] }),
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) throw new Error(`db: ${res.status}`);
+    return (await res.json()).rows as T[];
+  };
+  try {
+    const [rows, cats, meta] = await Promise.all([
+      query<Row>("select * from principles order by id"),
+      query<{ name: string }>("select name from categories order by position"),
+      query<{ key: string; value: unknown }>("select key, value from meta"),
+    ]);
+    if (!rows.length || !cats.length) return null;
+    const m = Object.fromEntries(meta.map((r) => [r.key, r.value]));
+    return {
+      title: String(m.title ?? data.title),
+      scale: (m.darkPatternScale as Record<string, string>) ?? data.darkPatternScale,
+      scaleNote: String(m.darkPatternNote ?? data.darkPatternNote),
+      categoryNames: cats.map((c) => c.name),
+      principles: rows.map((r) => ({
+        id: r.id, category: r.category, name: r.name, aka: r.aka, description: r.description,
+        darkPatternExample: r.dark_pattern_example, darkPatternRating: r.dark_pattern_rating,
+        darkPatternReason: r.dark_pattern_reason, healthyExample: r.healthy_example,
+      })),
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The single place the site reads content from: database first, the JSON file as fallback.
  */
 export async function getContent(): Promise<Content> {
   const images = visuals as Record<string, { src: string; w: number; h: number }>;
-  const principles = (data.principles as Principle[]).map((p) => ({ ...p, image: images[String(p.id)] }));
-  const categories = data.categories.map((name) => ({
+  const db = await fromDatabase();
+  const base = db ?? {
+    title: data.title,
+    scale: data.darkPatternScale,
+    scaleNote: data.darkPatternNote,
+    categoryNames: data.categories as string[],
+    principles: data.principles as Principle[],
+  };
+  const principles = base.principles.map((p) => ({ ...p, image: images[String(p.id)] }));
+  const categories = base.categoryNames.map((name) => ({
     name,
     count: principles.filter((p) => p.category === name).length,
   }));
-  return { title: data.title, tagline: TAGLINE, categories, principles, scale: data.darkPatternScale, scaleNote: data.darkPatternNote };
+  return { title: base.title, tagline: TAGLINE, categories, principles, scale: base.scale, scaleNote: base.scaleNote };
 }

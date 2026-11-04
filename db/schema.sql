@@ -1,5 +1,5 @@
--- Good Nudge content. Paste this whole file into Supabase > SQL Editor and press Run.
--- Safe to run again: it rebuilds the three tables from scratch.
+-- Good Nudge content. Paste this whole file into Neon > SQL Editor and press Run.
+-- Running it again wipes the three tables and reloads them from this file.
 
 drop table if exists principles; drop table if exists categories; drop table if exists meta;
 
@@ -8,10 +8,6 @@ create table principles (id int primary key, category text not null references c
 create table meta (key text primary key, value jsonb not null);
 
 -- Anyone can read (the site and Claude only read). Nobody can write without the Supabase dashboard or a secret key.
-alter table categories enable row level security; alter table principles enable row level security; alter table meta enable row level security;
-create policy "public read" on categories for select using (true);
-create policy "public read" on principles for select using (true);
-create policy "public read" on meta for select using (true);
 
 insert into categories (position, name) values
   (1, 'Pricing'),

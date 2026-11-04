@@ -68,32 +68,32 @@ export function Mask({ className }: ArtProps) {
 
 /** The mockup canvas: white, content centred, plum text. */
 export function Frame({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <div className={"flex size-full flex-col items-center justify-center gap-3 p-5 text-center text-secondary " + className}>{children}</div>;
+  return <div className={"flex size-full flex-col items-center justify-center gap-3 p-5 text-center text-white " + className}>{children}</div>;
 }
 
 /** A price: big current price, optional crossed-out old price. */
 export function Money({ now, was, size = 40 }: { now: string; was?: string; size?: number }) {
   return (
     <div className="flex items-baseline justify-center gap-3 font-heading leading-none" style={{ fontSize: size }}>
-      <span className="text-secondary">{now}</span>
-      {was && <span className="text-primary line-through" style={{ fontSize: size * 0.7 }}>{was}</span>}
+      <span className="text-primary">{now}</span>
+      {was && <span className="text-white line-through" style={{ fontSize: size * 0.7 }}>{was}</span>}
     </div>
   );
 }
 
-export function Chip({ children, active, tone = "pink" }: { children: ReactNode; active?: boolean; tone?: "pink" | "orange" }) {
-  const cls = active ? "bg-secondary text-white" : tone === "orange" ? "bg-primary-foreground text-white" : "bg-background text-secondary";
-  return <span className={"inline-block rounded-full px-2.5 py-1 text-[11px] leading-none font-semibold " + cls}>{children}</span>;
+export function Chip({ children, active }: { children: ReactNode; active?: boolean }) {
+  const cls = active ? "bg-primary text-secondary" : "border border-white/60 text-white";
+  return <span className={"inline-block rounded-[3px] px-2.5 py-1 text-[11px] leading-none font-semibold " + cls}>{children}</span>;
 }
 
 export function Btn({ children }: { children: ReactNode }) {
-  return <span className="inline-block rounded-full bg-secondary px-4 py-1.5 text-[12px] leading-none font-semibold text-white">{children}</span>;
+  return <span className="inline-block rounded-[3px] bg-primary px-4 py-1.5 text-[12px] leading-none font-semibold text-secondary">{children}</span>;
 }
 
 /** A label/value row, e.g. in a checkout summary. */
 export function Row({ label, value, strong, hot }: { label: string; value: string; strong?: boolean; hot?: boolean }) {
   return (
-    <div className={"flex w-full justify-between text-[12px] leading-tight " + (strong ? "font-bold" : "font-medium") + (hot ? " text-primary-foreground" : "")}>
+    <div className={"flex w-full justify-between text-[12px] leading-tight " + (strong ? "font-bold" : "font-medium") + (hot ? " text-primary" : "")}>
       <span>{label}</span>
       <span className="tabular-nums">{value}</span>
     </div>
@@ -101,5 +101,5 @@ export function Row({ label, value, strong, hot }: { label: string; value: strin
 }
 
 export function Small({ children }: { children: ReactNode }) {
-  return <p className="text-[11px] leading-snug font-medium text-foreground/60">{children}</p>;
+  return <p className="text-[11px] leading-snug font-medium text-background/80">{children}</p>;
 }

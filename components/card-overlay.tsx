@@ -168,7 +168,7 @@ function Column({
         <div
           ref={slotRef}
           {...slotHandlers}
-          className={"h-[320px] w-[300px] overflow-hidden rounded-[16px] shadow-[12px_12px_20px_0_rgba(34,34,34,0.12)] " + (Mockup ? "bg-white" : "bg-[#363636]")}
+          className={"h-[320px] w-[300px] overflow-hidden shadow-[12px_12px_20px_0_rgba(34,34,34,0.12)] " + (Mockup ? "rounded-[12px] border-2 border-dashed border-white" : "rounded-[16px] bg-[#363636]")}
         >
           {Mockup && <Mockup />}
         </div>

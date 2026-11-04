@@ -20,12 +20,12 @@ const AnchoringGood = () => (
 
 // 2 Decoy Effect: a medium that only exists to make the large look good vs sizes that each fit a need.
 const Size = ({ label, price, w, dim, pick, note }: { label: string; price: string; w: number; dim?: boolean; pick?: boolean; note?: string }) => (
-  <div className={"flex w-[78px] flex-col items-center gap-1.5 rounded-xl p-2 " + (pick ? "border-2 border-secondary" : "border border-primary") + (dim ? " opacity-55" : "")}>
+  <div className={"flex w-[78px] flex-col items-center gap-1.5 rounded-[4px] p-2 " + (pick ? "border-2 border-primary" : "border border-white/40") + (dim ? " opacity-55" : "")}>
     <div style={{ width: w }}>
       <Jar className="w-full" />
     </div>
     <span className="text-[11px] leading-none font-semibold">{label}</span>
-    <span className="font-heading text-[18px] leading-none">{price}</span>
+    <span className="font-heading text-[18px] leading-none text-primary">{price}</span>
     {note && <Chip active={pick}>{note}</Chip>}
   </div>
 );
@@ -53,7 +53,7 @@ const CharmDark = () => (
   <Frame>
     <Lipstick className="h-[116px]" />
     <div className="flex items-start font-heading leading-none">
-      <span className="text-[48px]">$19</span>
+      <span className="text-[48px] text-primary">$19</span>
       <span className="mt-1 text-[22px]">.99</span>
     </div>
   </Frame>
@@ -62,7 +62,7 @@ const CharmGood = () => (
   <Frame>
     <Lipstick className="h-[96px]" />
     <Money now="$19.99" size={34} />
-    <div className="w-full rounded-xl border border-primary p-3">
+    <div className="w-full rounded-[4px] border border-primary p-3">
       <Row label="Checkout total" value="$19.99" strong />
       <Small>Tax included</Small>
     </div>
@@ -87,7 +87,7 @@ const RelativityDark = () => (
 );
 const RelativityGood = () => (
   <Frame>
-    <div className="w-full rounded-xl border border-primary p-3">
+    <div className="w-full rounded-[4px] border border-primary p-3">
       <div className="mb-2 grid grid-cols-[1fr_auto_auto] items-end gap-x-4 gap-y-2 text-[12px] leading-none">
         <span />
         <Foundation className="h-[44px]" />
@@ -99,8 +99,8 @@ const RelativityGood = () => (
         <span>14</span>
         <span>21</span>
         <span className="font-semibold">Price</span>
-        <span className="font-heading text-[15px]">$45</span>
-        <span className="font-heading text-[15px]">$120</span>
+        <span className="font-heading text-[15px] text-primary">$45</span>
+        <span className="font-heading text-[15px] text-primary">$120</span>
       </div>
     </div>
   </Frame>
@@ -150,7 +150,7 @@ const PainDark = () => (
 const PainGood = () => (
   <Frame>
     <Money now="$90" size={40} />
-    <div className="w-full rounded-xl border border-primary p-3">
+    <div className="w-full rounded-[4px] border border-primary p-3">
       <div className="flex flex-col gap-1.5">
         <Row label="Today" value="$22.50" />
         <Row label="In 2 weeks" value="$22.50" />
@@ -169,19 +169,19 @@ const Bar = ({ pct }: { pct: number }) => (
       <span>Free shipping over $35</span>
       <span className="tabular-nums">$29 / $35</span>
     </div>
-    <div className="h-2.5 w-full overflow-hidden rounded-full bg-background">
-      <div className="h-full rounded-full bg-secondary" style={{ width: `${pct}%` }} />
+    <div className="h-2.5 w-full overflow-hidden rounded-[2px] bg-white/25">
+      <div className="h-full rounded-[2px] bg-primary" style={{ width: `${pct}%` }} />
     </div>
   </div>
 );
 const ZeroDark = () => (
   <Frame>
     <Bar pct={83} />
-    <div className="flex w-full items-center gap-3 rounded-xl border border-primary p-3">
+    <div className="flex w-full items-center gap-3 rounded-[4px] border border-primary p-3">
       <Lipstick className="h-[40px]" />
       <div className="flex-1 text-left">
         <p className="text-[12px] leading-tight font-semibold">Lip balm</p>
-        <p className="mt-1 font-heading text-[18px] leading-none">$6</p>
+        <p className="mt-1 font-heading text-[18px] leading-none text-primary">$6</p>
       </div>
       <Btn>Add</Btn>
     </div>
@@ -190,7 +190,7 @@ const ZeroDark = () => (
 const ZeroGood = () => (
   <Frame>
     <Bar pct={83} />
-    <div className="flex w-full items-center gap-3 rounded-xl border border-primary p-3">
+    <div className="flex w-full items-center gap-3 rounded-[4px] border border-primary p-3">
       <Serum className="h-[44px]" />
       <div className="flex-1 text-left">
         <p className="text-[12px] leading-tight font-semibold">Serum refill</p>
@@ -205,7 +205,7 @@ const ZeroGood = () => (
 const PartitionDark = () => (
   <Frame>
     <Chip>Checkout · step 3 of 3</Chip>
-    <div className="flex w-full flex-col gap-2 rounded-xl border border-primary p-3">
+    <div className="flex w-full flex-col gap-2 rounded-[4px] border border-primary p-3">
       <Row label="Serum" value="$34.00" />
       <Row label="Delivery" value="$4.50" hot />
       <Row label="Packaging" value="$1.00" hot />

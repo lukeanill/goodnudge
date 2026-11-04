@@ -21,8 +21,8 @@ const ConfirmGood = () => (
       <Leaf className="size-5 text-primary" />
       <Chip active>Clean</Chip>
     </div>
-    <div className="flex w-[160px] flex-col gap-2">
-      {[80, 65, 72].map((w) => (
+    <div className="flex w-[130px] flex-col gap-2">
+      {[100, 70, 85].map((w) => (
         <div key={w} className="flex items-center gap-2">
           <Tick className="size-4 shrink-0 text-primary" />
           <Line w={w} />

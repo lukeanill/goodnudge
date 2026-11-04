@@ -14,7 +14,7 @@ const Burst = () => (
   </div>
 );
 const PeakDark = () => (
-  <Frame>
+  <Frame className="pt-9">
     <Burst />
     <div className="flex items-center gap-2 opacity-60">
       <Parcel className="size-8 text-white" />
@@ -24,7 +24,7 @@ const PeakDark = () => (
   </Frame>
 );
 const PeakGood = () => (
-  <Frame>
+  <Frame className="pt-9">
     <Burst />
     <div className="flex items-center gap-2">
       <span className="size-2.5 rounded-full bg-primary" />

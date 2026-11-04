@@ -96,7 +96,7 @@ const ReciprocityGood = () => (
 // 25 Commitment & Consistency: results locked behind an email vs results shown straight away.
 const Bars = ({ dim }: { dim?: boolean }) => (
   <div className={"flex h-[110px] items-end gap-3 " + (dim ? "opacity-25" : "")}>
-    {[40, 75, 55, 95].map((h, i) => (
+    {[42, 78, 58, 100].map((h, i) => (
       <div key={i} className="w-9 rounded-t-[2px] bg-primary" style={{ height: `${h}%` }} />
     ))}
   </div>

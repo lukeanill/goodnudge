@@ -13,6 +13,7 @@ const BAR_HEIGHT = 70; // sticky bar: 16 top + 38 tabs + 16 bottom
 export function PrinciplesBrowser({ tagline, categories, principles }: { tagline: string; categories: Category[]; principles: Principle[] }) {
   const [selected, setSelected] = useState<string[]>([]);
   const [stuck, setStuck] = useState(false);
+  const [filtered, setFiltered] = useState(false); // true after the first filter change, so page load itself does not animate
   const [boxHeight, setBoxHeight] = useState<number | null>(null);
   const reduce = useReducedMotion();
 
@@ -21,8 +22,10 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
 
   // No tab selected = everything. Cards keep category order as in the JSON.
   const visible = selected.length ? principles.filter((p) => selected.includes(p.category)) : principles;
-  const toggle = (name: string) =>
+  const toggle = (name: string) => {
+    setFiltered(true);
     setSelected((s) => (s.includes(name) ? s.filter((n) => n !== name) : [...s, name]));
+  };
 
   // "On scroll: logo and filters animate into a sticky header": triggered once the header reaches the top.
   useEffect(() => {
@@ -44,6 +47,10 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   }, [stuck]);
 
   const transition = reduce ? { duration: 0 } : { duration: 0.4, ease: [0, 0, 0.35, 1] as const };
+  const cardVariants = {
+    hidden: { opacity: 0, y: reduce ? 0 : 16 },
+    show: (i: number) => ({ opacity: 1, y: 0, transition: reduce ? { duration: 0 } : { duration: 0.35, ease: [0, 0, 0.35, 1] as const, delay: Math.min(i, 7) * 0.05 } }),
+  };
 
   return (
     <div className="pt-12 pb-16 md:pt-24 md:pb-24 lg:pt-[120px] lg:pb-[120px]">
@@ -101,11 +108,20 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
         </div>
       </header>
 
-      <main className="content grid grid-cols-1 gap-4 py-10 md:grid-cols-2 md:gap-6">
+      {/* Keyed by the selection: a filter change re-mounts the grid and the cards rise in (first 8 staggered). */}
+      <motion.main key={selected.join("|")} className="content grid grid-cols-1 gap-4 py-10 md:grid-cols-2 md:gap-6">
         {visible.map((p, i) => (
-          <PrincipleCard key={p.id} principle={p} bg={(i % BG_COUNT) + 1} priority={i < 4} />
+          <motion.div
+            key={p.id}
+            custom={i}
+            initial={filtered ? "hidden" : false}
+            animate="show"
+            variants={cardVariants}
+          >
+            <PrincipleCard principle={p} bg={(i % BG_COUNT) + 1} priority={i < 4} />
+          </motion.div>
         ))}
-      </main>
+      </motion.main>
     </div>
   );
 }

@@ -35,27 +35,33 @@ type Row = {
 };
 
 /**
- * Reads from Supabase when the `goodnudge` env var ("<project url> <publishable key>") is set.
- * Returns null on any failure, so the caller falls back to the JSON file.
+ * Reads from the Neon database (Vercel Storage) when DATABASE_URL is set, using Neon's HTTP SQL endpoint
+ * so no extra package is needed. Returns null on any failure, so the caller falls back to the JSON file.
  */
-async function fromSupabase(): Promise<Omit<Content, "tagline" | "categories"> & { categoryNames: string[] } | null> {
-  const raw = process.env.goodnudge?.trim();
-  if (!raw) return null;
-  const [url, key] = raw.split(/\s+/);
-  if (!url || !key) return null;
-  const get = async <T,>(table: string, query = "select=*"): Promise<T> => {
-    const res = await fetch(`${url.replace(/\/$/, "")}/rest/v1/${table}?${query}`, {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
+async function fromDatabase(): Promise<(Omit<Content, "tagline" | "categories"> & { categoryNames: string[] }) | null> {
+  const conn = process.env.DATABASE_URL?.trim();
+  if (!conn) return null;
+  let host: string;
+  try {
+    host = new URL(conn).hostname;
+  } catch {
+    return null;
+  }
+  const query = async <T,>(sql: string): Promise<T[]> => {
+    const res = await fetch(`https://${host}/sql`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Neon-Connection-String": conn },
+      body: JSON.stringify({ query: sql, params: [] }),
       next: { revalidate: 60 },
     });
-    if (!res.ok) throw new Error(`${table}: ${res.status}`);
-    return res.json();
+    if (!res.ok) throw new Error(`db: ${res.status}`);
+    return (await res.json()).rows as T[];
   };
   try {
     const [rows, cats, meta] = await Promise.all([
-      get<Row[]>("principles", "select=*&order=id"),
-      get<{ position: number; name: string }[]>("categories", "select=*&order=position"),
-      get<{ key: string; value: unknown }[]>("meta"),
+      query<Row>("select * from principles order by id"),
+      query<{ name: string }>("select name from categories order by position"),
+      query<{ key: string; value: unknown }>("select key, value from meta"),
     ]);
     if (!rows.length || !cats.length) return null;
     const m = Object.fromEntries(meta.map((r) => [r.key, r.value]));
@@ -76,11 +82,11 @@ async function fromSupabase(): Promise<Omit<Content, "tagline" | "categories"> &
 }
 
 /**
- * The single place the site reads content from: Supabase first, the JSON file as fallback.
+ * The single place the site reads content from: database first, the JSON file as fallback.
  */
 export async function getContent(): Promise<Content> {
   const images = visuals as Record<string, { src: string; w: number; h: number }>;
-  const db = await fromSupabase();
+  const db = await fromDatabase();
   const base = db ?? {
     title: data.title,
     scale: data.darkPatternScale,

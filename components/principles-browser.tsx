@@ -5,7 +5,8 @@ import { motion, useReducedMotion } from "motion/react";
 import type { Category, Principle } from "@/lib/content";
 import { Logo } from "./logo";
 import { FilterTab } from "./filter-tab";
-import { PrincipleCard } from "./principle-card";
+import { PrincipleCard, type CardRect } from "./principle-card";
+import { CardOverlay } from "./card-overlay";
 
 const BG_COUNT = 22; // Figma provides 22 background images; they repeat by card position.
 const BAR_HEIGHT = 70; // sticky bar: 16 top + 38 tabs + 16 bottom
@@ -13,6 +14,7 @@ const BAR_HEIGHT = 70; // sticky bar: 16 top + 38 tabs + 16 bottom
 export function PrinciplesBrowser({ tagline, categories, principles }: { tagline: string; categories: Category[]; principles: Principle[] }) {
   const [selected, setSelected] = useState<string[]>([]);
   const [stuck, setStuck] = useState(false);
+  const [open, setOpen] = useState<{ principle: Principle; bg: number; rect: CardRect } | null>(null);
   const [filtered, setFiltered] = useState(false); // true after the first filter change, so page load itself does not animate
   const [boxHeight, setBoxHeight] = useState<number | null>(null);
   const reduce = useReducedMotion();
@@ -118,10 +120,11 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
             animate="show"
             variants={cardVariants}
           >
-            <PrincipleCard principle={p} bg={(i % BG_COUNT) + 1} priority={i < 4} />
+            <PrincipleCard principle={p} bg={(i % BG_COUNT) + 1} priority={i < 4} onOpen={(principle, bg, rect) => setOpen({ principle, bg, rect })} />
           </motion.div>
         ))}
       </motion.main>
+      {open && <CardOverlay key={open.principle.id} principle={open.principle} bg={open.bg} origin={open.rect} onClosed={() => setOpen(null)} />}
     </div>
   );
 }

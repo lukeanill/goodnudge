@@ -19,6 +19,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   const [stuck, setStuck] = useState(false);
   const [layout, setLayout] = useState<Layout>("cards"); // always starts on cards
   const [open, setOpen] = useState<{ principle: Principle; bg: number; rect: CardRect } | null>(null);
+  const [morphing, setMorphing] = useState(false); // layout animation is only on while the tabs morph into the tray; a filter change collapses the page height and would otherwise fling the pill in
   const [filtered, setFiltered] = useState(false); // true after the first filter change, so page load itself does not animate
   const reduce = useReducedMotion();
 
@@ -40,9 +41,18 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   useEffect(() => {
     const el = sentinel.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => setStuck(!e.isIntersecting), { threshold: 0, rootMargin: "-24px 0px 0px 0px" });
+    let timer: ReturnType<typeof setTimeout>;
+    const io = new IntersectionObserver(([e]) => {
+      setMorphing(true);
+      setStuck(!e.isIntersecting);
+      clearTimeout(timer);
+      timer = setTimeout(() => setMorphing(false), 600);
+    }, { threshold: 0, rootMargin: "-24px 0px 0px 0px" });
     io.observe(el);
-    return () => io.disconnect();
+    return () => {
+      io.disconnect();
+      clearTimeout(timer);
+    };
   }, []);
 
   const transition = reduce ? { duration: 0 } : { duration: 0.4, ease: [0.8, 0, 0.2, 1] as const };
@@ -63,7 +73,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
 
       <nav className="content sticky top-6 z-10 flex h-9 items-start">
         <motion.div
-          layout="position"
+          layout={morphing ? "position" : false}
           transition={transition}
           className={"relative flex max-w-full items-center " + (stuck ? "mx-auto -my-1 w-fit gap-2 rounded-full p-1" : "w-full justify-between gap-4")}
         >
@@ -73,7 +83,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
             </motion.div>
           )}
           <motion.div
-            layout="position"
+            layout={morphing ? "position" : false}
             transition={transition}
             className={
               "tabs-scroll relative flex min-w-0 max-[900px]:overflow-x-auto " +
@@ -91,7 +101,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
               />
             ))}
           </motion.div>
-          <motion.div layout="position" transition={transition} className="relative shrink-0">
+          <motion.div layout={morphing ? "position" : false} transition={transition} className="relative shrink-0">
             <LayoutToggle layout={layout} onChange={changeLayout} />
           </motion.div>
         </motion.div>

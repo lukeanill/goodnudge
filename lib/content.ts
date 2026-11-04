@@ -16,9 +16,12 @@ export type Category = { name: string; count: number };
 
 export type Content = {
   title: string;
+  tagline: string;
   categories: Category[];
   principles: Principle[];
 };
+
+const TAGLINE = "A collection of behavioral nudge principles: influence people without deceiving them.";
 
 /**
  * The single place the site reads content from. Today it is the JSON file;
@@ -30,5 +33,5 @@ export async function getContent(): Promise<Content> {
     name,
     count: principles.filter((p) => p.category === name).length,
   }));
-  return { title: data.title, categories, principles };
+  return { title: data.title, tagline: TAGLINE, categories, principles };
 }

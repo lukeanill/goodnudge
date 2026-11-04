@@ -10,7 +10,7 @@ import { PrincipleCard } from "./principle-card";
 const BG_COUNT = 22; // Figma provides 22 background images; they repeat by card position.
 const BAR_HEIGHT = 70; // sticky bar: 16 top + 38 tabs + 16 bottom
 
-export function PrinciplesBrowser({ categories, principles }: { categories: Category[]; principles: Principle[] }) {
+export function PrinciplesBrowser({ tagline, categories, principles }: { tagline: string; categories: Category[]; principles: Principle[] }) {
   const [selected, setSelected] = useState<string[]>([]);
   const [stuck, setStuck] = useState(false);
   const [boxHeight, setBoxHeight] = useState<number | null>(null);
@@ -73,6 +73,12 @@ export function PrinciplesBrowser({ categories, principles }: { categories: Cate
             >
               <Logo className="block h-auto w-full text-primary-foreground" />
             </motion.div>
+            {/* Tagline: only in the large header; the sticky bar keeps just logo + tabs. */}
+            {!stuck && (
+              <p className="mt-6 min-h-[26px] max-w-[640px] text-[16px] leading-[1.6] font-medium tracking-normal text-foreground">
+                {tagline}
+              </p>
+            )}
             <motion.div
               layout="position"
               transition={transition}

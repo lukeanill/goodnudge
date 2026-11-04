@@ -12,7 +12,7 @@ export function PrincipleCard({ principle, bg, priority }: { principle: Principl
 
   return (
     <div className="@container relative aspect-[468/460] w-full">
-      <article className="relative flex size-full flex-col gap-[3.419cqw] overflow-hidden rounded-[min(12px,2.564cqw)] bg-secondary p-[8.547cqw]">
+      <article className="relative flex size-full flex-col gap-[3.419cqw] overflow-hidden rounded-[2.564cqw] bg-secondary p-[8.547cqw]">
         <img
           src={`/bg/bg-${num}.jpg`}
           srcSet={`/bg/bg-${num}.jpg 1x, /bg/bg-${num}@2x.jpg 2x, /bg/bg-${num}@3x.jpg 3x`}
@@ -28,13 +28,13 @@ export function PrincipleCard({ principle, bg, priority }: { principle: Principl
         </p>
         <div className="flex-1" />
         <div className="relative flex flex-col gap-[1.709cqw]">
-          <h2 className="font-serif text-[min(36px,7.692cqw)] leading-[1.2] font-normal tracking-normal text-primary">
+          <h2 className="font-serif text-[7.692cqw] leading-[1.2] font-normal tracking-normal text-primary">
             {principle.name}
           </h2>
           <div className="flex flex-col pr-[5.128cqw]">
-            <p className="text-[max(13px,3.419cqw)] leading-[1.6] font-medium tracking-normal text-white">{body}</p>
+            <p className="text-[max(14px,3.846cqw)] leading-[1.6] font-medium tracking-normal text-white">{body}</p>
             {footnote && (
-              <p className="text-[max(13px,3.419cqw)] leading-[1.6] font-medium tracking-normal text-white">{footnote}</p>
+              <p className="text-[max(14px,3.846cqw)] leading-[1.6] font-medium tracking-normal text-white">{footnote}</p>
             )}
           </div>
         </div>

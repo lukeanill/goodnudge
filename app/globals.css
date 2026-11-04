@@ -16,6 +16,12 @@
     width: min(960px, 100% - 4rem);
   }
 }
+/* From 1280 up: Figma's 160px side margins stay; the column grows with the window to a 1280px maximum, then centres. */
+@media (min-width: 1280px) {
+  .content {
+    width: min(1280px, 100% - 320px);
+  }
+}
 
 /* Filter tab count: DM Mono, trimmed to cap height as in Figma. */
 .tab-count {

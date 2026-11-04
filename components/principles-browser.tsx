@@ -69,7 +69,7 @@ export function PrinciplesBrowser({ categories, principles }: { categories: Cate
             <motion.div
               layout
               transition={transition}
-              className={stuck ? "mr-6 w-[115.798px] max-w-[35%] shrink-0" : "w-[507.892px] max-w-full"}
+              className={stuck ? "mr-6 w-[115.798px] max-w-[35%] shrink-0" : "w-[507.892px] max-w-full min-[1280px]:w-[52.907%]"}
             >
               <Logo className="block h-auto w-full text-primary-foreground" />
             </motion.div>

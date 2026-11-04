@@ -8,7 +8,7 @@ import { FilterTab } from "./filter-tab";
 import { PrincipleCard } from "./principle-card";
 
 const BG_COUNT = 22; // Figma provides 22 background images; they repeat by card position.
-const BAR_HEIGHT = 86; // sticky bar: 32 top + 38 tabs + 16 bottom
+const BAR_HEIGHT = 70; // sticky bar: 16 top + 38 tabs + 16 bottom
 
 export function PrinciplesBrowser({ categories, principles }: { categories: Category[]; principles: Principle[] }) {
   const [selected, setSelected] = useState<string[]>([]);
@@ -46,7 +46,7 @@ export function PrinciplesBrowser({ categories, principles }: { categories: Cate
   const transition = reduce ? { duration: 0 } : { duration: 0.4, ease: [0, 0, 0.35, 1] as const };
 
   return (
-    <div className="pt-12 pb-16 md:pt-24 md:pb-24 lg:pt-[160px] lg:pb-[160px]">
+    <div className="pt-12 pb-16 md:pt-24 md:pb-24 lg:pt-[120px] lg:pb-[120px]">
       <header
         className="sticky z-10 flex flex-col justify-end"
         style={{ top: boxHeight ? -(boxHeight - BAR_HEIGHT) : 0, minHeight: boxHeight ?? undefined }}
@@ -63,7 +63,7 @@ export function PrinciplesBrowser({ categories, principles }: { categories: Cate
           <div
             className={
               "content relative flex gap-x-2 " +
-              (stuck ? "flex-row items-center pt-8 pb-4" : "flex-col items-start pt-0 pb-4")
+              (stuck ? "flex-row items-center pt-4 pb-4" : "flex-col items-start pt-0 pb-4")
             }
           >
             <motion.div

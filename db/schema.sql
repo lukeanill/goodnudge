@@ -1,5 +1,5 @@
--- Good Nudge content. Paste this whole file into Supabase > SQL Editor and press Run.
--- Safe to run again: it rebuilds the three tables from scratch.
+-- Good Nudge content. Paste this whole file into Neon > SQL Editor and press Run.
+-- Running it again wipes the three tables and reloads them from this file.
 
 drop table if exists principles; drop table if exists categories; drop table if exists meta;
 

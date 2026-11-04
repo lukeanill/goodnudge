@@ -7,6 +7,8 @@ import type { Category, Principle } from "@/lib/content";
 import { Logo } from "./logo";
 import { FilterTab } from "./filter-tab";
 import { PrincipleCard, type CardRect } from "./principle-card";
+import { PrincipleRow } from "./principle-row";
+import { LayoutToggle, type Layout } from "./layout-toggle";
 import { CardOverlay } from "./card-overlay";
 
 const BG_COUNT = 22; // Figma provides 22 background images; they repeat by card position.
@@ -14,6 +16,7 @@ const BG_COUNT = 22; // Figma provides 22 background images; they repeat by card
 export function PrinciplesBrowser({ tagline, categories, principles }: { tagline: string; categories: Category[]; principles: Principle[] }) {
   const [selected, setSelected] = useState<string[]>([]);
   const [stuck, setStuck] = useState(false);
+  const [layout, setLayout] = useState<Layout>("cards"); // always starts on cards
   const [open, setOpen] = useState<{ principle: Principle; bg: number; rect: CardRect } | null>(null);
   const [filtered, setFiltered] = useState(false); // true after the first filter change, so page load itself does not animate
   const reduce = useReducedMotion();
@@ -22,6 +25,11 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
 
   // No tab selected = everything. Cards keep category order as in the JSON.
   const visible = selected.length ? principles.filter((p) => selected.includes(p.category)) : principles;
+  const changeLayout = (l: Layout) => {
+    if (l === layout) return;
+    setFiltered(true);
+    setLayout(l);
+  };
   const toggle = (name: string) => {
     setFiltered(true);
     setSelected((s) => (s.includes(name) ? s.filter((n) => n !== name) : [...s, name]));
@@ -56,16 +64,18 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
         <motion.div
           layout="position"
           transition={transition}
-          className={"relative flex w-fit max-w-full " + (stuck ? "mx-auto -my-1 rounded-full p-1" : "")}
+          className={"relative flex max-w-full items-center " + (stuck ? "mx-auto -my-1 w-fit gap-2 rounded-full p-1" : "w-full justify-between gap-4")}
         >
           {stuck && (
             <motion.div aria-hidden className="absolute inset-0 rounded-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={transition}>
               <GlassLayer weight="heavy" tone="light" tint="rgba(247,202,231,0.6)" radius={22} />
             </motion.div>
           )}
-          <div
+          <motion.div
+            layout="position"
+            transition={transition}
             className={
-              "tabs-scroll relative flex min-w-0 max-[820px]:overflow-x-auto " +
+              "tabs-scroll relative flex min-w-0 max-[900px]:overflow-x-auto " +
               (stuck ? "gap-1 drop-shadow-[0_8px_8px_rgba(68,68,68,0.06)]" : "gap-[6px]")
             }
           >
@@ -79,12 +89,18 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
                 onToggle={() => toggle(c.name)}
               />
             ))}
-          </div>
+          </motion.div>
+          <motion.div layout="position" transition={transition} className="relative shrink-0">
+            <LayoutToggle layout={layout} onChange={changeLayout} />
+          </motion.div>
         </motion.div>
       </nav>
 
       {/* Keyed by the selection: a filter change re-mounts the grid and the cards rise in (first 8 staggered). */}
-      <motion.main key={selected.join("|")} className="content grid grid-cols-1 gap-4 py-10 md:grid-cols-2 md:gap-6">
+      <motion.main
+        key={layout + "|" + selected.join("|")}
+        className={"content py-10 " + (layout === "cards" ? "grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6" : "flex flex-col gap-1")}
+      >
         {visible.map((p, i) => (
           <motion.div
             key={p.id}
@@ -92,8 +108,13 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
             initial={filtered ? "hidden" : false}
             animate="show"
             variants={cardVariants}
+            className={layout === "table" ? "overflow-hidden first:rounded-t-[8px] last:rounded-b-[8px]" : undefined}
           >
-            <PrincipleCard principle={p} bg={(i % BG_COUNT) + 1} priority={i < 4} onOpen={(principle, bg, rect) => setOpen({ principle, bg, rect })} />
+            {layout === "cards" ? (
+              <PrincipleCard principle={p} bg={(i % BG_COUNT) + 1} priority={i < 4} onOpen={(principle, bg, rect) => setOpen({ principle, bg, rect })} />
+            ) : (
+              <PrincipleRow principle={p} bg={(i % BG_COUNT) + 1} alt={i % 2 === 1} onOpen={(principle, bg, rect) => setOpen({ principle, bg, rect })} />
+            )}
           </motion.div>
         ))}
       </motion.main>

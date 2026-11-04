@@ -3,7 +3,7 @@
 import { motion, useAnimationControls, useReducedMotion } from "motion/react";
 import type { Principle } from "@/lib/content";
 
-export type CardRect = { top: number; left: number; width: number; height: number };
+export type CardRect = { top: number; left: number; width: number; height: number; kind?: "card" | "row"; alt?: boolean };
 
 // Illustration, top right: a 180 x 168 box whose right edge is 40px in from the card edge and whose top is 52px down.
 // A much wider image (about 1.3:1 or more) gets a 220px wide box instead. Sizes in cqw of the 468px card.

@@ -6,7 +6,7 @@ import type { Content } from "./content";
 export type Scale = Record<string, string>;
 
 const EXAMPLE =
-  "We believe that showing the full price, including delivery, on the product page will make shoppers trust the price. To test that we will show the full price to half of our visitors and measure checkout completion and return rate.";
+  "We believe that pre-selecting the most popular size on the product page will make choosing easier. To test that we will pre-select it for half of our mobile visitors and measure add-to-bag rate and wrong-size returns.";
 
 export function skillMd(): string {
   return `---

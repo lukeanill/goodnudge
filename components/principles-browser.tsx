@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
+import { GlassLayer } from "@lukeanill/ui/components/liquid-glass";
 import type { Category, Principle } from "@/lib/content";
 import { Logo } from "./logo";
 import { FilterTab } from "./filter-tab";
@@ -9,18 +10,15 @@ import { PrincipleCard, type CardRect } from "./principle-card";
 import { CardOverlay } from "./card-overlay";
 
 const BG_COUNT = 22; // Figma provides 22 background images; they repeat by card position.
-const BAR_HEIGHT = 70; // sticky bar: 16 top + 38 tabs + 16 bottom
 
 export function PrinciplesBrowser({ tagline, categories, principles }: { tagline: string; categories: Category[]; principles: Principle[] }) {
   const [selected, setSelected] = useState<string[]>([]);
   const [stuck, setStuck] = useState(false);
   const [open, setOpen] = useState<{ principle: Principle; bg: number; rect: CardRect } | null>(null);
   const [filtered, setFiltered] = useState(false); // true after the first filter change, so page load itself does not animate
-  const [boxHeight, setBoxHeight] = useState<number | null>(null);
   const reduce = useReducedMotion();
 
   const sentinel = useRef<HTMLDivElement>(null);
-  const inner = useRef<HTMLDivElement>(null);
 
   // No tab selected = everything. Cards keep category order as in the JSON.
   const visible = selected.length ? principles.filter((p) => selected.includes(p.category)) : principles;
@@ -29,26 +27,16 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
     setSelected((s) => (s.includes(name) ? s.filter((n) => n !== name) : [...s, name]));
   };
 
-  // "On scroll: logo and filters animate into a sticky header": triggered once the header reaches the top.
+  // The tabs stick 24px from the top. Once they do, they move into a centred glass tray (no logo: it scrolls away).
   useEffect(() => {
     const el = sentinel.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => setStuck(!e.isIntersecting), { threshold: 0 });
+    const io = new IntersectionObserver(([e]) => setStuck(!e.isIntersecting), { threshold: 0, rootMargin: "-24px 0px 0px 0px" });
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
-  // Lock the header's height to its resting (large) size so the page below never jumps when it collapses.
-  useLayoutEffect(() => {
-    if (stuck || !inner.current) return;
-    const measure = () => inner.current && setBoxHeight(inner.current.getBoundingClientRect().height);
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(inner.current);
-    return () => ro.disconnect();
-  }, [stuck]);
-
-  const transition = reduce ? { duration: 0 } : { duration: 0.4, ease: [0, 0, 0.35, 1] as const };
+  const transition = reduce ? { duration: 0 } : { duration: 0.4, ease: [0.8, 0, 0.2, 1] as const };
   const cardVariants = {
     hidden: { opacity: 0, y: reduce ? 0 : 16 },
     show: (i: number) => ({ opacity: 1, y: 0, transition: reduce ? { duration: 0 } : { duration: 0.35, ease: [0, 0, 0.35, 1] as const, delay: Math.min(i, 7) * 0.05 } }),
@@ -56,59 +44,44 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
 
   return (
     <div className="pt-12 pb-16 md:pt-24 md:pb-24 lg:pt-[120px] lg:pb-[120px]">
-      <header
-        className="sticky z-10 flex flex-col justify-end"
-        style={{ top: boxHeight ? -(boxHeight - BAR_HEIGHT) : 0, minHeight: boxHeight ?? undefined }}
-      >
-        <div ref={sentinel} aria-hidden className="pointer-events-none absolute top-0 left-0 h-px w-px" />
-        <div ref={inner} className="relative">
-          <motion.div
-            aria-hidden
-            className="absolute inset-0 bg-background/65 backdrop-blur-[40px]"
-            initial={false}
-            animate={{ opacity: stuck ? 1 : 0 }}
-            transition={transition}
-          />
+      <header className="content flex flex-col items-start">
+        <Logo className="block h-auto w-[507.892px] max-w-full text-primary-foreground min-[1280px]:w-[52.907%]" />
+        <p className="mt-6 min-h-[26px] max-w-[640px] text-[16px] leading-[1.6] font-medium tracking-normal text-foreground">{tagline}</p>
+      </header>
+
+      {/* Marks where the tabs rest; 24px (64px from tablet up) below the tagline in total. */}
+      <div ref={sentinel} aria-hidden className="pointer-events-none h-px mt-[23px] md:mt-[63px]" />
+
+      <nav className="content sticky top-6 z-10 flex h-9 items-start">
+        <motion.div
+          layout="position"
+          transition={transition}
+          className={"relative flex w-fit max-w-full " + (stuck ? "mx-auto -my-1 rounded-full p-1" : "")}
+        >
+          {stuck && (
+            <motion.div aria-hidden className="absolute inset-0 rounded-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={transition}>
+              <GlassLayer weight="heavy" tone="light" tint="rgba(247,202,231,0.6)" radius={22} />
+            </motion.div>
+          )}
           <div
             className={
-              "content relative flex gap-x-2 " +
-              (stuck ? "flex-row items-center pt-4 pb-4" : "flex-col items-start pt-0 pb-4")
+              "tabs-scroll relative flex min-w-0 max-[820px]:overflow-x-auto " +
+              (stuck ? "gap-1 drop-shadow-[0_8px_8px_rgba(68,68,68,0.06)]" : "gap-[6px]")
             }
           >
-            <motion.div
-              layout
-              transition={transition}
-              className={stuck ? "mr-6 w-[115.798px] max-w-[35%] shrink-0" : "w-[507.892px] max-w-full min-[1280px]:w-[52.907%]"}
-            >
-              <Logo className="block h-auto w-full text-primary-foreground" />
-            </motion.div>
-            {/* Tagline: only in the large header; the sticky bar keeps just logo + tabs. */}
-            {!stuck && (
-              <p className="mt-6 min-h-[26px] max-w-[640px] text-[16px] leading-[1.6] font-medium tracking-normal text-foreground">
-                {tagline}
-              </p>
-            )}
-            <motion.div
-              layout="position"
-              transition={transition}
-              className={
-                "tabs-scroll flex min-w-0 gap-2 overflow-x-auto " +
-                (stuck ? "flex-1" : "mt-6 w-full md:mt-16")
-              }
-            >
-              {categories.map((c) => (
-                <FilterTab
-                  key={c.name}
-                  label={c.name}
-                  count={c.count}
-                  pressed={selected.includes(c.name)}
-                  onToggle={() => toggle(c.name)}
-                />
-              ))}
-            </motion.div>
+            {categories.map((c) => (
+              <FilterTab
+                key={c.name}
+                label={c.name}
+                count={c.count}
+                pressed={selected.includes(c.name)}
+                tray={stuck}
+                onToggle={() => toggle(c.name)}
+              />
+            ))}
           </div>
-        </div>
-      </header>
+        </motion.div>
+      </nav>
 
       {/* Keyed by the selection: a filter change re-mounts the grid and the cards rise in (first 8 staggered). */}
       <motion.main key={selected.join("|")} className="content grid grid-cols-1 gap-4 py-10 md:grid-cols-2 md:gap-6">

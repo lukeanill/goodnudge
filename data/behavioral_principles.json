@@ -113,7 +113,7 @@
     {
       "id": 8,
       "category": "Pricing",
-      "name": "Partitioned Pricing",
+      "name": "Drip Pricing",
       "aka": [],
       "description": "Splitting a price into parts (or revealing fees late) makes the total feel lower. Often seen as a dark pattern.",
       "darkPatternExample": "The store adds a $4.50 delivery fee and a $1 packaging fee on the last checkout step.",

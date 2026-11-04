@@ -10,6 +10,7 @@ import { PrincipleCard, type CardRect } from "./principle-card";
 import { PrincipleRow } from "./principle-row";
 import { LayoutToggle, type Layout } from "./layout-toggle";
 import { CardOverlay } from "./card-overlay";
+import { Footer } from "./footer";
 
 const BG_COUNT = 22; // Figma provides 22 background images; they repeat by card position.
 
@@ -51,7 +52,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   };
 
   return (
-    <div className="pt-12 pb-16 md:pt-24 md:pb-24 lg:pt-[120px] lg:pb-[120px]">
+    <div className="pt-12 md:pt-24 lg:pt-[120px]">
       <header className="content flex flex-col items-start">
         <Logo className="block h-auto w-[507.892px] max-w-full text-primary-foreground min-[1280px]:w-[52.907%]" />
         <p className="mt-6 min-h-[26px] max-w-[640px] text-[16px] leading-[1.6] font-medium tracking-normal text-foreground">{tagline}</p>
@@ -118,6 +119,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
           </motion.div>
         ))}
       </motion.main>
+      <Footer />
       {open && <CardOverlay key={open.principle.id} principle={open.principle} bg={open.bg} origin={open.rect} onClosed={() => setOpen(null)} />}
     </div>
   );

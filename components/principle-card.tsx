@@ -28,7 +28,7 @@ export function PrincipleCard({ principle, bg, priority }: { principle: Principl
         </p>
         <div className="flex-1" />
         <div className="relative flex flex-col gap-[1.709cqw]">
-          <h2 className="font-serif text-[min(36px,7.692cqw)] leading-[1.4] font-normal tracking-normal text-primary">
+          <h2 className="font-serif text-[min(36px,7.692cqw)] leading-[1.2] font-normal tracking-normal text-primary">
             {principle.name}
           </h2>
           <div className="flex flex-col pr-[5.128cqw]">

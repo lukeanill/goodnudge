@@ -1,3 +1,6 @@
+"use client";
+
+import { motion, useAnimationControls, useReducedMotion } from "motion/react";
 import type { Principle } from "@/lib/content";
 
 export type CardRect = { top: number; left: number; width: number; height: number };
@@ -52,18 +55,37 @@ export function PrincipleCard({
   priority?: boolean;
   onOpen: (principle: Principle, bg: number, rect: CardRect) => void;
 }) {
+  const wobble = useAnimationControls();
+  const reduce = useReducedMotion();
+  const isMouse = (e: React.PointerEvent) => e.pointerType === "mouse" || e.pointerType === "pen";
+
   return (
     <button
       type="button"
+      data-card={principle.id}
       className="block w-full cursor-pointer text-left"
+      // Hover wobble: a quick rock plus a small lift. Mouse only; the button itself never moves, so the open animation
+      // still starts from the card's true position.
+      onPointerEnter={(e) => {
+        if (reduce || !isMouse(e)) return;
+        wobble.start({
+          rotate: [0, -1.5, 1.2, -0.8, 0.4, 0],
+          scale: 1.02,
+          transition: { rotate: { duration: 0.55, ease: "easeInOut" }, scale: { duration: 0.2, ease: "easeOut" } },
+        });
+      }}
+      onPointerLeave={(e) => {
+        if (reduce || !isMouse(e)) return;
+        wobble.start({ rotate: 0, scale: 1, transition: { duration: 0.25, ease: "easeOut" } });
+      }}
       onClick={(e) => {
         const r = e.currentTarget.getBoundingClientRect();
         onOpen(principle, bg, { top: r.top, left: r.left, width: r.width, height: r.height });
       }}
     >
-      <div data-card={principle.id} className="@container relative aspect-[468/460] w-full">
+      <motion.div animate={wobble} className="@container relative aspect-[468/460] w-full">
         <CardFace principle={principle} bg={bg} priority={priority} />
-      </div>
+      </motion.div>
     </button>
   );
 }

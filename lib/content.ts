@@ -35,11 +35,11 @@ type Row = {
 };
 
 /**
- * Reads from the Neon database (Vercel Storage) when DATABASE_URL is set, using Neon's HTTP SQL endpoint
+ * Reads from the Neon database (Vercel Storage) when STORAGE_URL (or DATABASE_URL) is set, using Neon's HTTP SQL endpoint
  * so no extra package is needed. Returns null on any failure, so the caller falls back to the JSON file.
  */
 async function fromDatabase(): Promise<(Omit<Content, "tagline" | "categories"> & { categoryNames: string[] }) | null> {
-  const conn = process.env.DATABASE_URL?.trim();
+  const conn = (process.env.STORAGE_URL ?? process.env.DATABASE_URL)?.trim();
   if (!conn) return null;
   let host: string;
   try {

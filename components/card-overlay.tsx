@@ -112,10 +112,10 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
         </motion.header>
 
         <motion.div
-          className="flex flex-col p-4 pb-12 md:absolute md:inset-0 md:overflow-y-auto md:p-10 md:pt-[72px]"
+          className="flex flex-col p-4 pb-12 md:absolute md:inset-0 md:overflow-y-auto md:px-10 md:pt-[120px] md:pb-0"
           initial={{ opacity: 0, y: dy }}
           animate={closing ? { opacity: 0, y: dy } : { opacity: 1, y: 0 }}
-          transition={closing ? t(0.2) : t(0.35, 0.65)}
+          transition={closing ? t(0.2) : t(0.35, 1.15)}
         >
           <div className="m-auto flex flex-col items-center gap-12 md:flex-row md:gap-20">
             <Column
@@ -166,7 +166,7 @@ function Column({
           {...slotHandlers}
           className="h-[320px] w-[300px] rounded-[16px] bg-[#363636] shadow-[12px_12px_20px_0_rgba(34,34,34,0.12)]"
         />
-        <div className="flex min-h-[78px] items-center justify-center px-4">
+        <div className="flex min-h-[78px] items-start justify-center px-4">
           <p className="text-center text-[16px] leading-[1.6] font-medium tracking-normal text-white">{text}</p>
         </div>
       </div>

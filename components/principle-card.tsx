@@ -5,6 +5,27 @@ import type { Principle } from "@/lib/content";
 
 export type CardRect = { top: number; left: number; width: number; height: number };
 
+// Illustration, top right: a 180 x 168 box whose right edge is 40px in from the card edge and whose top is 52px down.
+// A much wider image (about 1.3:1 or more) gets a 220px wide box instead. Sizes in cqw of the 468px card.
+const WIDE_FROM = 1.3;
+function CardImage({ image, alt }: { image: NonNullable<Principle["image"]>; alt: string }) {
+  const wide = image.w / image.h >= WIDE_FROM;
+  return (
+    <img
+      src={image.src}
+      alt={alt}
+      width={image.w}
+      height={image.h}
+      loading="lazy"
+      decoding="async"
+      className={
+        "pointer-events-none absolute right-[8.547cqw] h-[35.897cqw] object-contain " +
+        (wide ? "top-[11.19cqw] w-[47.009cqw]" : "top-[11.111cqw] w-[38.462cqw]")
+      }
+    />
+  );
+}
+
 // Figma "CARD" (0:143), 468 x 460 at desktop. Every size below is the Figma px value
 // expressed in cqw of the 468px card, so the card scales as a whole on other screen sizes
 // (floors keep the smallest text legible). Needs a `@container` parent for the cqw units.
@@ -28,6 +49,7 @@ export function CardFace({ principle, bg, withBg = true, priority }: { principle
           className="pointer-events-none absolute inset-0 size-full object-cover"
         />
       )}
+      {principle.image && <CardImage image={principle.image} alt="" />}
       <p className="relative text-[max(11px,2.991cqw)] leading-none font-semibold tracking-[0.06em] text-background uppercase">
         {principle.category}
       </p>
@@ -83,7 +105,7 @@ export function PrincipleCard({
         onOpen(principle, bg, { top: r.top, left: r.left, width: r.width, height: r.height });
       }}
     >
-      <motion.div animate={wobble} className="@container relative aspect-[468/460] w-full">
+      <motion.div animate={wobble} className="@container relative aspect-[468/440] w-full">
         <CardFace principle={principle} bg={bg} priority={priority} />
       </motion.div>
     </button>

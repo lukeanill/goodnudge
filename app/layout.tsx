@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 const THEME_ID = "illuzion";
 const theme = getPreset(THEME_ID)!;
 // Intan is bundled in the package CSS. DM Sans is loaded here with its optical-size axis (Figma sets opsz to the
-// font size; the package's own link has no opsz axis, so text came out ~1px narrower). DM Mono is used for the tab counts.
+// font size; the package's own link has no opsz axis, so text came out ~1px narrower). DM Mono is used for the tab counts, Geist Mono for the prompt in the Test your design drawer.
 const fontsHref =
-  "https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..800&family=DM+Mono:wght@400&display=swap";
+  "https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..800&family=DM+Mono:wght@400&family=Geist+Mono:wght@500&display=swap";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

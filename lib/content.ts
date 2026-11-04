@@ -22,6 +22,9 @@ export type Content = {
   tagline: string;
   categories: Category[];
   principles: Principle[];
+  /** The 1 to 5 dark pattern scale and its note, used by the Claude skill. */
+  scale: Record<string, string>;
+  scaleNote: string;
 };
 
 const TAGLINE = "A collection of behavioral nudge principles: influence people without deceiving them.";
@@ -37,5 +40,5 @@ export async function getContent(): Promise<Content> {
     name,
     count: principles.filter((p) => p.category === name).length,
   }));
-  return { title: data.title, tagline: TAGLINE, categories, principles };
+  return { title: data.title, tagline: TAGLINE, categories, principles, scale: data.darkPatternScale, scaleNote: data.darkPatternNote };
 }

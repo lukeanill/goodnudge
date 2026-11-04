@@ -11,6 +11,7 @@ import { PrincipleRow } from "./principle-row";
 import { LayoutToggle, type Layout } from "./layout-toggle";
 import { CardOverlay } from "./card-overlay";
 import { Footer } from "./footer";
+import { TestYourDesign } from "./test-your-design";
 
 const BG_COUNT = 22; // Figma provides 22 background images; they repeat by card position.
 
@@ -62,7 +63,11 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   };
 
   return (
-    <div className="pt-12 md:pt-24 lg:pt-[120px]">
+    <div className="relative pt-[76px] md:pt-24 lg:pt-[120px]">
+      {/* Top right, 40px in from the edges (Figma); on phones it gets its own row above the logo. Scrolls away with the header. */}
+      <div className="absolute top-4 right-4 md:top-10 md:right-10">
+        <TestYourDesign />
+      </div>
       <header className="content flex flex-col items-start">
         <Logo className="block h-auto w-[507.892px] max-w-full text-primary-foreground min-[1280px]:w-[52.907%]" />
         <p className="mt-6 min-h-[26px] max-w-[640px] text-[16px] leading-[1.6] font-medium tracking-normal text-foreground">{tagline}</p>

@@ -1,9 +1,8 @@
 import type { Content } from "./content";
 
+
 // The Good Nudge skill for Claude, built from the site's content so the two never drift apart.
 // The zip holds good-nudge/SKILL.md (the flow) and good-nudge/principles.md (all principles).
-
-export type Scale = Record<string, string>;
 
 const EXAMPLE =
   "We believe that pre-selecting the most popular size on the product page will make choosing easier. To test that we will pre-select it for half of our mobile visitors and measure add-to-bag rate and wrong-size returns.";
@@ -64,7 +63,8 @@ End by offering to review a revised version.
 `;
 }
 
-export function principlesMd(c: Content, scale: Scale, scaleNote: string): string {
+export function principlesMd(c: Content): string {
+  const { scale, scaleNote } = c;
   const head = `# Good Nudge principles
 
 ${c.title}. Examples use a fictional online beauty store.
@@ -90,10 +90,3 @@ ${p.description}
     .join("\n");
   return `${head}\n${body}`;
 }
-
-/** The short prompt the designer copies from the popup. */
-export const STARTER_PROMPT = `Use the Good Nudge skill.
-
-I want to test a design change. Ask me to describe my experiment, then ask for my designs, then review them against the Good Nudge principles.
-
-If you can't find the skill, tell me and I'll add it.`;

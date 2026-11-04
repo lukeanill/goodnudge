@@ -56,7 +56,7 @@
         "Left-Digit Effect",
         "Price Ending"
       ],
-      "description": "Prices ending in .99 or .95 are perceived as noticeably lower because people anchor on the left-most digit.",
+      "description": "Prices ending in .99 or .95 than 1.00 are perceived as noticeably lower because people anchor on the left-most digit.",
       "darkPatternExample": "The store prices a lipstick at $19.99 so it feels closer to $19 than $20.",
       "darkPatternRating": 2,
       "darkPatternReason": "It's a mild trick that most shoppers accept.",
@@ -65,7 +65,7 @@
     {
       "id": 4,
       "category": "Pricing",
-      "name": "Price Relativity / Contrast Effect",
+      "name": "Price Relativity",
       "aka": [],
       "description": "People judge value relative to what's around it, not in absolute terms.",
       "darkPatternExample": "The store places a $45 foundation next to a $120 one so the $45 feels cheap.",
@@ -78,7 +78,7 @@
       "category": "Pricing",
       "name": "Mental Accounting",
       "aka": [],
-      "description": "People put money into separate mental 'pots' (gifts, treats, essentials) and spend differently from each.",
+      "description": "People put money into separate mental 'pots' (treats,  essentials) and spend differently from each.",
       "darkPatternExample": "The store labels a $30 face mask a 'self-care treat' to make it feel guilt-free.",
       "darkPatternRating": 2,
       "darkPatternReason": "It softens spending, which can lead to buyer's regret.",
@@ -113,7 +113,7 @@
     {
       "id": 8,
       "category": "Pricing",
-      "name": "Partitioned Pricing / Drip Pricing",
+      "name": "Drip Pricing",
       "aka": [],
       "description": "Splitting a price into parts (or revealing fees late) makes the total feel lower. Often seen as a dark pattern.",
       "darkPatternExample": "The store adds a $4.50 delivery fee and a $1 packaging fee on the last checkout step.",
@@ -129,7 +129,7 @@
         "Paradox of Choice",
         "Hick's Law"
       ],
-      "description": "Too many options increase decision time and can lead to no decision at all. *Hick's Law is the related UX law: decision time rises with number of choices.",
+      "description": "Too many options increase decision time and can lead to no decision at all.",
       "darkPatternExample": "The store shows all 140 foundation shades on one huge page.",
       "darkPatternRating": 2,
       "darkPatternReason": "Too many options overwhelm shoppers, so they leave without buying.",
@@ -246,7 +246,7 @@
     {
       "id": 19,
       "category": "Risk",
-      "name": "Risk Aversion / Uncertainty Reduction",
+      "name": "Risk Aversion",
       "aka": [],
       "description": "People avoid choices with unclear outcomes; reducing uncertainty increases action.",
       "darkPatternExample": "The store advertises free returns but charges a $7 restocking fee on opened items.",
@@ -315,7 +315,7 @@
     {
       "id": 25,
       "category": "Social",
-      "name": "Commitment & Consistency",
+      "name": "Commitment",
       "aka": [
         "Foot-in-the-door"
       ],

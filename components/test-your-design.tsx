@@ -5,7 +5,7 @@ import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from "@lukeanill/ui
 import { STARTER_PROMPT } from "@/lib/starter-prompt";
 
 // Figma "Test your design" (11:3791): a white 44px pill with a spark icon; opens a bottom drawer with the prompt to copy.
-// Drawer fill is the Figma "muted" value #812961 (the theme's muted is a brighter plum); text is DM Sans medium per the Figma variables.
+// Drawer fill is the theme foreground token; text is DM Sans medium per the Figma variables.
 // The drawer is the package's Drawer. Inside: title, the prompt in a glass box and "Tap to copy".
 type CopyState = "idle" | "copied" | "manual";
 
@@ -52,7 +52,7 @@ export function TestYourDesign() {
           Test your design
         </button>
       </DrawerTrigger>
-      <DrawerContent className="border-t-0 bg-[#812961] after:bg-[#812961] [--glass-overlay-saturate:100%] [backdrop-filter:none] [background-image:none]">
+      <DrawerContent className="border-t-0 bg-foreground after:bg-foreground [--glass-overlay-saturate:100%] [backdrop-filter:none] [background-image:none]">
         <div className="mx-auto flex w-full max-w-[571px] flex-col gap-4 px-4 pt-6 pb-10 md:px-10">
           <DrawerTitle className="font-body text-[18px] leading-[1.6] font-medium tracking-normal text-white normal-case">Copy this prompt into Claude to get started</DrawerTitle>
           <button

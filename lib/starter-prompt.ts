@@ -1,5 +1,5 @@
 // What the designer copies from the "Test your design" drawer. Short on purpose: the live guidance page holds the flow and the principles.
-export const GUIDANCE_URL = "https://goodnudge.lukeai.space/good-nudge.md";
+export const GUIDANCE_URL = "https://goodnudge.lukeai.space/good-nudge.txt";
 
 export const STARTER_PROMPT = `Follow the instructions at ${GUIDANCE_URL} to help me test a design change.
 

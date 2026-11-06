@@ -35,12 +35,14 @@ export function CardFace({
   withBg = true,
   priority,
   fill,
+  animate,
 }: {
   principle: Principle;
   bg: number;
   withBg?: boolean;
   priority?: boolean;
   fill?: boolean;
+  animate?: boolean;
 }) {
   const num = String(bg).padStart(2, "0");
   // Principle 9 used to carry a "*Hick's Law..." note inside its description: shown as a footnote.
@@ -69,7 +71,7 @@ export function CardFace({
         />
       )}
       <p className="relative text-right text-[max(11px,4.207cqw)] leading-none font-medium tracking-[0.04em] text-primary opacity-75">{principle.category}</p>
-      {(principle.image || principle.model) && <CardImage principle={principle} live={!fill} />}
+      {(principle.image || principle.model) && <CardImage principle={principle} live={!fill && animate} />}
       <div className="min-h-[3.2cqw] flex-1" />
       <div className="relative flex flex-col gap-[1.294cqw]">
         <h2 className={"font-serif text-[9.061cqw] leading-[1.2] font-normal tracking-normal text-primary " + shadow}>{principle.name}</h2>
@@ -87,11 +89,13 @@ export function PrincipleCard({
   principle,
   bg,
   priority,
+  animate,
   onOpen,
 }: {
   principle: Principle;
   bg: number;
   priority?: boolean;
+  animate?: boolean;
   onOpen: (principle: Principle, bg: number, rect: CardRect) => void;
 }) {
   const wobble = useAnimationControls();
@@ -123,7 +127,7 @@ export function PrincipleCard({
       }}
     >
       <motion.div animate={wobble} className="@container relative h-full w-full">
-        <CardFace principle={principle} bg={bg} priority={priority} />
+        <CardFace principle={principle} bg={bg} priority={priority} animate={animate} />
       </motion.div>
     </button>
   );

@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { GlassLayer } from "@lukeanill/ui/components/liquid-glass";
 import { Effect } from "@lukeanill/ui/components/animate-ui/primitives/effects/effect";
 import { principleSlug, type Category, type Principle } from "@/lib/content";
 import { Logo } from "./logo";
 import { FilterTab } from "./filter-tab";
+import { pickAnimated } from "@/lib/animated";
 import { PrincipleCard, type CardRect } from "./principle-card";
 import { PrincipleRow } from "./principle-row";
 import { LayoutToggle, type Layout } from "./layout-toggle";
@@ -49,6 +50,9 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
 
   // No tab selected = everything. Cards keep category order as in the JSON.
   const visible = selected.length ? principles.filter((p) => selected.includes(p.category)) : principles;
+  // 2 in every 6 cards get live 3D art, picked at random once per visit.
+  const [seed] = useState(() => Math.floor(Math.random() * 2 ** 31));
+  const animated = useMemo(() => pickAnimated(visible.length, seed), [visible.length, seed]);
   const changeLayout = (l: Layout) => {
     if (l === layout) return;
     setFiltered(true);
@@ -211,7 +215,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
             className={layout === "table" ? "overflow-hidden first:rounded-t-[8px] last:rounded-b-[8px]" : "h-full"}
           >
             {layout === "cards" ? (
-              <PrincipleCard principle={p} bg={(i % BG_COUNT) + 1} priority={i < 4} onOpen={(principle, bg, rect) => setOpen({ principle, bg, rect })} />
+              <PrincipleCard principle={p} bg={(i % BG_COUNT) + 1} priority={i < 4} animate={animated[i]} onOpen={(principle, bg, rect) => setOpen({ principle, bg, rect })} />
             ) : (
               <PrincipleRow principle={p} bg={(i % BG_COUNT) + 1} alt={i % 2 === 1} onOpen={(principle, bg, rect) => setOpen({ principle, bg, rect })} />
             )}

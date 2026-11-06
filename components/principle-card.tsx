@@ -63,7 +63,11 @@ export function CardFace({
           className="pointer-events-none absolute inset-0 size-full object-cover"
         />
       )}
-      <p className="relative text-right text-[max(11px,4.207cqw)] leading-none font-medium tracking-[0.04em] text-primary opacity-50">{principle.category}</p>
+      {/* The design has this label at 50% pink, which fails WCAG AA on every one of the 22 backgrounds (1.2-2.2:1). White on a 35% black chip passes
+          on all of them (worst case 4.9:1). The negative margins cancel the chip's padding, so the text stays exactly where the design puts it. */}
+      <p className="relative -my-[1.294cqw] -mr-[2.589cqw] self-end rounded-full bg-black/35 px-[2.589cqw] py-[1.294cqw] text-right text-[max(11px,4.207cqw)] leading-none font-medium tracking-[0.04em] text-white">
+        {principle.category}
+      </p>
       {principle.image && <CardImage image={principle.image} alt="" />}
       <div className="min-h-[3.2cqw] flex-1" />
       <div className="relative flex flex-col gap-[1.294cqw]">

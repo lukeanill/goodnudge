@@ -118,7 +118,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
       {/* Title and content: fixed to the screen, so they never shift while the card is still growing. */}
       <div className="fixed inset-0 z-[51] overflow-y-auto overscroll-contain" style={{ pointerEvents: phase === "open" ? "auto" : "none" }}>
         <motion.header
-          className="relative z-10 grid grid-cols-[auto_1fr_auto] items-center px-4 py-6 md:absolute md:inset-x-0 md:top-0 md:h-[120px] md:px-10"
+          className="relative z-10 grid grid-cols-[auto_1fr_auto] items-center px-4 pt-[calc(1.5rem+env(safe-area-inset-top))] pb-6 md:absolute md:inset-x-0 md:top-0 md:h-[120px] md:px-10"
           initial={{ opacity: 0, y: dy }}
           animate={closing ? { opacity: 0, y: dy } : { opacity: 1, y: 0 }}
           transition={closing ? t(0.2) : t(0.35, 0.5)}
@@ -170,7 +170,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
         </motion.header>
 
         <motion.div
-          className={"flex flex-col p-4 pb-12 transition-[padding] duration-300 ease-[cubic-bezier(0.8,0,0.2,1)] md:absolute md:inset-0 md:overflow-y-auto md:px-10 md:pb-10 " + (descOpen ? "md:pt-[200px]" : "md:pt-[72px]")}
+          className={"flex flex-col p-4 pb-[calc(3rem+env(safe-area-inset-bottom))] transition-[padding] duration-300 ease-[cubic-bezier(0.8,0,0.2,1)] md:absolute md:inset-0 md:overflow-y-auto md:px-10 md:pb-10 " + (descOpen ? "md:pt-[200px]" : "md:pt-[72px]")}
           initial={{ opacity: 0, y: dy }}
           animate={closing ? { opacity: 0, y: dy } : { opacity: 1, y: 0 }}
           transition={closing ? t(0.2) : t(0.35, 1.15)}

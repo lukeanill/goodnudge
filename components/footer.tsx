@@ -14,7 +14,7 @@ function ClaudeMark() {
 
 export function Footer() {
   return (
-    <footer className="flex justify-center px-4 pt-12 pb-[104px] md:pt-20 sm:pb-16 md:pb-24 lg:pb-[160px]">
+    <footer className="flex justify-center px-4 pt-12 pb-[calc(104px+env(safe-area-inset-bottom))] md:pt-20 sm:pb-16 md:pb-24 lg:pb-[160px]">
       <p className="flex flex-wrap items-center justify-center gap-1 whitespace-nowrap">
         <span className={MUTED}>made by</span>
         <a href="https://luke.lukeai.space" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 rounded-[4px] hover:underline">

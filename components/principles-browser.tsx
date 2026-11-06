@@ -131,11 +131,11 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   };
 
   return (
-    <div className="relative pt-10 md:pt-24 lg:pt-[120px]">
+    <div className="relative pt-[calc(2.5rem+env(safe-area-inset-top))] md:pt-24 lg:pt-[120px]">
       {/* Top right, 40px in from the edges (Figma). On phones it is a pill fixed 24px above the bottom edge, centred. */}
       <Effect
         {...reveal(2, reduce)}
-        className="absolute top-4 right-4 max-sm:pointer-events-none max-sm:fixed max-sm:inset-x-0 max-sm:top-auto max-sm:right-0 max-sm:bottom-6 max-sm:z-20 max-sm:flex max-sm:justify-center md:top-10 md:right-10"
+        className="absolute top-4 right-4 max-sm:pointer-events-none max-sm:fixed max-sm:inset-x-0 max-sm:top-auto max-sm:right-0 max-sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] max-sm:z-20 max-sm:flex max-sm:justify-center md:top-10 md:right-10"
       >
         <TestYourDesign />
       </Effect>

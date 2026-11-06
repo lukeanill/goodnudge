@@ -18,6 +18,7 @@ const BG_COUNT = 22; // Figma provides 22 background images; they repeat by card
 export function PrinciplesBrowser({ tagline, categories, principles }: { tagline: string; categories: Category[]; principles: Principle[] }) {
   const [selected, setSelected] = useState<string[]>([]);
   const [stuck, setStuck] = useState(false); // tabs are in the glass tray (layout)
+  const [glass, setGlass] = useState(false); // the tray's glass is showing; fades in with the move, fades out before the move back
   const [flat, setFlat] = useState(false); // pills have dropped their border and inset shadow; leads stuck going in, trails it coming out
   const [layout, setLayout] = useState<Layout>("cards"); // always starts on cards
   const [open, setOpen] = useState<{ principle: Principle; bg: number; rect: CardRect } | null>(null);
@@ -43,12 +44,13 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   useEffect(() => {
     const el = sentinel.current;
     if (!el) return;
-    // Sequenced so it looks the same every time. Going into the tray: the pills go flat first (tab styles transition over
-    // 300ms), then layout animation is switched on, and only then does the tray state change (the layout animation has to be
-    // active in an earlier render than the change it animates, or it sometimes just jumps). Coming out is the reverse:
-    // move first, restore the pills' border and inset shadow once it has landed.
-    const FLAT_MS = 300;
-    const ARM_MS = 50;
+    // Sequenced so it reads the same every time (layout animation has to be on in an earlier render than the change it
+    // animates, or it sometimes just jumps).
+    //   Down: pills go flat + toggle fades (STEP) -> layout armed -> tray state flips: tabs glide, glass fades in.
+    //   Up:   glass fades out (STEP) -> layout armed -> tabs glide back -> pills get their border/shadow back, toggle returns.
+    const STEP = 200;
+    const ARM = 50;
+    const MOVE = 400;
     const timers: ReturnType<typeof setTimeout>[] = [];
     const later = (fn: () => void, ms: number) => timers.push(setTimeout(fn, ms));
     const io = new IntersectionObserver(([e]) => {
@@ -56,14 +58,18 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
       timers.splice(0).forEach(clearTimeout);
       if (toStuck) {
         setFlat(true);
-        later(() => setMorphing(true), FLAT_MS);
-        later(() => setStuck(true), FLAT_MS + ARM_MS);
+        later(() => setMorphing(true), STEP);
+        later(() => {
+          setStuck(true);
+          setGlass(true);
+        }, STEP + ARM);
       } else {
-        setMorphing(true);
-        later(() => setStuck(false), ARM_MS);
-        later(() => setFlat(false), ARM_MS + 400);
+        setGlass(false);
+        later(() => setMorphing(true), STEP);
+        later(() => setStuck(false), STEP + ARM);
+        later(() => setFlat(false), STEP + ARM + MOVE);
       }
-      later(() => setMorphing(false), FLAT_MS + ARM_MS + 700);
+      later(() => setMorphing(false), STEP + ARM + MOVE + 300);
     }, { threshold: 0, rootMargin: "-24px 0px 0px 0px" });
     io.observe(el);
     return () => {
@@ -98,8 +104,14 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
           transition={transition}
           className={"relative flex max-w-full items-center " + (stuck ? "mx-auto -my-1 w-fit gap-2 rounded-full p-1" : "w-full justify-between gap-4")}
         >
-          {stuck && (
-            <motion.div aria-hidden className="absolute inset-0 rounded-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={transition}>
+          {(stuck || glass) && (
+            <motion.div
+              aria-hidden
+              className="absolute inset-0 rounded-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: glass ? 1 : 0 }}
+              transition={reduce ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
+            >
               <GlassLayer weight="heavy" tone="light" tint="rgba(247,202,231,0.6)" radius={22} />
             </motion.div>
           )}
@@ -122,12 +134,17 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
               />
             ))}
           </motion.div>
-          {/* The cards/table toggle only lives in the resting bar; the sticky tray is tabs only. */}
-          {!stuck && (
-            <motion.div layout={morphing ? "position" : false} transition={transition} className="relative shrink-0">
-              <LayoutToggle layout={layout} onChange={changeLayout} />
-            </motion.div>
-          )}
+          {/* The cards/table toggle stays mounted and never moves: it only fades out as the pills go flat and back in once they are
+              restored. While the tray is up it is taken out of the flow (invisible by then) so the tray hugs the tabs. */}
+          <motion.div
+            inert={flat}
+            className={stuck ? "absolute top-1 right-1" : "relative shrink-0"}
+            initial={false}
+            animate={{ opacity: flat ? 0 : 1 }}
+            transition={{ duration: reduce ? 0 : 0.2, ease: "easeOut" }}
+          >
+            <LayoutToggle layout={layout} onChange={changeLayout} />
+          </motion.div>
         </motion.div>
       </nav>
 

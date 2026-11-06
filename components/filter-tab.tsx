@@ -23,7 +23,7 @@ export function FilterTab({ label, count, pressed, tray, onToggle }: FilterTabPr
       aria-pressed={pressed}
       onClick={onToggle}
       className={
-        "inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1 rounded-full text-[14px] leading-none font-medium tracking-normal whitespace-nowrap text-foreground transition-[background-color,box-shadow,border-color] duration-300 " +
+        "inline-flex h-9 shrink-0 cursor-pointer items-center justify-center gap-1 rounded-full text-[14px] leading-none font-medium tracking-normal whitespace-nowrap text-foreground transition-[background-color,box-shadow,border-color] duration-200 " +
         (pressed ? SELECTED : tray ? TRAY : RESTING)
       }
     >

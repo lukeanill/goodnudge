@@ -15,6 +15,15 @@ export type Principle = {
   image?: { src: string; w: number; h: number };
 };
 
+export const SITE_URL = "https://goodnudge.lukeai.space";
+
+/** URL-safe name of a principle: "Aesthetic-Usability Effect" -> "aesthetic-usability-effect". Used for /?principle=... links. */
+export const principleSlug = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
 export type Category = { name: string; count: number };
 
 export type Content = {

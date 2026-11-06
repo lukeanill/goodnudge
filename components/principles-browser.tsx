@@ -4,7 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { GlassLayer } from "@lukeanill/ui/components/liquid-glass";
 import { Effect } from "@lukeanill/ui/components/animate-ui/primitives/effects/effect";
-import type { Category, Principle } from "@/lib/content";
+import { principleSlug, type Category, type Principle } from "@/lib/content";
 import { Logo } from "./logo";
 import { FilterTab } from "./filter-tab";
 import { PrincipleCard, type CardRect } from "./principle-card";
@@ -58,6 +58,30 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
     setFiltered(true);
     setSelected((s) => (s.includes(name) ? s.filter((n) => n !== name) : [...s, name]));
   };
+
+  // Deep link: /?principle=anchoring opens that principle's card on load (growing from the middle of the screen).
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("principle");
+    if (!slug) return;
+    const i = principles.findIndex((p) => principleSlug(p.name) === slug);
+    if (i < 0) return;
+    const [w, h, cw, ch] = [window.innerWidth, window.innerHeight, 309, 388];
+    setOpen({ principle: principles[i], bg: (i % BG_COUNT) + 1, rect: { top: (h - ch) / 2, left: (w - cw) / 2, width: cw, height: ch } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Keep the address in step with the open card, so the page can be shared or linked: /?principle=anchoring
+  const urlReady = useRef(false);
+  useEffect(() => {
+    if (!urlReady.current) {
+      urlReady.current = true;
+      return;
+    }
+    const url = new URL(window.location.href);
+    if (open) url.searchParams.set("principle", principleSlug(open.principle.name));
+    else url.searchParams.delete("principle");
+    if (url.href !== window.location.href) window.history.replaceState(null, "", url.toString());
+  }, [open]);
 
   // The tabs stick 24px from the top. Once they do, they move into a centred glass tray (no logo: it scrolls away).
   useEffect(() => {

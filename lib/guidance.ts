@@ -1,4 +1,4 @@
-import type { Content } from "./content";
+import { SITE_URL, principleSlug, type Content } from "./content";
 
 
 // The Good Nudge guidance for Claude: the review flow plus all principles, served live at /good-nudge.md.
@@ -83,6 +83,8 @@ Keep it clear and simple. Use these four parts, in this order, and keep everythi
 
 - Be specific to what you can see. Quote the real words and elements from the design.
 - Don't invent features or screens that aren't there.
+- Use the site’s own terms: “Good nudge”, “Dark pattern”, “dark pattern rating”, “Good nudge example” and “Dark pattern example”. Do not replace them with other words such as “deceptive pattern”, “manipulation” or “low risk”.
+- Every time you name a principle in your reply, in the table, a suggestion or anywhere else, make its name a Markdown link to that principle’s “Link:” address from the principles list, for example [Choice Architecture](https://example.com/?principle=choice-architecture). Use the exact address given. Never make up an address.
 - Do not make assumptions about the design, the product or the people using it. Use only what the designer said or showed. If you truly cannot rate or suggest something without an assumption, state it plainly, starting with “Assuming”, in the note or the bullet where you use it. Never guess how something behaves.
 - Don't call something a dark pattern without saying exactly why.
 - If the design is good, say so plainly. Don't hunt for problems.
@@ -106,7 +108,7 @@ ${scaleNote}
 `;
   const body = c.principles
     .map(
-      (p) => `## ${p.name} (${p.category})${p.aka.length ? `\nAlso known as: ${p.aka.join(", ")}` : ""}
+      (p) => `## ${p.name} (${p.category})\nLink: ${SITE_URL}/?principle=${principleSlug(p.name)}${p.aka.length ? `\nAlso known as: ${p.aka.join(", ")}` : ""}
 
 ${p.description}
 

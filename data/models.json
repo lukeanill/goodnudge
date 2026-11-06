@@ -1,131 +1,389 @@
 {
  "anchor": {
-  "radius": 88
+  "radius": 88,
+  "distance": 2.05817,
+  "amp": 1.0,
+  "shift": [
+   -3.5,
+   -13.0
+  ]
  },
  "bandaged-card": {
-  "radius": 88
+  "radius": 88,
+  "distance": 1.82971,
+  "amp": 1.0,
+  "shift": [
+   -8.5,
+   -10.5
+  ]
  },
  "bookends": {
-  "radius": 84
+  "radius": 84,
+  "distance": 1.42153,
+  "amp": 1.0,
+  "shift": [
+   9.0,
+   2.5
+  ]
  },
  "boomerang": {
-  "radius": 94
+  "radius": 94,
+  "distance": 2.29906,
+  "amp": 1.0,
+  "shift": [
+   -2.0,
+   -5.5
+  ]
  },
  "bubble-wrap": {
-  "radius": 54
+  "radius": 54,
+  "distance": 2.34982,
+  "amp": 1.0,
+  "shift": [
+   -5.5,
+   25.5
+  ]
  },
  "cracked-piggy-bank": {
-  "radius": 91
+  "radius": 91,
+  "distance": 2.01683,
+  "amp": 1.0,
+  "shift": [
+   -3.5,
+   27.0
+  ]
  },
  "crown": {
-  "radius": 33
+  "radius": 33,
+  "distance": 2.66605,
+  "amp": 1.0,
+  "shift": [
+   -0.5,
+   -33.0
+  ]
  },
  "dripping-tap": {
-  "radius": 75
+  "radius": 75,
+  "distance": 1.84188,
+  "amp": 1.0,
+  "shift": [
+   -5.5,
+   1.5
+  ]
  },
  "falling-domino": {
-  "radius": 48
+  "radius": 48,
+  "distance": 2.27853,
+  "amp": 1.0,
+  "shift": [
+   2.0,
+   -61.0
+  ]
  },
  "finish-flag": {
-  "radius": 45
+  "radius": 45,
+  "distance": 2.82839,
+  "amp": 1.0,
+  "shift": [
+   84.0,
+   -149.5
+  ]
  },
  "firework-finale": {
-  "radius": 61
+  "radius": 61,
+  "distance": 2.35708,
+  "amp": 1.0,
+  "shift": [
+   -4.0,
+   -29.5
+  ]
  },
  "foggy-window": {
-  "radius": 77
+  "radius": 77,
+  "distance": 2.01398,
+  "amp": 1.0,
+  "shift": [
+   5.0,
+   -8.0
+  ]
  },
  "following-sheep": {
-  "radius": 92
+  "radius": 92,
+  "distance": 3.11742,
+  "amp": 1.0,
+  "shift": [
+   16.0,
+   2.0
+  ]
  },
  "free-tag": {
-  "radius": 90
+  "radius": 90,
+  "distance": 1.76374,
+  "amp": 1.0,
+  "shift": [
+   1.0,
+   -4.0
+  ]
  },
  "gold-seal": {
-  "radius": 82
+  "radius": 82,
+  "distance": 1.43417,
+  "amp": 1.0,
+  "shift": [
+   3.0,
+   -26.5
+  ]
  },
  "half-full-glass": {
-  "radius": 96
+  "radius": 96,
+  "distance": 1.74574,
+  "amp": 1.0,
+  "shift": [
+   19.5,
+   -17.5
+  ]
  },
  "half-progress-ring": {
-  "radius": 95
+  "radius": 95,
+  "distance": 1.59961,
+  "amp": 1.0,
+  "shift": [
+   -1.0,
+   -21.5
+  ]
  },
  "handshake": {
-  "radius": 68
+  "radius": 68,
+  "distance": 2.62754,
+  "amp": 1.0,
+  "shift": [
+   -9.5,
+   14.0
+  ]
  },
  "hugged-teddy": {
-  "radius": 95
+  "radius": 95,
+  "distance": 1.86302,
+  "amp": 1.0,
+  "shift": [
+   -2.5,
+   -10.0
+  ]
  },
  "juggling-balls": {
-  "radius": 79
+  "radius": 79,
+  "distance": 1.92745,
+  "amp": 1.0,
+  "shift": [
+   4.5,
+   -8.0
+  ]
  },
  "labeled-jars": {
-  "radius": 89
+  "radius": 89,
+  "distance": 2.28293,
+  "amp": 1.0,
+  "shift": [
+   -3.0,
+   1.0
+  ]
  },
  "lit-fuse": {
-  "radius": 85
+  "radius": 85,
+  "distance": 1.95704,
+  "amp": 1.0,
+  "shift": [
+   24.0,
+   0.5
+  ]
  },
  "magic-wand-tag": {
-  "radius": 80
+  "radius": 80,
+  "distance": 2.29546,
+  "amp": 1.0,
+  "shift": [
+   14.0,
+   -17.0
+  ]
  },
  "marshmallow": {
-  "radius": 95
+  "radius": 95,
+  "distance": 2.11139,
+  "amp": 1.0,
+  "shift": [
+   -8.0,
+   14.5
+  ]
  },
  "maze": {
-  "radius": 94
+  "radius": 94,
+  "distance": 2.5512,
+  "amp": 1.0,
+  "shift": [
+   -11.0,
+   28.0
+  ]
  },
  "middle-podium": {
-  "radius": 78
+  "radius": 78,
+  "distance": 2.1636,
+  "amp": 1.0,
+  "shift": [
+   -1.5,
+   4.0
+  ]
  },
  "mystery-box": {
-  "radius": 93
+  "radius": 93,
+  "distance": 2.46019,
+  "amp": 1.0,
+  "shift": [
+   -7.5,
+   17.5
+  ]
  },
  "near-empty-jar": {
-  "radius": 103
+  "radius": 103,
+  "distance": 1.61417,
+  "amp": 1.0,
+  "shift": [
+   3.0,
+   3.5
+  ]
  },
  "odd-one-out": {
-  "radius": 81
+  "radius": 81,
+  "distance": 2.08924,
+  "amp": 1.0,
+  "shift": [
+   3.5,
+   -16.0
+  ]
  },
  "price-seesaw": {
-  "radius": 96
+  "radius": 96,
+  "distance": 2.54254,
+  "amp": 1.0,
+  "shift": [
+   2.5,
+   -2.0
+  ]
  },
  "puzzle-pieces": {
-  "radius": 92
+  "radius": 92,
+  "distance": 2.16308,
+  "amp": 1.0,
+  "shift": [
+   3.0,
+   -2.0
+  ]
  },
  "red-balloon": {
-  "radius": 94
+  "radius": 94,
+  "distance": 1.97989,
+  "amp": 1.0,
+  "shift": [
+   -7.5,
+   -19.5
+  ]
  },
  "repeating-footprints": {
-  "radius": 87
+  "radius": 87,
+  "distance": 2.75571,
+  "amp": 1.0,
+  "shift": [
+   -4.0,
+   17.5
+  ]
  },
  "safety-net": {
-  "radius": 91
+  "radius": 91,
+  "distance": 2.21885,
+  "amp": 1.0,
+  "shift": [
+   -1.0,
+   3.0
+  ]
  },
  "shiny-gem": {
-  "radius": 82
+  "radius": 82,
+  "distance": 1.79785,
+  "amp": 1.0,
+  "shift": [
+   21.0,
+   -6.0
+  ]
  },
  "signpost": {
-  "radius": 98
+  "radius": 98,
+  "distance": 2.21004,
+  "amp": 1.0,
+  "shift": [
+   -9.5,
+   2.0
+  ]
  },
  "sinking-boat": {
-  "radius": 87
+  "radius": 87,
+  "distance": 2.41106,
+  "amp": 1.0,
+  "shift": [
+   -0.5,
+   38.5
+  ]
  },
  "stamp-card": {
-  "radius": 42
+  "radius": 42,
+  "distance": 2.48087,
+  "amp": 1.0,
+  "shift": [
+   -6.5,
+   -3.0
+  ]
  },
  "thumbs-up": {
-  "radius": 94
+  "radius": 94,
+  "distance": 1.86433,
+  "amp": 1.0,
+  "shift": [
+   -2.5,
+   -3.5
+  ]
  },
  "tinted-glasses": {
-  "radius": 88
+  "radius": 88,
+  "distance": 1.76011,
+  "amp": 1.0,
+  "shift": [
+   -18.0,
+   23.0
+  ]
  },
  "toolbox": {
-  "radius": 78
+  "radius": 78,
+  "distance": 1.69692,
+  "amp": 1.0,
+  "shift": [
+   -5.0,
+   19.0
+  ]
  },
  "turning-gears": {
-  "radius": 94
+  "radius": 94,
+  "distance": 2.1316,
+  "amp": 1.0,
+  "shift": [
+   3.0,
+   -10.0
+  ]
  },
  "worn-path": {
-  "radius": 60
+  "radius": 60,
+  "distance": 2.49683,
+  "amp": 1.0,
+  "shift": [
+   -10.0,
+   27.0
+  ]
  }
 }

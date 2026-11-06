@@ -5,4 +5,4 @@ export const STARTER_PROMPT = `Follow the instructions at ${GUIDANCE_URL} to hel
 
 Start by asking me to describe my experiment.
 
-If you can't open the link, tell me.`;
+If you can't open the link, tell me and stop. Don't start without the instructions.`;

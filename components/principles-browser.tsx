@@ -131,7 +131,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   };
 
   return (
-    <div className="relative pt-20 md:pt-24 lg:pt-[120px]">
+    <div className="relative pt-10 md:pt-24 lg:pt-[120px]">
       {/* Top right, 40px in from the edges (Figma). On phones it is a pill fixed 24px above the bottom edge, centred. */}
       <Effect
         {...reveal(2, reduce)}
@@ -155,7 +155,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
           below as a scrolling row. It scrolls with the page (no fixed bar on phones). */}
       <Effect asChild {...reveal(2, reduce)}>
       <nav className="relative sm:hidden" aria-label="Filters">
-        <div className={"relative flex items-center justify-between px-4 " + (catsOpen ? "h-10" : "h-11")}>
+        <div className={"relative flex h-10 items-center justify-between px-4"}>
           {catsOpen ? (
             <button
               type="button"
@@ -171,13 +171,13 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
               type="button"
               aria-expanded={false}
               onClick={() => setCatsOpen(true)}
-              className="flex h-11 cursor-pointer items-center rounded-full bg-[color-mix(in_srgb,#f6f4f4_12%,var(--color-primary))] px-4 text-[16px] leading-none font-normal tracking-normal text-foreground shadow-[-1px_-1px_4px_rgba(255,255,255,0.16),1px_1px_4px_rgba(129,41,97,0.12)]"
+              className="flex h-10 cursor-pointer items-center rounded-full bg-[color-mix(in_srgb,#f6f4f4_12%,var(--color-primary))] px-4 text-[16px] leading-none font-normal tracking-normal text-foreground shadow-[-1px_-1px_4px_rgba(255,255,255,0.16),1px_1px_4px_rgba(129,41,97,0.12)]"
             >
               Categories
               <img src="/icons/caret-down.svg" alt="" width={24} height={24} className="block size-6 shrink-0" />
             </button>
           )}
-          <LayoutToggle layout={layout} onChange={changeLayout} size={catsOpen ? "phone-open" : "phone"} />
+          <LayoutToggle layout={layout} onChange={changeLayout} size="phone-open" />
         </div>
         <AnimatePresence initial={false}>
           {catsOpen && (
@@ -256,7 +256,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
       <Effect {...reveal(3, reduce)}>
       <motion.main
         key={layout + "|" + selected.join("|")}
-        className={"content py-10 " + (catsOpen ? "max-sm:pt-[4.66px] " : "max-sm:pt-[36.66px] ") + (layout === "cards" ? "grid grid-cols-1 gap-2 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3" : "flex flex-col gap-1")}
+        className={"content py-10 " + (catsOpen ? "max-sm:pt-[4.66px] " : "max-sm:pt-[40.66px] ") + (layout === "cards" ? "grid grid-cols-1 gap-2 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3" : "flex flex-col gap-1")}
       >
         {visible.map((p, i) => (
           <motion.div

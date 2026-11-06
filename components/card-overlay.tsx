@@ -145,15 +145,15 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
       {/* Title and content: fixed to the screen, so they never shift while the card is still growing. */}
       <div className="fixed inset-0 z-[51] overflow-y-auto overscroll-contain" style={{ pointerEvents: phase === "open" ? "auto" : "none" }}>
         <motion.header
-          className="relative z-10 grid grid-cols-[auto_1fr_auto] items-center px-4 pt-[calc(1.5rem+env(safe-area-inset-top))] pb-6 md:absolute md:inset-x-0 md:top-0 md:h-[120px] md:px-10"
+          className="relative z-10 grid grid-cols-[auto_1fr_auto] items-center px-4 pt-[calc(2.5rem+env(safe-area-inset-top))] pb-0 md:absolute md:inset-x-0 md:top-0 md:h-[120px] md:px-10"
           initial={{ opacity: 0, y: dy }}
           animate={closing ? { opacity: 0, y: dy } : { opacity: 1, y: 0 }}
           transition={closing ? t(0.2) : t(0.35, 0.5)}
         >
           <button type="button" onClick={close} aria-label="Back to all principles" className="cursor-pointer text-background max-md:row-start-1 max-md:justify-self-start">
-            <BackArrow className="block h-auto w-[66px] md:w-[133px]" />
+            <BackArrow className="block h-auto w-[133px]" />
           </button>
-          <div className="flex min-h-[72px] flex-col items-center pt-2 text-center max-md:col-span-3 max-md:row-start-2 max-md:mt-2 md:whitespace-nowrap">
+          <div className="flex flex-col items-center pt-2 text-center md:min-h-[72px] max-md:col-span-3 max-md:row-start-2 max-md:mt-2 md:whitespace-nowrap">
             <h1 className="flex">
               <button
                 type="button"
@@ -161,7 +161,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
                 aria-expanded={descOpen}
                 aria-controls="principle-description"
                 className={
-                  "flex cursor-pointer items-center gap-2 font-serif text-[30px] leading-[1.4] font-normal tracking-normal transition-colors duration-300 " +
+                  "flex cursor-pointer items-center gap-2 font-serif text-[24px] leading-[1.4] md:text-[30px] font-normal tracking-normal transition-colors duration-300 " +
                   (descOpen ? "text-white" : "text-primary")
                 }
               >
@@ -172,7 +172,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
             {principle.aka.length > 0 && (
               <p
                 aria-hidden={descOpen}
-                className={"text-[14px] leading-[1.6] font-medium tracking-normal text-background uppercase transition-opacity duration-300 " + (descOpen ? "opacity-0" : "opacity-100")}
+                className={"text-[13px] leading-[1.6] font-medium tracking-normal text-background uppercase md:text-[14px] transition-opacity duration-300 " + (descOpen ? "opacity-0 max-md:hidden" : "opacity-100")}
               >
                 {principle.aka.join(", ")}
               </p>
@@ -184,20 +184,20 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
               <motion.div
                 key="description"
                 id="principle-description"
-                className="col-span-3 mt-3 text-center md:absolute md:top-[85px] md:left-1/2 md:mt-0 md:w-[560px] md:-translate-x-1/2"
+                className="col-span-3 mx-auto mt-1 max-w-[327px] text-center md:max-w-none md:absolute md:top-[85px] md:left-1/2 md:mt-0 md:w-[560px] md:-translate-x-1/2"
                 initial={{ opacity: 0, y: reduce ? 0 : 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: reduce ? 0 : 6 }}
                 transition={{ duration: reduce ? 0 : 0.3, ease: EASE }}
               >
-                <p className="text-[18px] leading-[1.6] font-normal tracking-normal text-white">{principle.description.split(" *")[0]}</p>
+                <p className="text-[16px] leading-[1.6] font-normal tracking-normal text-white md:text-[18px]">{principle.description.split(" *")[0]}</p>
               </motion.div>
             )}
           </AnimatePresence>
         </motion.header>
 
         <motion.div
-          className={"flex flex-col p-4 pb-[calc(3rem+env(safe-area-inset-bottom))] transition-[padding] duration-300 ease-[cubic-bezier(0.8,0,0.2,1)] md:absolute md:inset-0 md:overflow-y-auto md:px-10 md:pb-10 " + (descOpen ? "md:pt-[200px]" : "md:pt-[72px]")}
+          className={"flex flex-col px-4 pb-[calc(3rem+env(safe-area-inset-bottom))] transition-[padding] duration-300 ease-[cubic-bezier(0.8,0,0.2,1)] md:absolute md:inset-0 md:overflow-y-auto md:px-10 md:pb-10 " + (descOpen ? "pt-[60.67px] md:pt-[200px]" : "pt-[44.67px] md:pt-[72px]")}
           initial={{ opacity: 0, y: dy }}
           animate={closing ? { opacity: 0, y: dy } : { opacity: 1, y: 0 }}
           transition={closing ? t(0.2) : t(0.35, 1.15)}
@@ -205,7 +205,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
           <div className="m-auto flex flex-col items-center gap-12 md:flex-row md:gap-20">
             <Column
               label="DARK PATTERN"
-              labelClass="font-['Batang_Tebo'] text-[30px]"
+              labelClass="font-['Batang_Tebo'] text-[24px] md:text-[30px]"
               text={principle.darkPatternExample}
               rating={principle.darkPatternRating}
               mockup={mockups[principle.id]?.dark}
@@ -252,21 +252,21 @@ function Column({
     <div className="relative flex w-[300px] shrink-0 flex-col gap-3">
       {rating !== undefined && (
         // Handwritten "4 of 5", tilted 25 degrees up-left of the label (Figma: centre 67px in, 2px down from the column top).
-        <span className="pointer-events-none absolute top-[2px] left-[67px] z-10 -translate-x-1/2 -translate-y-1/2 -rotate-25 font-['Batang_Tebo'] text-[24px] leading-[1.4] whitespace-nowrap text-background">
+        <span className="pointer-events-none absolute top-[2.6px] left-[71.37px] z-10 -translate-x-1/2 -translate-y-1/2 -rotate-25 font-['Batang_Tebo'] text-[20px] md:top-[2px] md:left-[67px] md:text-[24px] leading-[1.4] whitespace-nowrap text-background">
           {rating} of 5
         </span>
       )}
-      <div className={"flex h-[42px] items-center justify-center text-center leading-[1.4] font-normal text-white " + labelClass}>{label}</div>
+      <div className={"flex h-[34px] items-center justify-center text-center md:h-[42px] leading-[1.4] font-normal text-white " + labelClass}>{label}</div>
       <div className="flex flex-col gap-6">
         <div
           ref={slotRef}
           {...slotHandlers}
-          className={"h-[320px] w-[300px] overflow-hidden shadow-[12px_12px_20px_0_rgba(34,34,34,0.12)] " + (Mockup ? "rounded-[12px] border-2 border-dashed border-white" : "rounded-[16px] bg-[#363636]")}
+          className={"h-[320px] w-[300px] overflow-hidden shadow-[12px_12px_20px_0_rgba(34,34,34,0.12)] " + (Mockup ? "rounded-[16px] border-2 md:rounded-[12px] border-dashed border-white" : "rounded-[16px] bg-[#363636]")}
         >
           {Mockup && <Mockup />}
         </div>
         <div className="flex min-h-[78px] items-start justify-center px-4">
-          <p className="text-center text-[16px] leading-[1.6] font-medium tracking-normal text-white">{text}</p>
+          <p className="text-center text-[16px] leading-[1.6] font-normal tracking-normal text-white md:font-medium">{text}</p>
         </div>
       </div>
     </div>

@@ -29,6 +29,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
   const reduce = useReducedMotion();
   const [phase, setPhase] = useState<Phase>("opening");
   const [vp] = useState<Vp>(() => ({ w: window.innerWidth, h: window.innerHeight }));
+  const [hiRes, setHiRes] = useState(false);
   const [closeRect, setCloseRect] = useState<CardRect | null>(null);
   const [tip, setTip] = useState<{ x: number; y: number } | null>(null);
   const slotRef = useRef<HTMLDivElement>(null);
@@ -76,7 +77,26 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
         transition={closing ? t(0.5, 0.15) : t(0.6, 0.1)}
         onAnimationComplete={() => (closing ? onClosed() : setPhase("open"))}
       >
-        <img src={`/bg/bg-${num}@3x.jpg`} alt="" className="pointer-events-none absolute inset-0 size-full object-cover" />
+        {/* Base layer: the same image the card in the grid already shows (cached), so there is never a flash of flat colour. */}
+        <img
+          src={`/bg/bg-${num}.jpg`}
+          srcSet={`/bg/bg-${num}.jpg 1x, /bg/bg-${num}@2x.jpg 2x, /bg/bg-${num}@3x.jpg 3x`}
+          alt=""
+          decoding="async"
+          className="pointer-events-none absolute inset-0 size-full object-cover"
+        />
+        {/* Full-size art fades in over the base once it has loaded. */}
+        <img
+          ref={(el) => {
+            if (el?.complete && el.naturalWidth) setHiRes(true);
+          }}
+          src={`/bg/bg-${num}@3x.jpg`}
+          alt=""
+          decoding="async"
+          onLoad={() => setHiRes(true)}
+          className="pointer-events-none absolute inset-0 size-full object-cover transition-opacity duration-500 ease-out"
+          style={{ opacity: hiRes ? 1 : 0 }}
+        />
         <motion.div
           className="absolute inset-0 bg-[rgba(30,30,30,0.32)] backdrop-blur-[80px]"
           initial={{ opacity: 0 }}

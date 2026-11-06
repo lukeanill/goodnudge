@@ -5,11 +5,9 @@ import type { Principle } from "@/lib/content";
 
 export type CardRect = { top: number; left: number; width: number; height: number; kind?: "card" | "row"; alt?: boolean };
 
-// Illustration, top right: a 180 x 168 box whose right edge is 40px in from the card edge and whose top is 52px down.
-// A much wider image (about 1.3:1 or more) gets a 220px wide box instead. Sizes in cqw of the 468px card.
-const WIDE_FROM = 1.3;
+// Illustration slot (Figma CARD-VER): a 124 x 116 box, 8px left of the card's padding edge, 3px under the category label. It sits in the
+// flow, so a card with long text grows instead of running into the art. Sizes in cqw of the 309px card.
 function CardImage({ image, alt }: { image: NonNullable<Principle["image"]>; alt: string }) {
-  const wide = image.w / image.h >= WIDE_FROM;
   return (
     <img
       src={image.src}
@@ -18,25 +16,41 @@ function CardImage({ image, alt }: { image: NonNullable<Principle["image"]>; alt
       height={image.h}
       loading="lazy"
       decoding="async"
-      className={
-        "pointer-events-none absolute right-[8.547cqw] h-[35.897cqw] object-contain " +
-        (wide ? "top-[11.19cqw] w-[47.009cqw]" : "top-[11.111cqw] w-[38.462cqw]")
-      }
+      className="pointer-events-none relative mt-[1.1cqw] -ml-[2.589cqw] block h-[37.54cqw] w-[40.129cqw] shrink-0 object-contain"
     />
   );
 }
 
-// Figma "CARD" (0:143), 468 x 460 at desktop. Every size below is the Figma px value
-// expressed in cqw of the 468px card, so the card scales as a whole on other screen sizes
-// (floors keep the smallest text legible). Needs a `@container` parent for the cqw units.
-export function CardFace({ principle, bg, withBg = true, priority }: { principle: Principle; bg: number; withBg?: boolean; priority?: boolean }) {
+// Figma "CARD-VER" (33:2647), 309 x 388. Every size below is the Figma px value expressed in cqw of the 309px card, so the card scales as
+// a whole on other screen sizes (floors keep the smallest text legible). Needs a `@container` parent for the cqw units.
+// `fill` is for the open-card animation, which sets the size itself; in the grid the card keeps its 309:388 shape and only grows if the text needs it.
+export function CardFace({
+  principle,
+  bg,
+  withBg = true,
+  priority,
+  fill,
+}: {
+  principle: Principle;
+  bg: number;
+  withBg?: boolean;
+  priority?: boolean;
+  fill?: boolean;
+}) {
   const num = String(bg).padStart(2, "0");
   // Principle 9 used to carry a "*Hick's Law..." note inside its description: shown as a footnote.
   const [body, ...note] = principle.description.split(" *");
   const footnote = note.length ? `*${note.join(" *")}` : null;
+  const shadow = "[text-shadow:0_1px_2px_rgba(0,0,0,0.16)]";
 
   return (
-    <article className={"relative flex size-full flex-col gap-[3.419cqw] overflow-hidden rounded-[2.564cqw] p-[8.547cqw] " + (withBg ? "bg-secondary" : "")}>
+    <article
+      className={
+        "relative flex flex-col overflow-clip rounded-[3.883cqw] p-[10.356cqw] " +
+        (fill ? "size-full " : "aspect-[309/388] h-full w-full ") +
+        (withBg ? "bg-secondary" : "")
+      }
+    >
       {withBg && (
         <img
           src={`/bg/bg-${num}.jpg`}
@@ -49,16 +63,14 @@ export function CardFace({ principle, bg, withBg = true, priority }: { principle
           className="pointer-events-none absolute inset-0 size-full object-cover"
         />
       )}
+      <p className="relative text-right text-[max(11px,4.207cqw)] leading-none font-medium tracking-[0.04em] text-primary opacity-50">{principle.category}</p>
       {principle.image && <CardImage image={principle.image} alt="" />}
-      <p className="relative text-[max(11px,2.991cqw)] leading-none font-semibold tracking-[0.06em] text-background uppercase">
-        {principle.category}
-      </p>
-      <div className="flex-1" />
-      <div className="relative flex flex-col gap-[1.709cqw]">
-        <h2 className="font-serif text-[7.692cqw] leading-[1.2] font-normal tracking-normal text-primary">{principle.name}</h2>
-        <div className="flex flex-col pr-[5.128cqw]">
-          <p className="text-[max(14px,3.846cqw)] leading-[1.6] font-medium tracking-normal text-white">{body}</p>
-          {footnote && <p className="text-[max(14px,3.846cqw)] leading-[1.6] font-medium tracking-normal text-white">{footnote}</p>}
+      <div className="min-h-[3.2cqw] flex-1" />
+      <div className="relative flex flex-col gap-[1.294cqw]">
+        <h2 className={"font-serif text-[9.061cqw] leading-[1.4] font-normal tracking-normal text-primary " + shadow}>{principle.name}</h2>
+        <div className="flex flex-col">
+          <p className={"text-[max(14px,5.178cqw)] leading-[1.6] font-normal tracking-normal text-white " + shadow}>{body}</p>
+          {footnote && <p className={"text-[max(14px,5.178cqw)] leading-[1.6] font-normal tracking-normal text-white " + shadow}>{footnote}</p>}
         </div>
       </div>
     </article>
@@ -85,7 +97,7 @@ export function PrincipleCard({
     <button
       type="button"
       data-card={principle.id}
-      className="block w-full cursor-pointer text-left"
+      className="block h-full w-full cursor-pointer text-left"
       // Hover wobble: a quick rock plus a small lift. Mouse only; the button itself never moves, so the open animation
       // still starts from the card's true position.
       onPointerEnter={(e) => {
@@ -105,7 +117,7 @@ export function PrincipleCard({
         onOpen(principle, bg, { top: r.top, left: r.left, width: r.width, height: r.height });
       }}
     >
-      <motion.div animate={wobble} className="@container relative aspect-[468/440] w-full">
+      <motion.div animate={wobble} className="@container relative h-full w-full">
         <CardFace principle={principle} bg={bg} priority={priority} />
       </motion.div>
     </button>

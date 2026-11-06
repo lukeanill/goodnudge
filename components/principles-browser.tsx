@@ -149,7 +149,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
       {/* Keyed by the selection: a filter change re-mounts the grid and the cards rise in (first 8 staggered). */}
       <motion.main
         key={layout + "|" + selected.join("|")}
-        className={"content py-10 " + (layout === "cards" ? "grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6" : "flex flex-col gap-1")}
+        className={"content py-10 " + (layout === "cards" ? "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" : "flex flex-col gap-1")}
       >
         {visible.map((p, i) => (
           <motion.div
@@ -158,7 +158,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
             initial={filtered ? "hidden" : false}
             animate="show"
             variants={cardVariants}
-            className={layout === "table" ? "overflow-hidden first:rounded-t-[8px] last:rounded-b-[8px]" : undefined}
+            className={layout === "table" ? "overflow-hidden first:rounded-t-[8px] last:rounded-b-[8px]" : "h-full"}
           >
             {layout === "cards" ? (
               <PrincipleCard principle={p} bg={(i % BG_COUNT) + 1} priority={i < 4} onOpen={(principle, bg, rect) => setOpen({ principle, bg, rect })} />

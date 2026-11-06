@@ -36,7 +36,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
 
   const closing = phase === "closing";
   const isRow = origin.kind === "row";
-  const radius = isRow ? 8 : (12 * origin.width) / 468; // the card's (or row's) own corner radius
+  const radius = isRow ? 8 : (12 * origin.width) / 309; // the card's (or row's) own corner radius
   const dy = reduce ? 0 : 12;
   const t = (duration: number, delay = 0) => (reduce ? { duration: 0 } : { duration, delay, ease: EASE });
   const face = closing && closeRect ? closeRect : origin;
@@ -110,7 +110,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
           animate={{ opacity: closing ? 1 : 0 }}
           transition={closing ? t(0.15, 0.5) : t(0.15)}
         >
-          {isRow ? <RowFace principle={principle} tone={origin.alt ? "solid-alt" : "solid-plain"} /> : <CardFace principle={principle} bg={bg} withBg={false} />}
+          {isRow ? <RowFace principle={principle} tone={origin.alt ? "solid-alt" : "solid-plain"} /> : <CardFace principle={principle} bg={bg} withBg={false} fill />}
         </motion.div>
       </motion.div>
 

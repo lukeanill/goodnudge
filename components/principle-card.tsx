@@ -2,7 +2,7 @@
 
 import { motion, useAnimationControls, useReducedMotion } from "motion/react";
 import type { Principle } from "@/lib/content";
-import { ModelArt } from "./model-art";
+import { ModelArt, motionFor } from "./model-art";
 
 export type CardRect = { top: number; left: number; width: number; height: number; kind?: "card" | "row"; alt?: boolean };
 
@@ -10,7 +10,7 @@ export type CardRect = { top: number; left: number; width: number; height: numbe
 // flow, so a card with long text grows instead of running into the art. Sizes in cqw of the 309px card.
 function CardImage({ principle, live }: { principle: Principle; live?: boolean }) {
   const slot = "mt-[1.1cqw] -ml-[2.589cqw] block h-[37.54cqw] w-[40.129cqw] shrink-0";
-  if (principle.model) return <ModelArt model={principle.model} live={live} className={slot} />;
+  if (principle.model) return <ModelArt model={principle.model} motion={motionFor(principle.id)} live={live} className={slot} />;
   const image = principle.image;
   if (!image) return null;
   return (

@@ -48,8 +48,8 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
     // animates, or it sometimes just jumps).
     //   Down: pills go flat + toggle fades (STEP) -> layout armed -> tray state flips: tabs glide, glass fades in.
     //   Up:   glass fades out (STEP) -> layout armed -> tabs glide back -> pills get their border/shadow back, toggle returns.
-    const STEP = 200;
-    const ARM = 50;
+    const STEP = 90; // the move starts while the pills / glass are mostly faded, not after they finish
+    const ARM = 35; // two frames
     const MOVE = 400;
     const timers: ReturnType<typeof setTimeout>[] = [];
     const later = (fn: () => void, ms: number) => timers.push(setTimeout(fn, ms));
@@ -67,7 +67,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
         setGlass(false);
         later(() => setMorphing(true), STEP);
         later(() => setStuck(false), STEP + ARM);
-        later(() => setFlat(false), STEP + ARM + MOVE);
+        later(() => setFlat(false), STEP + ARM + MOVE - 100);
       }
       later(() => setMorphing(false), STEP + ARM + MOVE + 300);
     }, { threshold: 0, rootMargin: "-24px 0px 0px 0px" });
@@ -110,7 +110,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
               className="absolute inset-0 rounded-full"
               initial={{ opacity: 0 }}
               animate={{ opacity: glass ? 1 : 0 }}
-              transition={reduce ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
+              transition={reduce ? { duration: 0 } : { duration: 0.18, ease: "easeOut" }}
             >
               <GlassLayer weight="heavy" tone="light" tint="rgba(247,202,231,0.6)" radius={22} />
             </motion.div>
@@ -141,7 +141,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
             className={stuck ? "absolute top-1 right-1" : "relative shrink-0"}
             initial={false}
             animate={{ opacity: flat ? 0 : 1 }}
-            transition={{ duration: reduce ? 0 : 0.2, ease: "easeOut" }}
+            transition={{ duration: reduce ? 0 : 0.15, ease: "easeOut" }}
           >
             <LayoutToggle layout={layout} onChange={changeLayout} />
           </motion.div>

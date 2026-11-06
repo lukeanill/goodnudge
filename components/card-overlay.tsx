@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import type { Principle } from "@/lib/content";
 import { CardFace, type CardRect } from "./principle-card";
 import { RowFace } from "./principle-row";
-import { BackArrow, RatingIcons, TooltipArrow } from "./open-card-icons";
+import { BackArrow, Caret, RatingIcons, TooltipArrow } from "./open-card-icons";
 import { mockups } from "./mockups";
 
 // The open card. Sequence from the Figma annotations: the card text fades out quickly, then the card
@@ -32,6 +32,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
   const [hiRes, setHiRes] = useState(false);
   const [closeRect, setCloseRect] = useState<CardRect | null>(null);
   const [tip, setTip] = useState<{ x: number; y: number } | null>(null);
+  const [descOpen, setDescOpen] = useState(false); // tap the name to show the principle's description under it
   const slotRef = useRef<HTMLDivElement>(null);
 
   const closing = phase === "closing";
@@ -126,16 +127,50 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
             <BackArrow className="block h-auto w-[66px] md:w-[133px]" />
           </button>
           <div className="flex min-h-[72px] flex-col items-center pt-2 text-center md:whitespace-nowrap">
-            <h1 className="font-serif text-[30px] leading-[1.4] font-normal tracking-normal text-primary">{principle.name}</h1>
+            <h1 className="flex">
+              <button
+                type="button"
+                onClick={() => setDescOpen((o) => !o)}
+                aria-expanded={descOpen}
+                aria-controls="principle-description"
+                className={
+                  "flex cursor-pointer items-center gap-2 font-serif text-[30px] leading-[1.4] font-normal tracking-normal transition-colors duration-300 " +
+                  (descOpen ? "text-white" : "text-primary")
+                }
+              >
+                <span>{principle.name}</span>
+                <Caret open={descOpen} />
+              </button>
+            </h1>
             {principle.aka.length > 0 && (
-              <p className="text-[14px] leading-[1.6] font-medium tracking-normal text-background uppercase">{principle.aka.join(", ")}</p>
+              <p
+                aria-hidden={descOpen}
+                className={"text-[14px] leading-[1.6] font-medium tracking-normal text-background uppercase transition-opacity duration-300 " + (descOpen ? "opacity-0" : "opacity-100")}
+              >
+                {principle.aka.join(", ")}
+              </p>
             )}
           </div>
           <div aria-hidden className="w-[66px] md:w-[133px]" />
+          <AnimatePresence>
+            {descOpen && (
+              <motion.div
+                key="description"
+                id="principle-description"
+                className="col-span-3 mt-3 text-center md:absolute md:top-[85px] md:left-1/2 md:mt-0 md:w-[560px] md:-translate-x-1/2"
+                initial={{ opacity: 0, y: reduce ? 0 : 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: reduce ? 0 : 6 }}
+                transition={{ duration: reduce ? 0 : 0.3, ease: EASE }}
+              >
+                <p className="text-[18px] leading-[1.6] font-normal tracking-normal text-white">{principle.description.split(" *")[0]}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.header>
 
         <motion.div
-          className="flex flex-col p-4 pb-12 md:absolute md:inset-0 md:overflow-y-auto md:px-10 md:pt-[120px] md:pb-0"
+          className={"flex flex-col p-4 pb-12 transition-[padding] duration-300 ease-[cubic-bezier(0.8,0,0.2,1)] md:absolute md:inset-0 md:overflow-y-auto md:px-10 md:pb-10 " + (descOpen ? "md:pt-[200px]" : "md:pt-[72px]")}
           initial={{ opacity: 0, y: dy }}
           animate={closing ? { opacity: 0, y: dy } : { opacity: 1, y: 0 }}
           transition={closing ? t(0.2) : t(0.35, 1.15)}
@@ -145,6 +180,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
               label="DARK PATTERN"
               labelClass="font-['Batang_Tebo'] text-[30px]"
               text={principle.darkPatternExample}
+              rating={principle.darkPatternRating}
               mockup={mockups[principle.id]?.dark}
               slotRef={slotRef}
               slotHandlers={{
@@ -172,6 +208,7 @@ function Column({
   label,
   labelClass,
   text,
+  rating,
   slotRef,
   slotHandlers,
   mockup: Mockup,
@@ -179,12 +216,19 @@ function Column({
   label: string;
   labelClass: string;
   text: string;
+  rating?: number;
   slotRef?: React.Ref<HTMLDivElement>;
   slotHandlers?: React.ComponentProps<"div">;
   mockup?: React.ComponentType;
 }) {
   return (
-    <div className="flex w-[300px] shrink-0 flex-col gap-3">
+    <div className="relative flex w-[300px] shrink-0 flex-col gap-3">
+      {rating !== undefined && (
+        // Handwritten "4 of 5", tilted 25 degrees up-left of the label (Figma: centre 67px in, 2px down from the column top).
+        <span className="pointer-events-none absolute top-[2px] left-[67px] z-10 -translate-x-1/2 -translate-y-1/2 -rotate-25 font-['Batang_Tebo'] text-[24px] leading-[1.4] whitespace-nowrap text-background">
+          {rating} of 5
+        </span>
+      )}
       <div className={"flex h-[42px] items-center justify-center text-center leading-[1.4] font-normal text-white " + labelClass}>{label}</div>
       <div className="flex flex-col gap-6">
         <div

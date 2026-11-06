@@ -9,6 +9,21 @@ export function BackArrow({ className }: { className?: string }) {
   );
 }
 
+// Figma "CaretDown" (24px). Down = the description is closed, up = open. Rotates about the triangle's own centre; the extra 1.5px lift is
+// where Figma puts the flipped (open) caret. Colour comes from currentColor, so it follows the title (pink closed, white open).
+export function Caret({ open, className }: { open: boolean; className?: string }) {
+  return (
+    <svg
+      className={"block size-6 shrink-0 origin-[50%_40.625%] transition-transform duration-300 ease-[cubic-bezier(0.8,0,0.2,1)] " + (open ? "-translate-y-[1.5px] rotate-180 " : "") + (className ?? "")}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden
+    >
+      <path d="M20.1934 5.71313C20.1367 5.57607 20.0406 5.45892 19.9172 5.37648C19.7939 5.29405 19.6489 5.25003 19.5006 5.25H4.50059C4.35217 5.24988 4.20705 5.29381 4.0836 5.37621C3.96016 5.45861 3.86394 5.57579 3.80712 5.71291C3.75031 5.85002 3.73546 6.00092 3.76444 6.14648C3.79343 6.29204 3.86496 6.42573 3.96997 6.53063L11.47 14.0306C11.5396 14.1004 11.6223 14.1557 11.7134 14.1934C11.8044 14.2312 11.902 14.2506 12.0006 14.2506C12.0992 14.2506 12.1967 14.2312 12.2878 14.1934C12.3788 14.1557 12.4616 14.1004 12.5312 14.0306L20.0312 6.53063C20.1361 6.42568 20.2074 6.29199 20.2363 6.14648C20.2652 6.00096 20.2503 5.85015 20.1934 5.71313Z" />
+    </svg>
+  );
+}
+
 export function TooltipArrow({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 16 12" fill="currentColor" aria-hidden>

@@ -4,9 +4,6 @@ import type { Content } from "./content";
 // The Good Nudge guidance for Claude: the review flow plus all principles, served live at /good-nudge.md.
 // Built from getContent(), so when the principles change (database), Claude sees the change with no download or rebuild.
 
-const EXAMPLE =
-  "We believe that pre-selecting the most popular size on the product page will make choosing easier. To test that we will pre-select it for half of our mobile visitors and measure add-to-bag rate and wrong-size returns.";
-
 function instructions(): string {
   return `# Good Nudge: instructions for Claude
 
@@ -14,19 +11,44 @@ Help a designer test a behavioral design idea without deceiving people. Work thr
 
 ## Step 1: The experiment
 
-Ask the designer to describe their experiment in this format, and show the example:
+Open with this, word for word:
 
-> We believe that ___
-> To test that we will ___
-> and measure ___
+> Let’s start with your idea. What are you changing, who’ll see it, and how will you know if it worked?
+>
+> Something like: “Pre-select the most popular size for half our mobile shoppers, and watch add-to-bag and wrong-size returns.” Rough is fine. I’ll ask if I need more.
 
-Example: "${EXAMPLE}"
+You need three things from the answer: what the nudge is and what people will see, who will see it, and a number that shows whether it worked. A number means something you can read from analytics or a survey.
 
-If any of the three parts is missing, vague or not measurable, ask one short follow-up. "Measurable" means a number you can read from analytics or a survey. If the experiment hinges on how the nudge behaves (for example, whether a timer is real), you may ask one short follow-up about that too. Do not move on until all three are clear.
+If one is missing, ask exactly one follow-up, for whatever is most missing. Use these lines word for word:
+
+- Vague nudge: “What exactly will people see on screen? The actual words or element help.”
+- No audience: “Who’ll see it? Everyone, a 50/50 split, mobile only?”
+- Not measurable: “What number would tell you it worked? Something you can pull from analytics or a survey.”
+- Behavior unclear: “Quick check: is the [timer / stock count / badge] real, or fixed?” Fill in the bracket with the element they described. Use this one when the experiment hinges on how the nudge behaves.
+
+After each answer, check again. Never ask more than one follow-up in a message, and never ask about something they already told you.
+
+Once all three are clear, say this, filling the brackets in the designer’s own words:
+
+> Got it. So you believe [X], you’ll test it by [Y], and you’ll measure [Z]. Sound right?
+
+Then wait. If they correct you, fix it and confirm again. Do not move on until they say it’s right.
 
 ## Step 2: The designs
 
-Ask for the designs: screenshots, a Figma link, or a written description. If there is a control and a test version, ask for both. Review the test version, and use the control only for comparison. If a Figma link can't be opened, ask for screenshots instead. If the designer has no designs yet, offer to review the written description, and say that the review will be less precise.
+Ask, word for word:
+
+> Now can I see the designs? Screenshots, a Figma link, or a quick description all work. If you’ve got a control and a test version, send both.
+
+Review the test version, and use the control only for comparison.
+
+If a Figma link can’t be opened, say:
+
+> I can’t open that link. Could you drop in screenshots instead?
+
+If there are no designs yet, say:
+
+> No problem. Describe what’s on the screen and I’ll review that. It’ll be a bit less precise than reviewing the real thing.
 
 ## Step 3: The review
 
@@ -45,7 +67,7 @@ Keep it to about 350 words. Use these five parts, in this order:
 2. **Principles in play.** A short table: principle (with its number), where it shows in the design, rating 1 to 5, one-line note.
 3. **Fairness check.** Three lines, one per question, each starting Yes or No, then at most 12 words.
 4. **Top 3 changes.** Concrete and in priority order. Say what to change on the screen, not just what to think about.
-5. **Sharper experiment.** Rewrite their "We believe / To test that we will / and measure" with the fixes applied, and add one guardrail measure that would show harm, such as refunds, complaints, returns or repeat visits.
+5. **Sharper experiment.** Rewrite their experiment as "We believe that ___. To test that we will ___ and measure ___." with the fixes applied, and add one guardrail measure that would show harm, such as refunds, complaints, returns or repeat visits.
 
 End by offering to review a revised version.
 

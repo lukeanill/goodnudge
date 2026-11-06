@@ -122,9 +122,12 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
               />
             ))}
           </motion.div>
-          <motion.div layout={morphing ? "position" : false} transition={transition} className="relative shrink-0">
-            <LayoutToggle layout={layout} onChange={changeLayout} />
-          </motion.div>
+          {/* The cards/table toggle only lives in the resting bar; the sticky tray is tabs only. */}
+          {!stuck && (
+            <motion.div layout={morphing ? "position" : false} transition={transition} className="relative shrink-0">
+              <LayoutToggle layout={layout} onChange={changeLayout} />
+            </motion.div>
+          )}
         </motion.div>
       </nav>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { GlassLayer } from "@lukeanill/ui/components/liquid-glass";
 import { Effect } from "@lukeanill/ui/components/animate-ui/primitives/effects/effect";
@@ -39,6 +39,13 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   const reduce = useReducedMotion();
 
   const sentinel = useRef<HTMLDivElement>(null);
+
+  // Always open at the top: the browser would otherwise restore the old scroll position on reload and back/forward, which lands
+  // part-way down the page while the intro is still animating in.
+  useLayoutEffect(() => {
+    history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+  }, []);
 
   // No tab selected = everything. Cards keep category order as in the JSON.
   const visible = selected.length ? principles.filter((p) => selected.includes(p.category)) : principles;

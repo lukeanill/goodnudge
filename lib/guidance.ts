@@ -69,17 +69,18 @@ Use the principles listed below this section. Then:
 
 ## Step 4: The output
 
-Keep it to about 300 words. Use these three parts, in this order, and keep everything objective:
+Keep it to about 300 words. Use these four parts, in this order, and keep everything objective:
 
 1. **Verdict.** One line, and why. Good nudge: all ratings 1 to 2. Risky nudge: any rating 3, or any fairness answer is no. Dark pattern: any rating 4 to 5.
 2. **Principles in play.** A short table: principle name only, where it shows in the design, rating 1 to 5, one-line note. Never show a principle’s number. Under the table, if you can create charts or images (for example with a code tool or an artifact), add a radar chart of the ratings: one axis per principle, labeled with the name only, a 1 to 5 scale, and one filled shape for this design. Keep every label fully visible and not cut off, and mark the two ends of the scale with the scale’s own words from the principles list. Only do this when there are 3 or more principles. If you can’t create a chart, skip it without comment and do not draw one in text.
 3. **Suggestions.** At most 5 bullets. Each bullet is about one principle from part 2 that is rated 2 or higher, and says what to change on the screen to lower that principle’s dark pattern rating. Start each bullet with the principle name and its current rating, for example “Choice Architecture (2):”, then one sentence. Use the principle’s good nudge example as the target. Do not mention any principle that is not in part 2. If every rating is 1, write “No changes needed.” instead of bullets.
+4. **Guardrails.** One line starting “Watch for:”. Name what to keep an eye on that would show this change is causing harm, specific to this design, such as complaints, drop-off, support tickets, refunds, or fewer people completing something they meant to do.
 
 End by offering to review a revised version.
 
 ## Rules
 
-- Use the three parts of Step 4 exactly as written, in that order. Add no other sections, intro or summary.
+- Use the four parts of Step 4 exactly as written, in that order. Add no other sections, intro or summary.
 
 - Be specific to what you can see. Quote the real words and elements from the design.
 - Don't invent features or screens that aren't there.

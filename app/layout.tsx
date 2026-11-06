@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Providers } from "./providers";
 import { getPreset } from "@lukeanill/ui/themes/presets";
 import { themeToCss } from "@lukeanill/ui/themes/css";
@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "Good Nudge",
   description: "Behavioural economics and consumer psychology principles for UX and product.",
 };
+
+// The browser's top bar takes this colour (the page colour) instead of picking up the purple of the open card underneath it.
+export const viewport: Viewport = { themeColor: "#f7cae7" };
 
 const THEME_ID = "illuzion";
 const theme = getPreset(THEME_ID)!;

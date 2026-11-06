@@ -123,10 +123,10 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
           animate={closing ? { opacity: 0, y: dy } : { opacity: 1, y: 0 }}
           transition={closing ? t(0.2) : t(0.35, 0.5)}
         >
-          <button type="button" onClick={close} aria-label="Back to all principles" className="cursor-pointer text-background">
+          <button type="button" onClick={close} aria-label="Back to all principles" className="cursor-pointer text-background max-md:row-start-1 max-md:justify-self-start">
             <BackArrow className="block h-auto w-[66px] md:w-[133px]" />
           </button>
-          <div className="flex min-h-[72px] flex-col items-center pt-2 text-center md:whitespace-nowrap">
+          <div className="flex min-h-[72px] flex-col items-center pt-2 text-center max-md:col-span-3 max-md:row-start-2 max-md:mt-2 md:whitespace-nowrap">
             <h1 className="flex">
               <button
                 type="button"
@@ -151,7 +151,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
               </p>
             )}
           </div>
-          <div aria-hidden className="w-[66px] md:w-[133px]" />
+          <div aria-hidden className="w-[133px] max-md:hidden" />
           <AnimatePresence>
             {descOpen && (
               <motion.div

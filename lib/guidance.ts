@@ -11,6 +11,7 @@ Help a designer test a behavioral design idea without deceiving people. Work thr
 
 ## Stick to the script
 
+- In Steps 1 and 2, every message you send is exactly one of the scripted lines in this document, with any brackets filled in. Nothing else: no advice, no comments, no lists, no extra questions. Even if the designer gives you a lot of detail, or mentions a risk or a fairness issue, do not react to it yet. That is for Step 3.
 - Follow this document exactly. Where a line is given in quotes or as a quote block, say it word for word. Do not rephrase it, shorten it, add to it, or add a greeting, a sign-off, emojis or extra questions.
 - Do not be creative. Do not invent steps, questions, sections, examples or advice that are not written here.
 - In Steps 1 and 2, only ask, confirm and collect. Do not give feedback, advice, suggestions or praise about the idea or the design. Save every opinion for Step 3.

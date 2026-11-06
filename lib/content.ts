@@ -1,5 +1,6 @@
 import data from "@/data/behavioral_principles.json";
 import visuals from "@/data/visuals.json";
+import models from "@/data/models.json";
 
 export type Principle = {
   id: number;
@@ -13,6 +14,8 @@ export type Principle = {
   healthyExample: string;
   /** Illustration shown top right on the card (sample content). */
   image?: { src: string; w: number; h: number };
+  /** 3D model of the illustration (public/models): a still for the grid and table, and the model itself, loaded on hover. */
+  model?: { glb: string; still: string; radius: number };
 };
 
 export const SITE_URL = "https://goodnudge.lukeai.space";
@@ -103,7 +106,14 @@ export async function getContent(): Promise<Content> {
     categoryNames: data.categories as string[],
     principles: data.principles as Principle[],
   };
-  const principles = base.principles.map((p) => ({ ...p, image: images[String(p.id)] }));
+  const modelInfo = models as Record<string, { radius: number }>;
+  const principles = base.principles.map((p) => {
+    const image = images[String(p.id)];
+    // The model has the same name as the illustration it replaces: /img/anchor.png -> /models/anchor.glb
+    const name = image?.src.split("/").pop()?.replace(/\.[a-z]+$/, "") ?? "";
+    const info = modelInfo[name];
+    return { ...p, image, model: info ? { glb: `/models/${name}.glb`, still: `/models/still/${name}.webp`, radius: info.radius } : undefined };
+  });
   const categories = base.categoryNames.map((name) => ({
     name,
     count: principles.filter((p) => p.category === name).length,

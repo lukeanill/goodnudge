@@ -1,0 +1,131 @@
+{
+ "anchor": {
+  "radius": 88
+ },
+ "bandaged-card": {
+  "radius": 88
+ },
+ "bookends": {
+  "radius": 84
+ },
+ "boomerang": {
+  "radius": 94
+ },
+ "bubble-wrap": {
+  "radius": 54
+ },
+ "cracked-piggy-bank": {
+  "radius": 91
+ },
+ "crown": {
+  "radius": 33
+ },
+ "dripping-tap": {
+  "radius": 75
+ },
+ "falling-domino": {
+  "radius": 48
+ },
+ "finish-flag": {
+  "radius": 45
+ },
+ "firework-finale": {
+  "radius": 61
+ },
+ "foggy-window": {
+  "radius": 77
+ },
+ "following-sheep": {
+  "radius": 92
+ },
+ "free-tag": {
+  "radius": 90
+ },
+ "gold-seal": {
+  "radius": 82
+ },
+ "half-full-glass": {
+  "radius": 96
+ },
+ "half-progress-ring": {
+  "radius": 95
+ },
+ "handshake": {
+  "radius": 68
+ },
+ "hugged-teddy": {
+  "radius": 95
+ },
+ "juggling-balls": {
+  "radius": 79
+ },
+ "labeled-jars": {
+  "radius": 89
+ },
+ "lit-fuse": {
+  "radius": 85
+ },
+ "magic-wand-tag": {
+  "radius": 80
+ },
+ "marshmallow": {
+  "radius": 95
+ },
+ "maze": {
+  "radius": 94
+ },
+ "middle-podium": {
+  "radius": 78
+ },
+ "mystery-box": {
+  "radius": 93
+ },
+ "near-empty-jar": {
+  "radius": 103
+ },
+ "odd-one-out": {
+  "radius": 81
+ },
+ "price-seesaw": {
+  "radius": 96
+ },
+ "puzzle-pieces": {
+  "radius": 92
+ },
+ "red-balloon": {
+  "radius": 94
+ },
+ "repeating-footprints": {
+  "radius": 87
+ },
+ "safety-net": {
+  "radius": 91
+ },
+ "shiny-gem": {
+  "radius": 82
+ },
+ "signpost": {
+  "radius": 98
+ },
+ "sinking-boat": {
+  "radius": 87
+ },
+ "stamp-card": {
+  "radius": 42
+ },
+ "thumbs-up": {
+  "radius": 94
+ },
+ "tinted-glasses": {
+  "radius": 88
+ },
+ "toolbox": {
+  "radius": 78
+ },
+ "turning-gears": {
+  "radius": 94
+ },
+ "worn-path": {
+  "radius": 60
+ }
+}

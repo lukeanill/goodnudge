@@ -2,21 +2,26 @@
 
 import { motion, useAnimationControls, useReducedMotion } from "motion/react";
 import type { Principle } from "@/lib/content";
+import { ModelArt } from "./model-art";
 
 export type CardRect = { top: number; left: number; width: number; height: number; kind?: "card" | "row"; alt?: boolean };
 
 // Illustration slot (Figma CARD-VER): a 124 x 116 box, 8px left of the card's padding edge, 3px under the category label. It sits in the
 // flow, so a card with long text grows instead of running into the art. Sizes in cqw of the 309px card.
-function CardImage({ image, alt }: { image: NonNullable<Principle["image"]>; alt: string }) {
+function CardImage({ principle, live }: { principle: Principle; live?: boolean }) {
+  const slot = "mt-[1.1cqw] -ml-[2.589cqw] block h-[37.54cqw] w-[40.129cqw] shrink-0";
+  if (principle.model) return <ModelArt model={principle.model} live={live} className={slot} />;
+  const image = principle.image;
+  if (!image) return null;
   return (
     <img
       src={image.src}
-      alt={alt}
+      alt=""
       width={image.w}
       height={image.h}
       loading="lazy"
       decoding="async"
-      className="pointer-events-none relative mt-[1.1cqw] -ml-[2.589cqw] block h-[37.54cqw] w-[40.129cqw] shrink-0 object-contain"
+      className={"pointer-events-none relative object-contain " + slot}
     />
   );
 }
@@ -64,7 +69,7 @@ export function CardFace({
         />
       )}
       <p className="relative text-right text-[max(11px,4.207cqw)] leading-none font-medium tracking-[0.04em] text-primary opacity-75">{principle.category}</p>
-      {principle.image && <CardImage image={principle.image} alt="" />}
+      {(principle.image || principle.model) && <CardImage principle={principle} live={!fill} />}
       <div className="min-h-[3.2cqw] flex-1" />
       <div className="relative flex flex-col gap-[1.294cqw]">
         <h2 className={"font-serif text-[9.061cqw] leading-[1.2] font-normal tracking-normal text-primary " + shadow}>{principle.name}</h2>

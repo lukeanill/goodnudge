@@ -12,8 +12,12 @@ export function RowFace({ principle, tone }: { principle: Principle; tone: "plai
   return (
     <div className={"grid size-full min-h-[68px] grid-cols-[88px_1fr] items-center gap-x-1 gap-y-1 py-3 pr-4 pl-1 md:grid-cols-[88px_220px_1fr] " + bg}>
       <div className="relative h-10 w-[88px]">
-        {principle.image && (
-          <img src={principle.image.src} alt="" width={principle.image.w} height={principle.image.h} loading="lazy" decoding="async" className="pointer-events-none absolute inset-0 size-full object-contain p-1" />
+        {principle.model ? (
+          <img src={principle.model.still} alt="" width={480} height={449} loading="lazy" decoding="async" className="pointer-events-none absolute inset-0 size-full object-contain p-1" />
+        ) : (
+          principle.image && (
+            <img src={principle.image.src} alt="" width={principle.image.w} height={principle.image.h} loading="lazy" decoding="async" className="pointer-events-none absolute inset-0 size-full object-contain p-1" />
+          )
         )}
       </div>
       <h2 className="font-body text-[14px] leading-[1.6] font-normal tracking-normal text-foreground normal-case">{principle.name}</h2>

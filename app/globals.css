@@ -37,3 +37,9 @@
 .tabs-scroll::-webkit-scrollbar {
   display: none;
 }
+
+/* The 3D art on the cards is shown over its own still image, so the viewer's loading bar and AR button are never wanted. */
+model-viewer::part(default-progress-bar),
+model-viewer::part(default-ar-button) {
+  display: none !important;
+}

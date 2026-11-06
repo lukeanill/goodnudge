@@ -72,7 +72,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
     <>
       {/* Expanding card: background art, darkening/blur layer, and a copy of the card text that fades out first. */}
       <motion.div
-        className="fixed z-50 overflow-hidden bg-secondary"
+        className="fixed z-50 overflow-hidden"
         initial={inset(origin, vp, radius)}
         animate={closing && closeRect ? inset(closeRect, vp, radius) : FULL}
         transition={closing ? t(0.5, 0.15) : t(0.6, 0.1)}

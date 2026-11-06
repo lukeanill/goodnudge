@@ -19,8 +19,8 @@ const PITCH = 45;
 const YAW = 75;
 const MAX_LIVE_DESKTOP = 9;
 const MAX_LIVE_PHONE = 4;
-// One pixel of the 480 x 449 art frame the stills are cut from, as a share of the art box (the art box is 40.129cqw wide of a card).
-const CQW_PER_PX = 40.129 / 480;
+// The stills are cut from a 480 x 449 art frame; `model.shift` is in pixels of that frame, so it scales with the width of the art box.
+const FRAME_W = 480;
 const WIDE_FOV = (2 * Math.atan(K * Math.tan((FOV / 2) * (Math.PI / 180))) * 180) / Math.PI;
 
 /** A card's own mix: which way it turns on each axis, and how much of the full range. Fixed by the principle, so it never changes. */
@@ -140,7 +140,8 @@ export function ModelArt({ model, id: cardId, className, live }: { model: NonNul
     const draw = () => {
       if (!viewer || !ready) return;
       viewer.cameraOrbit = `${THETA + now[2]}deg ${PHI + now[1]}deg ${model.distance}m`;
-      viewer.style.transform = `translate(${-model.shift[0] * CQW_PER_PX}cqw, ${-model.shift[1] * CQW_PER_PX}cqw) rotate(${now[0].toFixed(2)}deg)`;
+      const px = el.clientWidth / FRAME_W;
+      viewer.style.transform = `translate(${(-model.shift[0] * px).toFixed(2)}px, ${(-model.shift[1] * px).toFixed(2)}px) rotate(${now[0].toFixed(2)}deg)`;
     };
     // Ease towards the goal (about a tenth of a second), so scrolling in jerks still moves smoothly and a model that goes live
     // part-way down the screen turns into its pose instead of jumping.

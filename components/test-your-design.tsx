@@ -46,9 +46,9 @@ export function TestYourDesign() {
       <DrawerTrigger asChild>
         <button
           type="button"
-          className="inline-flex h-11 cursor-pointer items-center justify-center gap-[6px] rounded-full border-[0.5px] border-[rgba(242,174,218,0.25)] bg-white pr-[14px] pl-3 text-[16px] leading-none font-medium tracking-normal whitespace-nowrap text-foreground drop-shadow-[0_4px_4px_rgba(68,68,68,0.06)]"
+          className="pointer-events-auto inline-flex h-11 cursor-pointer items-center justify-center gap-[6px] rounded-full border-[0.5px] border-[rgba(242,174,218,0.25)] bg-white pr-[14px] pl-3 max-sm:border-0 max-sm:bg-[#f9f6f8] max-sm:px-4 max-sm:shadow-[-1px_-1px_4px_rgba(255,255,255,0.16),0_8px_24px_rgba(129,41,97,0.12)] text-[16px] leading-none font-medium tracking-normal whitespace-nowrap text-foreground sm:drop-shadow-[0_4px_4px_rgba(68,68,68,0.06)]"
         >
-          <img src="/brand/spark.svg" alt="" width={20} height={20} className="block h-5 w-5" />
+          <img src="/brand/spark.svg" alt="" width={20} height={20} className="block h-5 w-5 max-sm:size-[18px]" />
           Test your design
         </button>
       </DrawerTrigger>

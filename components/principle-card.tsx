@@ -8,8 +8,11 @@ export type CardRect = { top: number; left: number; width: number; height: numbe
 
 // Illustration slot (Figma CARD-VER): a 124 x 116 box, 8px left of the card's padding edge, 3px under the category label. It sits in the
 // flow, so a card with long text grows instead of running into the art. Sizes in cqw of the 309px card.
-function CardImage({ principle, live }: { principle: Principle; live?: boolean }) {
-  const slot = "mt-[1.1cqw] -ml-[2.589cqw] block h-[37.54cqw] w-[40.129cqw] shrink-0";
+function CardImage({ principle, live, grid }: { principle: Principle; live?: boolean; grid?: boolean }) {
+  // Grid cards on phones (Figma mobile card, 370 x 280): an 86 x 80 box pinned 24px from the left and 30px from the top, outside the text flow.
+  const slot =
+    "mt-[1.1cqw] -ml-[2.589cqw] block h-[37.54cqw] w-[40.129cqw] shrink-0" +
+    (grid ? " max-sm:absolute max-sm:top-[30px] max-sm:left-6 max-sm:m-0 max-sm:h-20 max-sm:w-[86px]" : "");
   if (principle.model) return <ModelArt model={principle.model} id={principle.id} live={live} className={slot} />;
   const image = principle.image;
   if (!image) return null;
@@ -54,7 +57,8 @@ export function CardFace({
     <article
       className={
         "relative flex flex-col overflow-clip rounded-[3.883cqw] p-[10.356cqw] " +
-        (fill ? "size-full " : "aspect-[309/388] h-full w-full ") +
+        (fill ? "" : "max-sm:rounded-[12px] max-sm:p-8 ") +
+        (fill ? "size-full " : "aspect-[309/388] h-full w-full max-sm:aspect-auto max-sm:min-h-[280px] ") +
         (withBg ? "bg-secondary" : "")
       }
     >
@@ -70,14 +74,14 @@ export function CardFace({
           className="pointer-events-none absolute inset-0 size-full object-cover"
         />
       )}
-      <p className="relative text-right text-[max(11px,4.207cqw)] leading-none font-medium tracking-[0.04em] text-primary opacity-75">{principle.category}</p>
-      {(principle.image || principle.model) && <CardImage principle={principle} live={!fill && animate} />}
-      <div className="min-h-[3.2cqw] flex-1" />
-      <div className="relative flex flex-col gap-[1.294cqw]">
-        <h2 className={"font-serif text-[9.061cqw] leading-[1.2] font-normal tracking-normal text-primary " + shadow}>{principle.name}</h2>
+      <p className={"relative text-right text-[max(11px,4.207cqw)] leading-none font-medium tracking-[0.04em] text-primary opacity-75 " + (fill ? "" : "max-sm:text-[13px]")}>{principle.category}</p>
+      {(principle.image || principle.model) && <CardImage principle={principle} live={!fill && animate} grid={!fill} />}
+      <div className={"min-h-[3.2cqw] flex-1 " + (fill ? "" : "max-sm:min-h-[73px]")} />
+      <div className={"relative flex flex-col gap-[1.294cqw] " + (fill ? "" : "max-sm:gap-1")}>
+        <h2 className={"font-serif text-[9.061cqw] leading-[1.2] font-normal tracking-normal text-primary " + (fill ? "" : "max-sm:text-[24px] ") + shadow}>{principle.name}</h2>
         <div className="flex flex-col">
-          <p className={"text-[max(14px,5.178cqw)] leading-[1.42] font-normal tracking-normal text-white " + shadow}>{body}</p>
-          {footnote && <p className={"text-[max(14px,5.178cqw)] leading-[1.42] font-normal tracking-normal text-white " + shadow}>{footnote}</p>}
+          <p className={"text-[max(14px,5.178cqw)] leading-[1.42] font-normal tracking-normal text-white " + (fill ? "" : "max-sm:text-[14px] ") + shadow}>{body}</p>
+          {footnote && <p className={"text-[max(14px,5.178cqw)] leading-[1.42] font-normal tracking-normal text-white " + (fill ? "" : "max-sm:text-[14px] ") + shadow}>{footnote}</p>}
         </div>
       </div>
     </article>

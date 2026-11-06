@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { GlassLayer } from "@lukeanill/ui/components/liquid-glass";
 import { Effect } from "@lukeanill/ui/components/animate-ui/primitives/effects/effect";
 import { principleSlug, type Category, type Principle } from "@/lib/content";
@@ -14,6 +14,7 @@ import { LayoutToggle, type Layout } from "./layout-toggle";
 import { CardOverlay } from "./card-overlay";
 import { Footer } from "./footer";
 import { TestYourDesign } from "./test-your-design";
+import { Caret } from "./open-card-icons";
 
 // Page-load reveal, in four steps: logo, tagline, (Test your design + tabs + toggle together), cards as one block. Each is the library's
 // Effect (slide up + fade on the default spring, stiffness 200 / damping 20: the Storybook "Effect" story), STEP ms apart.
@@ -36,6 +37,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   const [layout, setLayout] = useState<Layout>("cards"); // always starts on cards
   const [open, setOpen] = useState<{ principle: Principle; bg: number; rect: CardRect } | null>(null);
   const [morphing, setMorphing] = useState(false); // layout animation is only on while the tabs morph into the tray; a filter change collapses the page height and would otherwise fling the pill in
+  const [catsOpen, setCatsOpen] = useState(false); // phones: the category chips are open
   const [filtered, setFiltered] = useState(false); // true after the first filter change, so page load itself does not animate
   const reduce = useReducedMotion();
 
@@ -130,9 +132,12 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   };
 
   return (
-    <div className="relative pt-[76px] md:pt-24 lg:pt-[120px]">
-      {/* Top right, 40px in from the edges (Figma); on phones it gets its own row above the logo. Scrolls away with the header. */}
-      <Effect {...reveal(2, reduce)} className="absolute top-4 right-4 md:top-10 md:right-10">
+    <div className="relative pt-20 md:pt-24 lg:pt-[120px]">
+      {/* Top right, 40px in from the edges (Figma). On phones it is a pill fixed 24px above the bottom edge, centred. */}
+      <Effect
+        {...reveal(2, reduce)}
+        className="absolute top-4 right-4 max-sm:pointer-events-none max-sm:fixed max-sm:inset-x-0 max-sm:top-auto max-sm:right-0 max-sm:bottom-6 max-sm:z-20 max-sm:flex max-sm:justify-center md:top-10 md:right-10"
+      >
         <TestYourDesign />
       </Effect>
       <header className="content flex flex-col items-start">
@@ -140,15 +145,74 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
           <Logo className="block h-auto w-[507.892px] max-w-full text-primary-foreground min-[1280px]:w-[52.907%]" />
         </Effect>
         <Effect {...reveal(1, reduce)} className="mt-6">
-          <p className="min-h-[26px] max-w-[640px] text-[16px] leading-[1.6] font-medium tracking-normal text-foreground">{tagline}</p>
+          <p className="min-h-[26px] max-w-[640px] text-[16px] leading-[1.6] font-medium tracking-normal text-foreground max-sm:text-[18px] max-sm:font-normal">{tagline}</p>
         </Effect>
       </header>
 
       {/* Marks where the tabs rest; 24px (64px from tablet up) below the tagline in total. */}
-      <div ref={sentinel} aria-hidden className="pointer-events-none h-px mt-[23px] md:mt-[63px]" />
+      <div ref={sentinel} aria-hidden className="pointer-events-none h-px mt-[39px] md:mt-[63px]" />
+
+      {/* Phones (Figma mobile): one row with a Categories button (an X while the chips are open) and the layout toggle; the chips open
+          below as a scrolling row. Sticks to the top with the glass behind it once the page has scrolled. */}
+      <Effect asChild {...reveal(2, reduce)}>
+      <nav className="sticky top-2 z-10 sm:hidden" aria-label="Filters">
+        <motion.div
+          aria-hidden
+          className="absolute inset-x-2 -top-1 -bottom-1 rounded-[28px]"
+          initial={false}
+          animate={{ opacity: glass ? 1 : 0 }}
+          transition={reduce ? { duration: 0 } : { duration: 0.18, ease: "easeOut" }}
+        >
+          <GlassLayer weight="heavy" tone="light" tint="rgba(247,202,231,0.6)" radius={28} />
+        </motion.div>
+        <div className="relative flex h-10 items-center justify-between px-4">
+          {catsOpen ? (
+            <button
+              type="button"
+              aria-label="Close categories"
+              aria-expanded
+              onClick={() => setCatsOpen(false)}
+              className="flex size-10 cursor-pointer items-center justify-center rounded-full bg-[#f9f6f8] shadow-[-1px_-1px_4px_rgba(255,255,255,0.16),1px_1px_4px_rgba(129,41,97,0.12)]"
+            >
+              <img src="/icons/x.svg" alt="" width={24} height={24} className="block size-6" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              aria-expanded={false}
+              onClick={() => setCatsOpen(true)}
+              className="flex h-10 cursor-pointer items-center gap-1 rounded-full bg-[color-mix(in_srgb,#f6f4f4_12%,var(--color-primary))] pr-3 pl-4 text-[16px] leading-none text-foreground shadow-[inset_-1px_-3px_8px_rgba(129,41,97,0.04)]"
+            >
+              Categories
+              {selected.length > 0 && <span className="tab-count text-[14px] text-secondary opacity-75">{selected.length}</span>}
+              <Caret open={false} />
+            </button>
+          )}
+          <LayoutToggle layout={layout} onChange={changeLayout} />
+        </div>
+        <AnimatePresence initial={false}>
+          {catsOpen && (
+            <motion.div
+              key="chips"
+              className="relative overflow-hidden"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={reduce ? { duration: 0 } : { duration: 0.25, ease: [0.2, 0, 0, 1] }}
+            >
+              <div className="tabs-scroll flex gap-2 overflow-x-auto p-4">
+                {categories.map((c) => (
+                  <FilterTab key={c.name} label={c.name} count={c.count} pressed={selected.includes(c.name)} onToggle={() => toggle(c.name)} />
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+      </Effect>
 
       <Effect asChild {...reveal(2, reduce)}>
-      <nav className="content sticky top-6 z-10 flex h-9 items-start">
+      <nav className="content sticky top-6 z-10 flex h-9 items-start max-sm:hidden">
         <motion.div
           layout={morphing ? "position" : false}
           transition={transition}
@@ -203,7 +267,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
       <Effect {...reveal(3, reduce)}>
       <motion.main
         key={layout + "|" + selected.join("|")}
-        className={"content py-10 " + (layout === "cards" ? "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" : "flex flex-col gap-1")}
+        className={"content py-10 " + (catsOpen ? "max-sm:pt-[5px] " : "max-sm:pt-[41px] ") + (layout === "cards" ? "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" : "flex flex-col gap-1")}
       >
         {visible.map((p, i) => (
           <motion.div

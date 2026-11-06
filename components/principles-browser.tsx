@@ -44,32 +44,29 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   useEffect(() => {
     const el = sentinel.current;
     if (!el) return;
-    // Sequenced so it reads the same every time (layout animation has to be on in an earlier render than the change it
-    // animates, or it sometimes just jumps).
-    //   Down: pills go flat + toggle fades (STEP) -> layout armed -> tray state flips: tabs glide, glass fades in.
-    //   Up:   glass fades out (STEP) -> layout armed -> tabs glide back -> pills get their border/shadow back, toggle returns.
-    const STEP = 90; // the move starts while the pills / glass are mostly faded, not after they finish
+    // One continuous morph (about 400ms), not three stages. Layout animation has to be on in an earlier render than the change
+    // it animates (or it sometimes just jumps), so everything starts at once and the tray state flips two frames later.
+    //   Down: pills flatten + toggle fades now; tabs glide into the tray with the glass fading in as they go.
+    //   Up:   glass fades now; tabs glide back; pills get their border/shadow back and the toggle returns as they land.
     const ARM = 35; // two frames
-    const MOVE = 400;
     const timers: ReturnType<typeof setTimeout>[] = [];
     const later = (fn: () => void, ms: number) => timers.push(setTimeout(fn, ms));
     const io = new IntersectionObserver(([e]) => {
       const toStuck = !e.isIntersecting;
       timers.splice(0).forEach(clearTimeout);
+      setMorphing(true);
       if (toStuck) {
         setFlat(true);
-        later(() => setMorphing(true), STEP);
         later(() => {
           setStuck(true);
           setGlass(true);
-        }, STEP + ARM);
+        }, ARM);
       } else {
         setGlass(false);
-        later(() => setMorphing(true), STEP);
-        later(() => setStuck(false), STEP + ARM);
-        later(() => setFlat(false), STEP + ARM + MOVE - 100);
+        later(() => setStuck(false), ARM);
+        later(() => setFlat(false), ARM + 200);
       }
-      later(() => setMorphing(false), STEP + ARM + MOVE + 300);
+      later(() => setMorphing(false), ARM + 700);
     }, { threshold: 0, rootMargin: "-24px 0px 0px 0px" });
     io.observe(el);
     return () => {
@@ -78,7 +75,8 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
     };
   }, []);
 
-  const transition = reduce ? { duration: 0 } : { duration: 0.4, ease: [0.8, 0, 0.2, 1] as const };
+  // Quick start, soft landing: a lightly damped spring (settles in about 350ms) in place of the slow-in ease-in-out.
+  const transition = reduce ? { duration: 0 } : { type: "spring" as const, stiffness: 420, damping: 36, mass: 0.9 };
   const cardVariants = {
     hidden: { opacity: 0, y: reduce ? 0 : 16 },
     show: (i: number) => ({ opacity: 1, y: 0, transition: reduce ? { duration: 0 } : { duration: 0.35, ease: [0, 0, 0.35, 1] as const, delay: Math.min(i, 7) * 0.05 } }),

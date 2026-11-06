@@ -14,7 +14,6 @@ import { LayoutToggle, type Layout } from "./layout-toggle";
 import { CardOverlay } from "./card-overlay";
 import { Footer } from "./footer";
 import { TestYourDesign } from "./test-your-design";
-import { Caret } from "./open-card-icons";
 
 // Page-load reveal, in four steps: logo, tagline, (Test your design + tabs + toggle together), cards as one block. Each is the library's
 // Effect (slide up + fade on the default spring, stiffness 200 / damping 20: the Storybook "Effect" story), STEP ms apart.
@@ -145,7 +144,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
           <Logo className="block h-auto w-[507.892px] max-w-full text-primary-foreground min-[1280px]:w-[52.907%]" />
         </Effect>
         <Effect {...reveal(1, reduce)} className="mt-6">
-          <p className="min-h-[26px] max-w-[640px] text-[16px] leading-[1.6] font-medium tracking-normal text-foreground max-sm:text-[18px] max-sm:font-normal">{tagline}</p>
+          <p className="min-h-[26px] max-w-[640px] text-[16px] leading-[1.6] font-medium tracking-normal text-foreground max-sm:text-[18px] max-sm:leading-[29px] max-sm:font-normal">{tagline}</p>
         </Effect>
       </header>
 
@@ -165,7 +164,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
         >
           <GlassLayer weight="heavy" tone="light" tint="rgba(247,202,231,0.6)" radius={28} />
         </motion.div>
-        <div className="relative flex h-10 items-center justify-between px-4">
+        <div className={"relative flex items-center justify-between px-4 " + (catsOpen ? "h-10" : "h-11")}>
           {catsOpen ? (
             <button
               type="button"
@@ -181,14 +180,14 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
               type="button"
               aria-expanded={false}
               onClick={() => setCatsOpen(true)}
-              className="flex h-10 cursor-pointer items-center gap-1 rounded-full bg-[color-mix(in_srgb,#f6f4f4_12%,var(--color-primary))] pr-3 pl-4 text-[16px] leading-none text-foreground shadow-[inset_-1px_-3px_8px_rgba(129,41,97,0.04)]"
+              className="flex h-11 cursor-pointer items-center rounded-full bg-[color-mix(in_srgb,#f6f4f4_12%,var(--color-primary))] px-4 text-[16px] leading-none text-foreground shadow-[-1px_-1px_4px_rgba(255,255,255,0.16),1px_1px_4px_rgba(129,41,97,0.12)]"
             >
               Categories
-              {selected.length > 0 && <span className="tab-count text-[14px] text-secondary opacity-75">{selected.length}</span>}
-              <Caret open={false} />
+              {selected.length > 0 && <span className="tab-count ml-1 text-[14px] text-secondary opacity-75">{selected.length}</span>}
+              <img src="/icons/caret-down.svg" alt="" width={24} height={24} className="block size-6 shrink-0" />
             </button>
           )}
-          <LayoutToggle layout={layout} onChange={changeLayout} />
+          <LayoutToggle layout={layout} onChange={changeLayout} size={catsOpen ? "phone-open" : "phone"} />
         </div>
         <AnimatePresence initial={false}>
           {catsOpen && (
@@ -267,7 +266,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
       <Effect {...reveal(3, reduce)}>
       <motion.main
         key={layout + "|" + selected.join("|")}
-        className={"content py-10 " + (catsOpen ? "max-sm:pt-[5px] " : "max-sm:pt-[41px] ") + (layout === "cards" ? "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" : "flex flex-col gap-1")}
+        className={"content py-10 " + (catsOpen ? "max-sm:pt-[4.66px] " : "max-sm:pt-[36.66px] ") + (layout === "cards" ? "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" : "flex flex-col gap-1")}
       >
         {visible.map((p, i) => (
           <motion.div

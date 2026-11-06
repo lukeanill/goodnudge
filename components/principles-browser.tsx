@@ -152,18 +152,9 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
       <div ref={sentinel} aria-hidden className="pointer-events-none h-px mt-[39px] md:mt-[63px]" />
 
       {/* Phones (Figma mobile): one row with a Categories button (an X while the chips are open) and the layout toggle; the chips open
-          below as a scrolling row. Sticks to the top with the glass behind it once the page has scrolled. */}
+          below as a scrolling row. It scrolls with the page (no fixed bar on phones). */}
       <Effect asChild {...reveal(2, reduce)}>
-      <nav className="sticky top-2 z-10 sm:hidden" aria-label="Filters">
-        <motion.div
-          aria-hidden
-          className="absolute inset-x-2 -top-1 -bottom-1 rounded-[28px]"
-          initial={false}
-          animate={{ opacity: glass ? 1 : 0 }}
-          transition={reduce ? { duration: 0 } : { duration: 0.18, ease: "easeOut" }}
-        >
-          <GlassLayer weight="heavy" tone="light" tint="rgba(247,202,231,0.6)" radius={28} />
-        </motion.div>
+      <nav className="relative sm:hidden" aria-label="Filters">
         <div className={"relative flex items-center justify-between px-4 " + (catsOpen ? "h-10" : "h-11")}>
           {catsOpen ? (
             <button
@@ -180,10 +171,9 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
               type="button"
               aria-expanded={false}
               onClick={() => setCatsOpen(true)}
-              className="flex h-11 cursor-pointer items-center rounded-full bg-[color-mix(in_srgb,#f6f4f4_12%,var(--color-primary))] px-4 text-[16px] leading-none text-foreground shadow-[-1px_-1px_4px_rgba(255,255,255,0.16),1px_1px_4px_rgba(129,41,97,0.12)]"
+              className="flex h-11 cursor-pointer items-center rounded-full bg-[color-mix(in_srgb,#f6f4f4_12%,var(--color-primary))] px-4 text-[16px] leading-none font-normal tracking-normal text-foreground shadow-[-1px_-1px_4px_rgba(255,255,255,0.16),1px_1px_4px_rgba(129,41,97,0.12)]"
             >
               Categories
-              {selected.length > 0 && <span className="tab-count ml-1 text-[14px] text-secondary opacity-75">{selected.length}</span>}
               <img src="/icons/caret-down.svg" alt="" width={24} height={24} className="block size-6 shrink-0" />
             </button>
           )}
@@ -266,7 +256,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
       <Effect {...reveal(3, reduce)}>
       <motion.main
         key={layout + "|" + selected.join("|")}
-        className={"content py-10 " + (catsOpen ? "max-sm:pt-[4.66px] " : "max-sm:pt-[36.66px] ") + (layout === "cards" ? "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" : "flex flex-col gap-1")}
+        className={"content py-10 " + (catsOpen ? "max-sm:pt-[4.66px] " : "max-sm:pt-[36.66px] ") + (layout === "cards" ? "grid grid-cols-1 gap-2 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3" : "flex flex-col gap-1")}
       >
         {visible.map((p, i) => (
           <motion.div

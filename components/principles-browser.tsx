@@ -135,7 +135,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
       {/* Top right, 40px in from the edges (Figma). On phones it is a pill fixed 24px above the bottom edge, centred. */}
       <Effect
         {...reveal(2, reduce)}
-        className="absolute top-4 right-4 max-sm:pointer-events-none max-sm:fixed max-sm:inset-x-0 max-sm:top-auto max-sm:right-0 max-sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] max-sm:z-20 max-sm:flex max-sm:justify-center md:top-10 md:right-10"
+        className="absolute top-4 right-4 max-sm:fixed max-sm:top-auto max-sm:right-0 max-sm:bottom-[calc(1.5rem+env(safe-area-inset-bottom))] max-sm:left-0 max-sm:z-20 max-sm:mx-auto max-sm:w-fit md:top-10 md:right-10"
       >
         <TestYourDesign />
       </Effect>

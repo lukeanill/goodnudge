@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { GlassLayer } from "@lukeanill/ui/components/liquid-glass";
+import { Effect } from "@lukeanill/ui/components/animate-ui/primitives/effects/effect";
 import type { Category, Principle } from "@/lib/content";
 import { Logo } from "./logo";
 import { FilterTab } from "./filter-tab";
@@ -12,6 +13,17 @@ import { LayoutToggle, type Layout } from "./layout-toggle";
 import { CardOverlay } from "./card-overlay";
 import { Footer } from "./footer";
 import { TestYourDesign } from "./test-your-design";
+
+// Page-load reveal, in four steps: logo, tagline, (Test your design + tabs + toggle together), cards as one block. Each is the library's
+// Effect (slide up + fade on the default spring, stiffness 200 / damping 20: the Storybook "Effect" story), STEP ms apart.
+const STEP = 150;
+const SLIDE = 24; // px each step travels; the story's default is 100, which is a lot for a logo
+const reveal = (step: number, reduce: boolean | null) => ({
+  slide: reduce ? false : { offset: SLIDE },
+  fade: true,
+  delay: 100 + step * STEP,
+  ...(reduce ? { transition: { duration: 0 } } : {}),
+});
 
 const BG_COUNT = 22; // Figma provides 22 background images; they repeat by card position.
 
@@ -85,17 +97,22 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   return (
     <div className="relative pt-[76px] md:pt-24 lg:pt-[120px]">
       {/* Top right, 40px in from the edges (Figma); on phones it gets its own row above the logo. Scrolls away with the header. */}
-      <div className="absolute top-4 right-4 md:top-10 md:right-10">
+      <Effect {...reveal(2, reduce)} className="absolute top-4 right-4 md:top-10 md:right-10">
         <TestYourDesign />
-      </div>
+      </Effect>
       <header className="content flex flex-col items-start">
-        <Logo className="block h-auto w-[507.892px] max-w-full text-primary-foreground min-[1280px]:w-[52.907%]" />
-        <p className="mt-6 min-h-[26px] max-w-[640px] text-[16px] leading-[1.6] font-medium tracking-normal text-foreground">{tagline}</p>
+        <Effect {...reveal(0, reduce)} className="w-full">
+          <Logo className="block h-auto w-[507.892px] max-w-full text-primary-foreground min-[1280px]:w-[52.907%]" />
+        </Effect>
+        <Effect {...reveal(1, reduce)} className="mt-6">
+          <p className="min-h-[26px] max-w-[640px] text-[16px] leading-[1.6] font-medium tracking-normal text-foreground">{tagline}</p>
+        </Effect>
       </header>
 
       {/* Marks where the tabs rest; 24px (64px from tablet up) below the tagline in total. */}
       <div ref={sentinel} aria-hidden className="pointer-events-none h-px mt-[23px] md:mt-[63px]" />
 
+      <Effect asChild {...reveal(2, reduce)}>
       <nav className="content sticky top-6 z-10 flex h-9 items-start">
         <motion.div
           layout={morphing ? "position" : false}
@@ -145,8 +162,10 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
           </motion.div>
         </motion.div>
       </nav>
+      </Effect>
 
       {/* Keyed by the selection: a filter change re-mounts the grid and the cards rise in (first 8 staggered). */}
+      <Effect {...reveal(3, reduce)}>
       <motion.main
         key={layout + "|" + selected.join("|")}
         className={"content py-10 " + (layout === "cards" ? "grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" : "flex flex-col gap-1")}
@@ -168,6 +187,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
           </motion.div>
         ))}
       </motion.main>
+      </Effect>
       <Footer />
       {open && <CardOverlay key={open.principle.id} principle={open.principle} bg={open.bg} origin={open.rect} onClosed={() => setOpen(null)} />}
     </div>

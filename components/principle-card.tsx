@@ -71,10 +71,10 @@ export function CardFace({
       {principle.image && <CardImage image={principle.image} alt="" />}
       <div className="min-h-[3.2cqw] flex-1" />
       <div className="relative flex flex-col gap-[1.294cqw]">
-        <h2 className={"font-serif text-[9.061cqw] leading-[1.4] font-normal tracking-normal text-primary " + shadow}>{principle.name}</h2>
+        <h2 className={"font-serif text-[9.061cqw] leading-[1.2] font-normal tracking-normal text-primary " + shadow}>{principle.name}</h2>
         <div className="flex flex-col">
-          <p className={"text-[max(14px,5.178cqw)] leading-[1.6] font-normal tracking-normal text-white " + shadow}>{body}</p>
-          {footnote && <p className={"text-[max(14px,5.178cqw)] leading-[1.6] font-normal tracking-normal text-white " + shadow}>{footnote}</p>}
+          <p className={"text-[max(14px,5.178cqw)] leading-[1.42] font-normal tracking-normal text-white " + shadow}>{body}</p>
+          {footnote && <p className={"text-[max(14px,5.178cqw)] leading-[1.42] font-normal tracking-normal text-white " + shadow}>{footnote}</p>}
         </div>
       </div>
     </article>

@@ -34,6 +34,32 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
   const [tip, setTip] = useState<{ x: number; y: number } | null>(null);
   const [descOpen, setDescOpen] = useState(false); // tap the name to show the principle's description under it
   const slotRef = useRef<HTMLDivElement>(null);
+  // iPhone Safari fills the strips behind its status bar and toolbar with the colour of the fixed element that touches the screen edge.
+  // The card art is an image, so it has no colour of its own: take the image's average colour (after the dark layer on top of it) and set
+  // it as the card's background colour. It is never visible (the art covers it), but the strips then match the card, not the page.
+  const [edge, setEdge] = useState<string | undefined>();
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const c = document.createElement("canvas");
+        c.width = c.height = 8;
+        const g = c.getContext("2d");
+        if (!g) return;
+        g.drawImage(img, 0, 0, 8, 8);
+        const d = g.getImageData(0, 0, 8, 8).data;
+        const n = d.length / 4;
+        const m = [0, 1, 2].map((k) => {
+          let t = 0;
+          for (let i = 0; i < n; i++) t += d[i * 4 + k];
+          return Math.round((t / n) * 0.68 + 30 * 0.32); // the 32% dark layer drawn over the art
+        });
+        setEdge(`rgb(${m[0]} ${m[1]} ${m[2]})`);
+      } catch {}
+    };
+    img.src = `/bg/bg-${String(bg).padStart(2, "0")}.jpg`;
+  }, [bg]);
 
   const closing = phase === "closing";
   const isRow = origin.kind === "row";
@@ -73,6 +99,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
       {/* Expanding card: background art, darkening/blur layer, and a copy of the card text that fades out first. */}
       <motion.div
         className="fixed z-50 overflow-hidden"
+        style={{ backgroundColor: edge }}
         initial={inset(origin, vp, radius)}
         animate={closing && closeRect ? inset(closeRect, vp, radius) : FULL}
         transition={closing ? t(0.5, 0.15) : t(0.6, 0.1)}

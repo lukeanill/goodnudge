@@ -17,7 +17,8 @@ const BG_COUNT = 22; // Figma provides 22 background images; they repeat by card
 
 export function PrinciplesBrowser({ tagline, categories, principles }: { tagline: string; categories: Category[]; principles: Principle[] }) {
   const [selected, setSelected] = useState<string[]>([]);
-  const [stuck, setStuck] = useState(false);
+  const [stuck, setStuck] = useState(false); // tabs are in the glass tray (layout)
+  const [flat, setFlat] = useState(false); // pills have dropped their border and inset shadow; leads stuck going in, trails it coming out
   const [layout, setLayout] = useState<Layout>("cards"); // always starts on cards
   const [open, setOpen] = useState<{ principle: Principle; bg: number; rect: CardRect } | null>(null);
   const [morphing, setMorphing] = useState(false); // layout animation is only on while the tabs morph into the tray; a filter change collapses the page height and would otherwise fling the pill in
@@ -42,17 +43,32 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   useEffect(() => {
     const el = sentinel.current;
     if (!el) return;
-    let timer: ReturnType<typeof setTimeout>;
+    // Sequenced so it looks the same every time. Going into the tray: the pills go flat first (tab styles transition over
+    // 300ms), then layout animation is switched on, and only then does the tray state change (the layout animation has to be
+    // active in an earlier render than the change it animates, or it sometimes just jumps). Coming out is the reverse:
+    // move first, restore the pills' border and inset shadow once it has landed.
+    const FLAT_MS = 300;
+    const ARM_MS = 50;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const later = (fn: () => void, ms: number) => timers.push(setTimeout(fn, ms));
     const io = new IntersectionObserver(([e]) => {
-      setMorphing(true);
-      setStuck(!e.isIntersecting);
-      clearTimeout(timer);
-      timer = setTimeout(() => setMorphing(false), 600);
+      const toStuck = !e.isIntersecting;
+      timers.splice(0).forEach(clearTimeout);
+      if (toStuck) {
+        setFlat(true);
+        later(() => setMorphing(true), FLAT_MS);
+        later(() => setStuck(true), FLAT_MS + ARM_MS);
+      } else {
+        setMorphing(true);
+        later(() => setStuck(false), ARM_MS);
+        later(() => setFlat(false), ARM_MS + 400);
+      }
+      later(() => setMorphing(false), FLAT_MS + ARM_MS + 700);
     }, { threshold: 0, rootMargin: "-24px 0px 0px 0px" });
     io.observe(el);
     return () => {
       io.disconnect();
-      clearTimeout(timer);
+      timers.forEach(clearTimeout);
     };
   }, []);
 
@@ -101,7 +117,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
                 label={c.name}
                 count={c.count}
                 pressed={selected.includes(c.name)}
-                tray={stuck}
+                tray={flat}
                 onToggle={() => toggle(c.name)}
               />
             ))}

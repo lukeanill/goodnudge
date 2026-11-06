@@ -13,8 +13,8 @@ const SELECTED =
   "px-3 border-[0.5px] border-[rgba(242,174,218,0.25)] bg-white shadow-[-4px_-4px_12px_rgba(255,255,255,0.32),4px_4px_12px_rgba(194,160,179,0.32)]";
 const RESTING =
   "px-3 border-[0.5px] border-primary bg-background shadow-[inset_-6px_-6px_12px_rgba(251,226,246,0.24),inset_6px_6px_8px_rgba(57,29,55,0.08)]";
-// No border here, so half a pixel of extra side padding keeps each tab as wide as in the design.
-const TRAY = "bg-transparent px-[12.5px]";
+// Same box as RESTING (border kept, just transparent) so the border and inset shadow fade out instead of snapping.
+const TRAY = "px-3 border-[0.5px] border-transparent bg-transparent shadow-[inset_0_0_0_rgba(0,0,0,0)]";
 
 export function FilterTab({ label, count, pressed, tray, onToggle }: FilterTabProps) {
   return (

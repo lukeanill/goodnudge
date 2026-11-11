@@ -78,10 +78,10 @@ export function CardFace({
       {(principle.image || principle.model) && <CardImage principle={principle} live={!fill && animate} grid={!fill} />}
       <div className={"min-h-[3.2cqw] flex-1 " + (fill ? "" : "max-sm:min-h-[117px]")} />
       <div className={"relative flex flex-col gap-[1.294cqw] " + (fill ? "" : "max-sm:gap-1")}>
-        <h2 className={"font-serif text-[9.061cqw] leading-[1.2] font-normal tracking-normal text-primary " + (fill ? "" : "max-sm:text-[24px] ") + shadow}>{principle.name}</h2>
+        <h2 className={"font-serif text-[8.2cqw] leading-[1.2] font-normal tracking-normal text-primary " + (fill ? "" : "max-sm:text-[22px] ") + shadow}>{principle.name}</h2>
         <div className="flex flex-col">
-          <p className={"text-[max(14px,5.178cqw)] leading-[1.42] font-normal tracking-normal text-white " + (fill ? "" : "max-sm:text-[14px] ") + shadow}>{body}</p>
-          {footnote && <p className={"text-[max(14px,5.178cqw)] leading-[1.42] font-normal tracking-normal text-white " + (fill ? "" : "max-sm:text-[14px] ") + shadow}>{footnote}</p>}
+          <p className={"text-[max(13px,4.7cqw)] leading-[1.42] font-normal tracking-normal text-white " + (fill ? "" : "max-sm:text-[13px] ") + shadow}>{body}</p>
+          {footnote && <p className={"text-[max(13px,4.7cqw)] leading-[1.42] font-normal tracking-normal text-white " + (fill ? "" : "max-sm:text-[13px] ") + shadow}>{footnote}</p>}
         </div>
       </div>
     </article>

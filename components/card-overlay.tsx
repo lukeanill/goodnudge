@@ -34,6 +34,8 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
   const [tip, setTip] = useState<{ x: number; y: number } | null>(null);
   const [descOpen, setDescOpen] = useState(false); // tap the name to show the principle's description under it
   const slotRef = useRef<HTMLDivElement>(null);
+  const scroller = useRef<HTMLDivElement>(null);
+  const autoTip = useRef(false); // the tooltip is the one shown on its own when the card opened (touch screens), so it follows the scroll
   // iPhone Safari fills the strips behind its status bar and toolbar with the colour of the fixed element that touches the screen edge.
   // The card art is an image, so it has no colour of its own: take the image's average colour (after the dark layer on top of it) and set
   // it as the card's background colour. It is never visible (the art covers it), but the strips then match the card, not the page.
@@ -84,11 +86,30 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   });
+  // Touch screens have no hover, so the tooltip is already showing when the card opens: it points into the lower part of the dark-pattern
+  // example and moves with it when the page scrolls. Tapping anywhere else hides it; tapping the example brings it back.
+  useEffect(() => {
+    if (phase !== "open" || !window.matchMedia("(hover: none)").matches) return;
+    const place = () => {
+      const r = slotRef.current?.getBoundingClientRect();
+      if (!r || r.bottom < 0 || r.top > window.innerHeight) return setTip(null);
+      setTip({ x: r.left + r.width / 2, y: r.top + r.height * 0.8 });
+    };
+    autoTip.current = true;
+    place();
+    const el = scroller.current;
+    const onScroll = () => autoTip.current && place();
+    el?.addEventListener("scroll", onScroll, { passive: true });
+    return () => el?.removeEventListener("scroll", onScroll);
+  }, [phase]);
   // Tap anywhere else hides the tooltip (touch).
   useEffect(() => {
     if (!tip) return;
     const onDown = (e: PointerEvent) => {
-      if (e.pointerType !== "mouse" && !slotRef.current?.contains(e.target as Node)) setTip(null);
+      if (e.pointerType !== "mouse" && !slotRef.current?.contains(e.target as Node)) {
+        autoTip.current = false;
+        setTip(null);
+      }
     };
     window.addEventListener("pointerdown", onDown);
     return () => window.removeEventListener("pointerdown", onDown);
@@ -143,7 +164,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
       </motion.div>
 
       {/* Title and content: fixed to the screen, so they never shift while the card is still growing. */}
-      <div className="fixed inset-0 z-[51] overflow-y-auto overscroll-contain" style={{ pointerEvents: phase === "open" ? "auto" : "none" }}>
+      <div ref={scroller} className="fixed inset-0 z-[51] overflow-y-auto overscroll-contain" style={{ pointerEvents: phase === "open" ? "auto" : "none" }}>
         <motion.header
           className="relative z-10 grid grid-cols-[auto_1fr_auto] items-center px-4 pt-[calc(2.5rem+env(safe-area-inset-top))] pb-0 md:absolute md:inset-x-0 md:top-0 md:h-[120px] md:px-10"
           initial={{ opacity: 0, y: dy }}
@@ -216,6 +237,7 @@ export function CardOverlay({ principle, bg, origin, onClosed }: { principle: Pr
                 onPointerLeave: (e) => e.pointerType === "mouse" && setTip(null),
                 onPointerUp: (e) => {
                   if (e.pointerType === "mouse") return;
+                  autoTip.current = false;
                   setTip((cur) => (cur ? null : { x: e.clientX, y: e.clientY }));
                 },
               }}

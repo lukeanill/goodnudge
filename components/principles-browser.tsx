@@ -131,7 +131,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
   };
 
   return (
-    <div className="relative pt-[calc(2.5rem+env(safe-area-inset-top))] md:pt-24 lg:pt-[120px]">
+    <div className="relative pt-[calc(5rem+env(safe-area-inset-top))] md:pt-24 lg:pt-[120px]">
       {/* Top right, 40px in from the edges (Figma). On phones it is a pill fixed 24px above the bottom edge, centred. */}
       <Effect
         {...reveal(2, reduce)}
@@ -149,7 +149,7 @@ export function PrinciplesBrowser({ tagline, categories, principles }: { tagline
       </header>
 
       {/* Marks where the tabs rest; 24px (64px from tablet up) below the tagline in total. */}
-      <div ref={sentinel} aria-hidden className="pointer-events-none h-px mt-[39px] md:mt-[63px]" />
+      <div ref={sentinel} aria-hidden className="pointer-events-none h-px mt-[79px] md:mt-[63px]" />
 
       {/* Phones (Figma mobile): one row with a Categories button (an X while the chips are open) and the layout toggle; the chips open
           below as a scrolling row. It scrolls with the page (no fixed bar on phones). */}
